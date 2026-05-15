@@ -1,0 +1,70 @@
+{
+  "existing": {
+    "route": {
+      "ROUTE00": {
+        "bound": "s82",
+        "data": [],
+        "dest_en": "s84",
+        "dest_sc": "s85",
+        "dest_tc": "s86",
+        "generated_timestamp": "s87",
+        "orig_en": "s88",
+        "orig_sc": "s89",
+        "orig_tc": "s8a",
+        "route": "s8b",
+        "service_type": "s8c",
+        "type": "s8d",
+        "version": "s8e"
+      },
+      "ROUTE01": {
+        "bound": "s104",
+        "data": [],
+        "dest_en": "s106",
+        "dest_sc": "s107",
+        "dest_tc": "s108",
+        "generated_timestamp": "s109",
+        "orig_en": "s10a",
+        "orig_sc": "s10b",
+        "orig_tc": "s10c",
+        "route": "s10d",
+        "service_type": "s10e",
+        "type": "s10f",
+        "version": "s110"
+      },
+      "ROUTE02": {
+        "bound": "s186",
+        "data": [],
+        "dest_en": "s188",
+        "dest_sc": "s189",
+        "dest_tc": "s18a",
+        "generated_timestamp": "s18b",
+        "orig_en": "s18c",
+        "orig_sc": "s18d",
+        "orig_tc": "s18e",
+        "route": "s18f",
+        "service_type": "s190",
+        "type": "s191",
+        "version": "s192"
+      }
+    }
+  },
+  "new": {
+    "route": {
+      "route_ref01": {
+        "bound": "s208",
+        "data": [],
+        "dest_en": "s20a",
+        "dest_sc": "s20b",
+        "dest_tc": "s20c",
+        "generated_timestamp": "s20d",
+        "orig_en": "s20e",
+        "orig_sc": "s20f",
+        "orig_tc": "s210",
+        "route": "s211",
+        "service_type": "s212",
+        "type": "s213",
+        "version": "s214"
+      }
+    }
+  }
+}

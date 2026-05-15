@@ -1,0 +1,127 @@
+# Entity: stop
+
+main: kit: entity: stop: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "generated_timestamp"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "lat"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "long"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name_en"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name_sc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name_tc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "stop"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "stop"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/v1/transport/kmb/stop"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "stop"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "0000D01E8B5635F0"
+                kind: "param"
+                name: "id"
+                orig: "stop_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/v1/transport/kmb/stop/{stop_id}"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "stop"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              stop_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

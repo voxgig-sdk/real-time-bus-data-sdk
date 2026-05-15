@@ -1,0 +1,754 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Real Time Bus Data",
+    "description": "This API provides real-time arrival data for Kowloon Motor Bus and Long Win Bus services. It includes routes, stops, and the estimated time of arrival (ETA) for bus services based on live data updates.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Transport Department",
+      "email": "tdenq@td.gov.hk",
+      "url": "https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://data.etabus.gov.hk",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/v1/transport/kmb/route": {
+      "get": {
+        "summary": "Get Route List",
+        "description": "Retrieve a list of all KMB and LWB bus routes",
+        "operationId": "getRouteList",
+        "tags": [
+          "Routes"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with route list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "RouteList"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Route"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/route/{route}": {
+      "get": {
+        "summary": "Get Route Data",
+        "description": "Retrieve detailed information for a specific bus route",
+        "operationId": "getRouteData",
+        "tags": [
+          "Routes"
+        ],
+        "parameters": [
+          {
+            "name": "route",
+            "in": "path",
+            "required": true,
+            "description": "Route number",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with route details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "RouteData"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Route"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/stop": {
+      "get": {
+        "summary": "Get Stop List",
+        "description": "Retrieve a list of all bus stops",
+        "operationId": "getStopList",
+        "tags": [
+          "Stops"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with stop list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "StopList"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Stop"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/stop/{stop_id}": {
+      "get": {
+        "summary": "Get Stop Data",
+        "description": "Retrieve detailed information for a specific bus stop",
+        "operationId": "getStopData",
+        "tags": [
+          "Stops"
+        ],
+        "parameters": [
+          {
+            "name": "stop_id",
+            "in": "path",
+            "required": true,
+            "description": "Stop identifier",
+            "schema": {
+              "type": "string"
+            },
+            "example": "0000D01E8B5635F0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with stop details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "StopData"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Stop"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/route-stop": {
+      "get": {
+        "summary": "Get Route-Stop List",
+        "description": "Retrieve a list of all route-stop combinations",
+        "operationId": "getRouteStopList",
+        "tags": [
+          "Route-Stops"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with route-stop list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "RouteStopList"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/RouteStop"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}": {
+      "get": {
+        "summary": "Get Route-Stop Data",
+        "description": "Retrieve stop sequence for a specific route and direction",
+        "operationId": "getRouteStopData",
+        "tags": [
+          "Route-Stops"
+        ],
+        "parameters": [
+          {
+            "name": "route",
+            "in": "path",
+            "required": true,
+            "description": "Route number",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "direction",
+            "in": "path",
+            "required": true,
+            "description": "Direction of the route (inbound/outbound)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "inbound",
+                "outbound"
+              ]
+            },
+            "example": "outbound"
+          },
+          {
+            "name": "service_type",
+            "in": "path",
+            "required": true,
+            "description": "Service type identifier",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with route-stop details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "RouteStopData"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/RouteStop"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}": {
+      "get": {
+        "summary": "Get ETA Data",
+        "description": "Retrieve estimated time of arrival for a specific stop and route. ETA data is updated every 1 minute.",
+        "operationId": "getETAData",
+        "tags": [
+          "ETA"
+        ],
+        "parameters": [
+          {
+            "name": "stop_id",
+            "in": "path",
+            "required": true,
+            "description": "Stop identifier",
+            "schema": {
+              "type": "string"
+            },
+            "example": "0000D01E8B5635F0"
+          },
+          {
+            "name": "route",
+            "in": "path",
+            "required": true,
+            "description": "Route number",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "service_type",
+            "in": "path",
+            "required": true,
+            "description": "Service type identifier",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with ETA information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "ETA"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ETA"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/stop-eta/{stop_id}": {
+      "get": {
+        "summary": "Get Stop ETA Data",
+        "description": "Retrieve estimated time of arrival for all routes serving a specific stop. ETA data is updated every 1 minute.",
+        "operationId": "getStopETAData",
+        "tags": [
+          "ETA"
+        ],
+        "parameters": [
+          {
+            "name": "stop_id",
+            "in": "path",
+            "required": true,
+            "description": "Stop identifier",
+            "schema": {
+              "type": "string"
+            },
+            "example": "0000D01E8B5635F0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with ETA information for all routes at the stop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "StopETA"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ETA"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transport/kmb/route-eta/{route}/{service_type}": {
+      "get": {
+        "summary": "Get Route ETA Data",
+        "description": "Retrieve estimated time of arrival for all stops on a specific route. ETA data is updated every 1 minute.",
+        "operationId": "getRouteETAData",
+        "tags": [
+          "ETA"
+        ],
+        "parameters": [
+          {
+            "name": "route",
+            "in": "path",
+            "required": true,
+            "description": "Route number",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "service_type",
+            "in": "path",
+            "required": true,
+            "description": "Service type identifier",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with ETA information for all stops on the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "RouteETA"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "generated_timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ETA"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Route": {
+        "type": "object",
+        "properties": {
+          "route": {
+            "type": "string",
+            "description": "Route number",
+            "example": "1"
+          },
+          "bound": {
+            "type": "string",
+            "description": "Direction of the route",
+            "enum": [
+              "I",
+              "O"
+            ],
+            "example": "O"
+          },
+          "service_type": {
+            "type": "string",
+            "description": "Service type identifier",
+            "example": "1"
+          },
+          "orig_en": {
+            "type": "string",
+            "description": "Origin stop name in English",
+            "example": "Chuk Yuen Estate"
+          },
+          "orig_tc": {
+            "type": "string",
+            "description": "Origin stop name in Traditional Chinese",
+            "example": "竹園邨"
+          },
+          "orig_sc": {
+            "type": "string",
+            "description": "Origin stop name in Simplified Chinese",
+            "example": "竹园邨"
+          },
+          "dest_en": {
+            "type": "string",
+            "description": "Destination stop name in English",
+            "example": "Star Ferry"
+          },
+          "dest_tc": {
+            "type": "string",
+            "description": "Destination stop name in Traditional Chinese",
+            "example": "尖沙咀碼頭"
+          },
+          "dest_sc": {
+            "type": "string",
+            "description": "Destination stop name in Simplified Chinese",
+            "example": "尖沙咀码头"
+          }
+        }
+      },
+      "Stop": {
+        "type": "object",
+        "properties": {
+          "stop": {
+            "type": "string",
+            "description": "Stop identifier",
+            "example": "0000D01E8B5635F0"
+          },
+          "name_en": {
+            "type": "string",
+            "description": "Stop name in English",
+            "example": "Chuk Yuen Shopping Centre"
+          },
+          "name_tc": {
+            "type": "string",
+            "description": "Stop name in Traditional Chinese",
+            "example": "竹園廣場"
+          },
+          "name_sc": {
+            "type": "string",
+            "description": "Stop name in Simplified Chinese",
+            "example": "竹园广场"
+          },
+          "lat": {
+            "type": "string",
+            "description": "Latitude coordinate",
+            "example": "22.342508"
+          },
+          "long": {
+            "type": "string",
+            "description": "Longitude coordinate",
+            "example": "114.191179"
+          }
+        }
+      },
+      "RouteStop": {
+        "type": "object",
+        "properties": {
+          "route": {
+            "type": "string",
+            "description": "Route number",
+            "example": "1"
+          },
+          "bound": {
+            "type": "string",
+            "description": "Direction of the route",
+            "enum": [
+              "I",
+              "O"
+            ],
+            "example": "O"
+          },
+          "service_type": {
+            "type": "string",
+            "description": "Service type identifier",
+            "example": "1"
+          },
+          "seq": {
+            "type": "string",
+            "description": "Stop sequence number on the route",
+            "example": "1"
+          },
+          "stop": {
+            "type": "string",
+            "description": "Stop identifier",
+            "example": "0000D01E8B5635F0"
+          }
+        }
+      },
+      "ETA": {
+        "type": "object",
+        "properties": {
+          "co": {
+            "type": "string",
+            "description": "Bus company code",
+            "enum": [
+              "KMB",
+              "LWB"
+            ],
+            "example": "KMB"
+          },
+          "route": {
+            "type": "string",
+            "description": "Route number",
+            "example": "1"
+          },
+          "dir": {
+            "type": "string",
+            "description": "Direction",
+            "enum": [
+              "I",
+              "O"
+            ],
+            "example": "O"
+          },
+          "service_type": {
+            "type": "integer",
+            "description": "Service type identifier",
+            "example": 1
+          },
+          "seq": {
+            "type": "integer",
+            "description": "Stop sequence number",
+            "example": 1
+          },
+          "stop": {
+            "type": "string",
+            "description": "Stop identifier",
+            "example": "0000D01E8B5635F0"
+          },
+          "dest_tc": {
+            "type": "string",
+            "description": "Destination in Traditional Chinese",
+            "example": "尖沙咀碼頭"
+          },
+          "dest_sc": {
+            "type": "string",
+            "description": "Destination in Simplified Chinese",
+            "example": "尖沙咀码头"
+          },
+          "dest_en": {
+            "type": "string",
+            "description": "Destination in English",
+            "example": "Star Ferry"
+          },
+          "eta_seq": {
+            "type": "integer",
+            "description": "ETA sequence (1st, 2nd, 3rd bus arrival)",
+            "example": 1
+          },
+          "eta": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Estimated time of arrival",
+            "example": "2023-10-15T14:30:00+08:00"
+          },
+          "rmk_tc": {
+            "type": "string",
+            "description": "Remark in Traditional Chinese"
+          },
+          "rmk_sc": {
+            "type": "string",
+            "description": "Remark in Simplified Chinese"
+          },
+          "rmk_en": {
+            "type": "string",
+            "description": "Remark in English"
+          },
+          "data_timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the data",
+            "example": "2023-10-15T14:25:00+08:00"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Routes",
+      "description": "Operations related to bus routes"
+    },
+    {
+      "name": "Stops",
+      "description": "Operations related to bus stops"
+    },
+    {
+      "name": "Route-Stops",
+      "description": "Operations related to route-stop combinations"
+    },
+    {
+      "name": "ETA",
+      "description": "Operations related to estimated time of arrival (updated every 1 minute)"
+    }
+  ]
+}

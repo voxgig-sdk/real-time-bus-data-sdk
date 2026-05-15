@@ -1,0 +1,58 @@
+{
+  "existing": {
+    "stop": {
+      "STOP00": {
+        "data": {},
+        "generated_timestamp": "s65",
+        "lat": "s66",
+        "long": "s67",
+        "name_en": "s68",
+        "name_sc": "s69",
+        "name_tc": "s6a",
+        "stop": "s6b",
+        "type": "s6c",
+        "version": "s6d"
+      },
+      "STOP01": {
+        "data": {},
+        "generated_timestamp": "sc9",
+        "lat": "sca",
+        "long": "scb",
+        "name_en": "scc",
+        "name_sc": "scd",
+        "name_tc": "sce",
+        "stop": "scf",
+        "type": "sd0",
+        "version": "sd1"
+      },
+      "STOP02": {
+        "data": {},
+        "generated_timestamp": "s12d",
+        "lat": "s12e",
+        "long": "s12f",
+        "name_en": "s130",
+        "name_sc": "s131",
+        "name_tc": "s132",
+        "stop": "s133",
+        "type": "s134",
+        "version": "s135"
+      }
+    }
+  },
+  "new": {
+    "stop": {
+      "stop_ref01": {
+        "data": {},
+        "generated_timestamp": "s191",
+        "lat": "s192",
+        "long": "s193",
+        "name_en": "s194",
+        "name_sc": "s195",
+        "name_tc": "s196",
+        "stop": "s197",
+        "type": "s198",
+        "version": "s199"
+      }
+    }
+  }
+}

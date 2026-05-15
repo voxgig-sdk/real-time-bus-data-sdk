@@ -1,0 +1,25 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "tdenq@td.gov.hk"
+        name: "Transport Department"
+        url: "https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb"
+      }
+      description: "This API provides real-time arrival data for Kowloon Motor Bus and Long Win Bus services. It includes routes, stops, and the estimated time of arrival (ETA) for bus services based on live data updates."
+      servers: [
+        {
+          description: "Production server"
+          url: "https://data.etabus.gov.hk"
+        }
+      ]
+      title: "Real Time Bus Data"
+      version: "1.0.0"
+    }
+  }
+}
+
+}

@@ -1,0 +1,429 @@
+# RealTimeBusData TypeScript SDK Reference
+
+Complete API reference for the RealTimeBusData TypeScript SDK.
+
+
+## RealTimeBusDataSDK
+
+### Constructor
+
+```ts
+new RealTimeBusDataSDK(options?: object)
+```
+
+Create a new SDK client instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `options` | `object` | SDK configuration options. |
+| `options.apikey` | `string` | API key for authentication. |
+| `options.base` | `string` | Base URL for API requests. |
+| `options.prefix` | `string` | URL prefix appended after base. |
+| `options.suffix` | `string` | URL suffix appended after path. |
+| `options.headers` | `object` | Custom headers for all requests. |
+| `options.feature` | `object` | Feature configuration. |
+| `options.system` | `object` | System overrides (e.g. custom fetch). |
+
+
+### Static Methods
+
+#### `RealTimeBusDataSDK.test(testopts?, sdkopts?)`
+
+Create a test client with mock features active.
+
+```ts
+const client = RealTimeBusDataSDK.test()
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `testopts` | `object` | Test feature options. |
+| `sdkopts` | `object` | Additional SDK options merged with test defaults. |
+
+**Returns:** `RealTimeBusDataSDK` instance in test mode.
+
+
+### Instance Methods
+
+#### `Eta(data?: object)`
+
+Create a new `Eta` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `EtaEntity` instance.
+
+#### `Route(data?: object)`
+
+Create a new `Route` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `RouteEntity` instance.
+
+#### `RouteStop(data?: object)`
+
+Create a new `RouteStop` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `RouteStopEntity` instance.
+
+#### `Stop(data?: object)`
+
+Create a new `Stop` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `StopEntity` instance.
+
+#### `options()`
+
+Return a deep copy of the current SDK options.
+
+**Returns:** `object`
+
+#### `utility()`
+
+Return a copy of the SDK utility object.
+
+**Returns:** `object`
+
+#### `direct(fetchargs?: object)`
+
+Make a direct HTTP request to any API endpoint.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `fetchargs.path` | `string` | URL path with optional `{param}` placeholders. |
+| `fetchargs.method` | `string` | HTTP method (default: `GET`). |
+| `fetchargs.params` | `object` | Path parameter values for `{param}` substitution. |
+| `fetchargs.query` | `object` | Query string parameters. |
+| `fetchargs.headers` | `object` | Request headers (merged with defaults). |
+| `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
+| `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+
+**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+
+#### `prepare(fetchargs?: object)`
+
+Prepare a fetch definition without sending the request. Accepts the
+same parameters as `direct()`.
+
+**Returns:** `Promise<{ url, method, headers, body } | Error>`
+
+#### `tester(testopts?, sdkopts?)`
+
+Alias for `RealTimeBusDataSDK.test()`.
+
+**Returns:** `RealTimeBusDataSDK` instance in test mode.
+
+
+---
+
+## EtaEntity
+
+```ts
+const eta = client.Eta()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `co` | ``$STRING`` | No |  |
+| `data` | ``$ARRAY`` | No |  |
+| `data_timestamp` | ``$STRING`` | No |  |
+| `dest_en` | ``$STRING`` | No |  |
+| `dest_sc` | ``$STRING`` | No |  |
+| `dest_tc` | ``$STRING`` | No |  |
+| `dir` | ``$STRING`` | No |  |
+| `eta` | ``$STRING`` | No |  |
+| `eta_seq` | ``$INTEGER`` | No |  |
+| `generated_timestamp` | ``$STRING`` | No |  |
+| `rmk_en` | ``$STRING`` | No |  |
+| `rmk_sc` | ``$STRING`` | No |  |
+| `rmk_tc` | ``$STRING`` | No |  |
+| `route` | ``$STRING`` | No |  |
+| `seq` | ``$INTEGER`` | No |  |
+| `service_type` | ``$INTEGER`` | No |  |
+| `stop` | ``$STRING`` | No |  |
+| `type` | ``$STRING`` | No |  |
+| `version` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.Eta().list()
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Eta().load({ id: 'eta_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `EtaEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RealTimeBusDataSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## RouteEntity
+
+```ts
+const route = client.Route()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bound` | ``$STRING`` | No |  |
+| `data` | ``$ARRAY`` | No |  |
+| `dest_en` | ``$STRING`` | No |  |
+| `dest_sc` | ``$STRING`` | No |  |
+| `dest_tc` | ``$STRING`` | No |  |
+| `generated_timestamp` | ``$STRING`` | No |  |
+| `orig_en` | ``$STRING`` | No |  |
+| `orig_sc` | ``$STRING`` | No |  |
+| `orig_tc` | ``$STRING`` | No |  |
+| `route` | ``$STRING`` | No |  |
+| `service_type` | ``$STRING`` | No |  |
+| `type` | ``$STRING`` | No |  |
+| `version` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.Route().list()
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Route().load({ id: 'route_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `RouteEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RealTimeBusDataSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## RouteStopEntity
+
+```ts
+const route_stop = client.RouteStop()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bound` | ``$STRING`` | No |  |
+| `route` | ``$STRING`` | No |  |
+| `seq` | ``$STRING`` | No |  |
+| `service_type` | ``$STRING`` | No |  |
+| `stop` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.RouteStop().list()
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `RouteStopEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RealTimeBusDataSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## StopEntity
+
+```ts
+const stop = client.Stop()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | ``$OBJECT`` | No |  |
+| `generated_timestamp` | ``$STRING`` | No |  |
+| `lat` | ``$STRING`` | No |  |
+| `long` | ``$STRING`` | No |  |
+| `name_en` | ``$STRING`` | No |  |
+| `name_sc` | ``$STRING`` | No |  |
+| `name_tc` | ``$STRING`` | No |  |
+| `stop` | ``$STRING`` | No |  |
+| `type` | ``$STRING`` | No |  |
+| `version` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.Stop().list()
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Stop().load({ id: 'stop_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `StopEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RealTimeBusDataSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## Features
+
+| Feature | Version | Description |
+| --- | --- | --- |
+| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
+
+
+Features are activated via the `feature` option:
+
+```ts
+const client = new RealTimeBusDataSDK({
+  feature: {
+    test: { active: true },
+  }
+})
+```
+

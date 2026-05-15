@@ -1,0 +1,388 @@
+# RealTimeBusData Ruby SDK Reference
+
+Complete API reference for the RealTimeBusData Ruby SDK.
+
+
+## RealTimeBusDataSDK
+
+### Constructor
+
+```ruby
+require_relative 'real-time-bus-data_sdk'
+
+client = RealTimeBusDataSDK.new(options)
+```
+
+Create a new SDK client instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `options` | `Hash` | SDK configuration options. |
+| `options["apikey"]` | `String` | API key for authentication. |
+| `options["base"]` | `String` | Base URL for API requests. |
+| `options["prefix"]` | `String` | URL prefix appended after base. |
+| `options["suffix"]` | `String` | URL suffix appended after path. |
+| `options["headers"]` | `Hash` | Custom headers for all requests. |
+| `options["feature"]` | `Hash` | Feature configuration. |
+| `options["system"]` | `Hash` | System overrides (e.g. custom fetch). |
+
+
+### Static Methods
+
+#### `RealTimeBusDataSDK.test(testopts = nil, sdkopts = nil)`
+
+Create a test client with mock features active. Both arguments may be `nil`.
+
+```ruby
+client = RealTimeBusDataSDK.test
+```
+
+
+### Instance Methods
+
+#### `Eta(data = nil)`
+
+Create a new `Eta` entity instance. Pass `nil` for no initial data.
+
+#### `Route(data = nil)`
+
+Create a new `Route` entity instance. Pass `nil` for no initial data.
+
+#### `RouteStop(data = nil)`
+
+Create a new `RouteStop` entity instance. Pass `nil` for no initial data.
+
+#### `Stop(data = nil)`
+
+Create a new `Stop` entity instance. Pass `nil` for no initial data.
+
+#### `options_map -> Hash`
+
+Return a deep copy of the current SDK options.
+
+#### `get_utility -> Utility`
+
+Return a copy of the SDK utility object.
+
+#### `direct(fetchargs = {}) -> Hash, err`
+
+Make a direct HTTP request to any API endpoint.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `fetchargs["path"]` | `String` | URL path with optional `{param}` placeholders. |
+| `fetchargs["method"]` | `String` | HTTP method (default: `"GET"`). |
+| `fetchargs["params"]` | `Hash` | Path parameter values for `{param}` substitution. |
+| `fetchargs["query"]` | `Hash` | Query string parameters. |
+| `fetchargs["headers"]` | `Hash` | Request headers (merged with defaults). |
+| `fetchargs["body"]` | `any` | Request body (hashes are JSON-serialized). |
+| `fetchargs["ctrl"]` | `Hash` | Control options (e.g. `{ "explain" => true }`). |
+
+**Returns:** `Hash, err`
+
+#### `prepare(fetchargs = {}) -> Hash, err`
+
+Prepare a fetch definition without sending the request. Accepts the
+same parameters as `direct()`.
+
+**Returns:** `Hash, err`
+
+
+---
+
+## EtaEntity
+
+```ruby
+eta = client.Eta
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `co` | ``$STRING`` | No |  |
+| `data` | ``$ARRAY`` | No |  |
+| `data_timestamp` | ``$STRING`` | No |  |
+| `dest_en` | ``$STRING`` | No |  |
+| `dest_sc` | ``$STRING`` | No |  |
+| `dest_tc` | ``$STRING`` | No |  |
+| `dir` | ``$STRING`` | No |  |
+| `eta` | ``$STRING`` | No |  |
+| `eta_seq` | ``$INTEGER`` | No |  |
+| `generated_timestamp` | ``$STRING`` | No |  |
+| `rmk_en` | ``$STRING`` | No |  |
+| `rmk_sc` | ``$STRING`` | No |  |
+| `rmk_tc` | ``$STRING`` | No |  |
+| `route` | ``$STRING`` | No |  |
+| `seq` | ``$INTEGER`` | No |  |
+| `service_type` | ``$INTEGER`` | No |  |
+| `stop` | ``$STRING`` | No |  |
+| `type` | ``$STRING`` | No |  |
+| `version` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(reqmatch, ctrl = nil) -> result, err`
+
+List entities matching the given criteria. Returns an array.
+
+```ruby
+results, err = client.Eta.list(nil)
+```
+
+#### `load(reqmatch, ctrl = nil) -> result, err`
+
+Load a single entity matching the given criteria.
+
+```ruby
+result, err = client.Eta.load({ "id" => "eta_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `EtaEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## RouteEntity
+
+```ruby
+route = client.Route
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bound` | ``$STRING`` | No |  |
+| `data` | ``$ARRAY`` | No |  |
+| `dest_en` | ``$STRING`` | No |  |
+| `dest_sc` | ``$STRING`` | No |  |
+| `dest_tc` | ``$STRING`` | No |  |
+| `generated_timestamp` | ``$STRING`` | No |  |
+| `orig_en` | ``$STRING`` | No |  |
+| `orig_sc` | ``$STRING`` | No |  |
+| `orig_tc` | ``$STRING`` | No |  |
+| `route` | ``$STRING`` | No |  |
+| `service_type` | ``$STRING`` | No |  |
+| `type` | ``$STRING`` | No |  |
+| `version` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(reqmatch, ctrl = nil) -> result, err`
+
+List entities matching the given criteria. Returns an array.
+
+```ruby
+results, err = client.Route.list(nil)
+```
+
+#### `load(reqmatch, ctrl = nil) -> result, err`
+
+Load a single entity matching the given criteria.
+
+```ruby
+result, err = client.Route.load({ "id" => "route_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `RouteEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## RouteStopEntity
+
+```ruby
+route_stop = client.RouteStop
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bound` | ``$STRING`` | No |  |
+| `route` | ``$STRING`` | No |  |
+| `seq` | ``$STRING`` | No |  |
+| `service_type` | ``$STRING`` | No |  |
+| `stop` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(reqmatch, ctrl = nil) -> result, err`
+
+List entities matching the given criteria. Returns an array.
+
+```ruby
+results, err = client.RouteStop.list(nil)
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `RouteStopEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## StopEntity
+
+```ruby
+stop = client.Stop
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | ``$OBJECT`` | No |  |
+| `generated_timestamp` | ``$STRING`` | No |  |
+| `lat` | ``$STRING`` | No |  |
+| `long` | ``$STRING`` | No |  |
+| `name_en` | ``$STRING`` | No |  |
+| `name_sc` | ``$STRING`` | No |  |
+| `name_tc` | ``$STRING`` | No |  |
+| `stop` | ``$STRING`` | No |  |
+| `type` | ``$STRING`` | No |  |
+| `version` | ``$STRING`` | No |  |
+
+### Operations
+
+#### `list(reqmatch, ctrl = nil) -> result, err`
+
+List entities matching the given criteria. Returns an array.
+
+```ruby
+results, err = client.Stop.list(nil)
+```
+
+#### `load(reqmatch, ctrl = nil) -> result, err`
+
+Load a single entity matching the given criteria.
+
+```ruby
+result, err = client.Stop.load({ "id" => "stop_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `StopEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## Features
+
+| Feature | Version | Description |
+| --- | --- | --- |
+| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
+
+
+Features are activated via the `feature` option:
+
+```ruby
+client = RealTimeBusDataSDK.new({
+  "feature" => {
+    "test" => { "active" => true },
+  },
+})
+```
+

@@ -1,0 +1,142 @@
+# Entity: route
+
+main: kit: entity: route: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "bound"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "data"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "dest_en"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "dest_sc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "dest_tc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "generated_timestamp"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "orig_en"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "orig_sc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "orig_tc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "route"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "service_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "route"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/v1/transport/kmb/route"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "route"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "1"
+                kind: "param"
+                name: "id"
+                orig: "route"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/v1/transport/kmb/route/{route}"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "route"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              route: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,22 @@
+# BasicRouteStopFlow
+
+main: kit: flow: BasicRouteStopFlow:
+{
+  entity: "route_stop",
+  kind: "basic",
+  name: "BasicRouteStopFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "route_stop_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicRouteStopFlow"
+}

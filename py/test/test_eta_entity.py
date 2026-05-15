@@ -1,0 +1,131 @@
+# Eta entity test
+
+import json
+import os
+import time
+
+import pytest
+
+from utility.voxgig_struct import voxgig_struct as vs
+from realtimebusdata_sdk import RealTimeBusDataSDK
+from core import helpers
+
+_TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+from test import runner
+
+
+class TestEtaEntity:
+
+    def test_should_create_instance(self):
+        testsdk = RealTimeBusDataSDK.test(None, None)
+        ent = testsdk.Eta(None)
+        assert ent is not None
+
+    def test_should_run_basic_flow(self):
+        setup = _eta_basic_setup(None)
+        # Per-op sdk-test-control.json skip — basic test exercises a flow with
+        # multiple ops; skipping any one skips the whole flow (steps depend
+        # on each other).
+        _live = setup.get("live", False)
+        for _op in ["list", "load"]:
+            _skip, _reason = runner.is_control_skipped("entityOp", "eta." + _op, "live" if _live else "unit")
+            if _skip:
+                pytest.skip(_reason or "skipped via sdk-test-control.json")
+                return
+        # The basic flow consumes synthetic IDs from the fixture. In live mode
+        # without an *_ENTID env override, those IDs hit the live API and 4xx.
+        if setup.get("synthetic_only"):
+            pytest.skip("live entity test uses synthetic IDs from fixture — "
+                        "set REALTIMEBUSDATA_TEST_ETA_ENTID JSON to run live")
+        client = setup["client"]
+
+        # Bootstrap entity data from existing test data.
+        eta_ref01_data_raw = vs.items(helpers.to_map(
+            vs.getpath(setup["data"], "existing.eta")))
+        eta_ref01_data = None
+        if len(eta_ref01_data_raw) > 0:
+            eta_ref01_data = helpers.to_map(eta_ref01_data_raw[0][1])
+
+        # LIST
+        eta_ref01_ent = client.Eta(None)
+        eta_ref01_match = {
+            "route": setup["idmap"]["route01"],
+            "service_type": setup["idmap"]["service_type01"],
+        }
+
+        eta_ref01_list_result, err = eta_ref01_ent.list(eta_ref01_match, None)
+        assert err is None
+        assert isinstance(eta_ref01_list_result, list)
+
+        # LOAD
+        eta_ref01_match_dt0 = {}
+        eta_ref01_data_dt0_loaded, err = eta_ref01_ent.load(eta_ref01_match_dt0, None)
+        assert err is None
+        assert eta_ref01_data_dt0_loaded is not None
+
+
+
+def _eta_basic_setup(extra):
+    runner.load_env_local()
+
+    entity_data_file = os.path.join(_TEST_DIR, "../../.sdk/test/entity/eta/EtaTestData.json")
+    with open(entity_data_file, "r") as f:
+        entity_data_source = f.read()
+
+    entity_data = json.loads(entity_data_source)
+
+    options = {}
+    options["entity"] = entity_data.get("existing")
+
+    client = RealTimeBusDataSDK.test(options, extra)
+
+    # Generate idmap via transform.
+    idmap = vs.transform(
+        ["eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03", "route01", "service_type01"],
+        {
+            "`$PACK`": ["", {
+                "`$KEY`": "`$COPY`",
+                "`$VAL`": ["`$FORMAT`", "upper", "`$COPY`"],
+            }],
+        }
+    )
+
+    # Detect ENTID env override before envOverride consumes it. When live
+    # mode is on without a real override, the basic test runs against synthetic
+    # IDs from the fixture and 4xx's. We surface this so the test can skip.
+    _entid_env_raw = os.environ.get(
+        "REALTIMEBUSDATA_TEST_ETA_ENTID")
+    _idmap_overridden = _entid_env_raw is not None and _entid_env_raw.strip().startswith("{")
+
+    env = runner.env_override({
+        "REALTIMEBUSDATA_TEST_ETA_ENTID": idmap,
+        "REALTIMEBUSDATA_TEST_LIVE": "FALSE",
+        "REALTIMEBUSDATA_TEST_EXPLAIN": "FALSE",
+        "REALTIMEBUSDATA_APIKEY": "NONE",
+    })
+
+    idmap_resolved = helpers.to_map(
+        env.get("REALTIMEBUSDATA_TEST_ETA_ENTID"))
+    if idmap_resolved is None:
+        idmap_resolved = helpers.to_map(idmap)
+
+    if env.get("REALTIMEBUSDATA_TEST_LIVE") == "TRUE":
+        merged_opts = vs.merge([
+            {
+                "apikey": env.get("REALTIMEBUSDATA_APIKEY"),
+            },
+            extra or {},
+        ])
+        client = RealTimeBusDataSDK(helpers.to_map(merged_opts))
+
+    _live = env.get("REALTIMEBUSDATA_TEST_LIVE") == "TRUE"
+    return {
+        "client": client,
+        "data": entity_data,
+        "idmap": idmap_resolved,
+        "env": env,
+        "explain": env.get("REALTIMEBUSDATA_TEST_EXPLAIN") == "TRUE",
+        "live": _live,
+        "synthetic_only": _live and not _idmap_overridden,
+        "now": int(time.time() * 1000),
+    }

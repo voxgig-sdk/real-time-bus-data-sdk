@@ -1,0 +1,261 @@
+# Entity: eta
+
+main: kit: entity: eta: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "co"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "data"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "data_timestamp"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "dest_en"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "dest_sc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "dest_tc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "dir"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "eta"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "eta_seq"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "generated_timestamp"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "rmk_en"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "rmk_sc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "rmk_tc"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "route"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "seq"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "service_type"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "stop"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "eta"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "1"
+                kind: "param"
+                name: "route"
+                orig: "route"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                example: "1"
+                kind: "param"
+                name: "service_type"
+                orig: "service_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                example: "0000D01E8B5635F0"
+                kind: "param"
+                name: "stop_id"
+                orig: "stop_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "eta"
+            "{stop_id}"
+            "{route}"
+            "{service_type}"
+          ]
+          select: {
+            exist: [
+              "route"
+              "service_type"
+              "stop_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                example: "1"
+                kind: "param"
+                name: "route"
+                orig: "route"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                example: "1"
+                kind: "param"
+                name: "service_type"
+                orig: "service_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/v1/transport/kmb/route-eta/{route}/{service_type}"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "route-eta"
+            "{route}"
+            "{service_type}"
+          ]
+          select: {
+            exist: [
+              "route"
+              "service_type"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "0000D01E8B5635F0"
+                kind: "param"
+                name: "stop_id"
+                orig: "stop_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/v1/transport/kmb/stop-eta/{stop_id}"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "stop-eta"
+            "{stop_id}"
+          ]
+          select: {
+            exist: [
+              "stop_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "eta"
+      ]
+      [
+        "route_eta"
+      ]
+      [
+        "stop_eta"
+      ]
+    ]
+  }
+
+
+
+}

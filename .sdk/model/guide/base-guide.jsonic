@@ -1,0 +1,49 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 4
+  metrics: count: path: 9
+  metrics: count: method: 9
+
+  entity: eta: {
+    path: "/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}": {
+      op: list: method: *GET
+    }
+    path: "/v1/transport/kmb/route-eta/{route}/{service_type}": {
+      op: list: method: *GET
+    }
+    path: "/v1/transport/kmb/stop-eta/{stop_id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: route: {
+    path: "/v1/transport/kmb/route": {
+      op: list: method: *GET
+    }
+    path: "/v1/transport/kmb/route/{route}": {
+      rename: param: "route": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: route_stop: {
+    path: "/v1/transport/kmb/route-stop": {
+      op: list: method: *GET
+    }
+    path: "/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: stop: {
+    path: "/v1/transport/kmb/stop": {
+      op: list: method: *GET
+    }
+    path: "/v1/transport/kmb/stop/{stop_id}": {
+      rename: param: "stop_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+}

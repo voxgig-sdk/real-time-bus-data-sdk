@@ -1,0 +1,120 @@
+# Entity: route_stop
+
+main: kit: entity: route_stop: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "bound"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "route"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "seq"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "service_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "stop"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "route_stop"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "outbound"
+                kind: "param"
+                name: "direction"
+                orig: "direction"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                example: "1"
+                kind: "param"
+                name: "route"
+                orig: "route"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                example: "1"
+                kind: "param"
+                name: "service_type"
+                orig: "service_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "route-stop"
+            "{route}"
+            "{direction}"
+            "{service_type}"
+          ]
+          select: {
+            exist: [
+              "direction"
+              "route"
+              "service_type"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/v1/transport/kmb/route-stop"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "route-stop"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "route_stop"
+      ]
+    ]
+  }
+
+
+
+}
