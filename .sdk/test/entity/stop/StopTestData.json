@@ -11,7 +11,8 @@
         "name_tc": "s6a",
         "stop": "s6b",
         "type": "s6c",
-        "version": "s6d"
+        "version": "s6d",
+        "id": "STOP00"
       },
       "STOP01": {
         "data": {},
@@ -23,7 +24,8 @@
         "name_tc": "sce",
         "stop": "scf",
         "type": "sd0",
-        "version": "sd1"
+        "version": "sd1",
+        "id": "STOP01"
       },
       "STOP02": {
         "data": {},
@@ -35,7 +37,8 @@
         "name_tc": "s132",
         "stop": "s133",
         "type": "s134",
-        "version": "s135"
+        "version": "s135",
+        "id": "STOP02"
       }
     }
   },

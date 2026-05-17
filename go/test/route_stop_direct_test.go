@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	sdk "github.com/voxgig-sdk/real-time-bus-data-sdk"
-	"github.com/voxgig-sdk/real-time-bus-data-sdk/core"
+	sdk "github.com/voxgig-sdk/real-time-bus-data-sdk/go"
+	"github.com/voxgig-sdk/real-time-bus-data-sdk/go/core"
 )
 
 func TestRouteStopDirect(t *testing.T) {

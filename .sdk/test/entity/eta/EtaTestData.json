@@ -21,7 +21,8 @@
         "stop": "sce",
         "type": "scf",
         "version": "sd0",
-        "stop_id": "STOP01"
+        "stop_id": "STOP01",
+        "id": "ETA00"
       },
       "ETA01": {
         "co": "s17c",
@@ -43,7 +44,8 @@
         "stop": "s18c",
         "type": "s18d",
         "version": "s18e",
-        "stop_id": "STOP01"
+        "stop_id": "STOP01",
+        "id": "ETA01"
       },
       "ETA02": {
         "co": "s23a",
@@ -65,7 +67,8 @@
         "stop": "s24a",
         "type": "s24b",
         "version": "s24c",
-        "stop_id": "STOP01"
+        "stop_id": "STOP01",
+        "id": "ETA02"
       }
     }
   },

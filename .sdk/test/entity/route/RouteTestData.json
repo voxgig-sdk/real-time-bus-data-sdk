@@ -14,7 +14,8 @@
         "route": "s8b",
         "service_type": "s8c",
         "type": "s8d",
-        "version": "s8e"
+        "version": "s8e",
+        "id": "ROUTE00"
       },
       "ROUTE01": {
         "bound": "s104",
@@ -29,7 +30,8 @@
         "route": "s10d",
         "service_type": "s10e",
         "type": "s10f",
-        "version": "s110"
+        "version": "s110",
+        "id": "ROUTE01"
       },
       "ROUTE02": {
         "bound": "s186",
@@ -44,7 +46,8 @@
         "route": "s18f",
         "service_type": "s190",
         "type": "s191",
-        "version": "s192"
+        "version": "s192",
+        "id": "ROUTE02"
       }
     }
   },

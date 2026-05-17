@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	sdk "github.com/voxgig-sdk/real-time-bus-data-sdk"
-	"github.com/voxgig-sdk/real-time-bus-data-sdk/core"
+	sdk "github.com/voxgig-sdk/real-time-bus-data-sdk/go"
+	"github.com/voxgig-sdk/real-time-bus-data-sdk/go/core"
 
-	vs "github.com/voxgig/struct"
+	vs "github.com/voxgig-sdk/real-time-bus-data-sdk/go/utility/struct"
 )
 
 func TestEtaEntity(t *testing.T) {
