@@ -23,12 +23,9 @@ loading a specific record.
 ### 1. Create a client
 
 ```python
-import os
 from realtimebusdata_sdk import RealTimeBusDataSDK
 
-client = RealTimeBusDataSDK({
-    "apikey": os.environ.get("REAL-TIME-BUS-DATA_APIKEY"),
-})
+client = RealTimeBusDataSDK({})
 ```
 
 ### 2. List etas
@@ -130,7 +127,6 @@ Create a `.env.local` file at the project root:
 
 ```
 REAL-TIME-BUS-DATA_TEST_LIVE=TRUE
-REAL-TIME-BUS-DATA_APIKEY=<your-key>
 ```
 
 Then run:
@@ -154,7 +150,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `str` | API key for authentication. |
 | `base` | `str` | Base URL of the API server. |
 | `prefix` | `str` | URL path prefix prepended to all requests. |
 | `suffix` | `str` | URL path suffix appended to all requests. |

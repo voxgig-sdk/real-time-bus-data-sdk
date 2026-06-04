@@ -18,7 +18,20 @@
           }
         ],
         "title": "Real Time Bus Data",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "tagline": "Real-time arrival estimates for Hong Kong's KMB and Long Win bus services",
+        "homepage": "https://data.etabus.gov.hk",
+        "docs_url": "https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb",
+        "license_short": "Open data published via data.gov.hk; raw dataset owned by KMB and Long Win Bus",
+        "license_md": "- Dataset published through the Hong Kong government open data portal at [data.gov.hk](https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb)\n- Raw data is owned by Kowloon Motor Bus Company (1933) Limited (KMB) and Long Win Bus Company Limited (LWB)\n- Check the dataset page for the current terms and conditions before redistributing or using commercially\n- No licence text is published on the API server itself; treat undocumented details (rate limits, SLAs) as unspecified",
+        "about_md": "This SDK wraps the public real-time bus ETA API hosted at [data.etabus.gov.hk](https://data.etabus.gov.hk). The service is provided by [Kowloon Motor Bus](https://www.kmb.hk/) (KMB) and [Long Win Bus](https://www.lwb.hk/) (LWB) and is distributed through Hong Kong's open data programme at [data.gov.hk](https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb).\n\nWhat you get from the API:\n\n- Full list of bus routes operated by KMB and LWB\n- Full list of bus stops with identifiers and location data\n- Route-stop mappings describing the stop sequence for each route, direction and service type\n- Estimated time of arrival (ETA) for buses at a stop, by route, or by stop-and-route combination\n\nResponses are JSON. According to the data.gov.hk dataset page, ETA data is refreshed approximately every minute, while route and stop reference data is updated daily. The API is open and does not require authentication, and CORS is reported as enabled by community catalogues. Rate limits are not documented on the dataset page.",
+        "entity_desc": {
+          "eta": "Real-time estimated arrival times for buses; accessible via `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`, `/v1/transport/kmb/stop-eta/{stop_id}` (all ETAs at a stop) and `/v1/transport/kmb/route-eta/{route}/{service_type}` (all ETAs along a route).",
+          "route": "A KMB or LWB bus route, including origin and destination; listed at `/v1/transport/kmb/route/` and detailed at `/v1/transport/kmb/route/{route}/{direction}/{service_type}`.",
+          "route_stop": "The ordered mapping of stops along a given route, direction and service type; available at `/v1/transport/kmb/route-stop` and `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`.",
+          "stop": "A physical bus stop with identifier and location; listed at `/v1/transport/kmb/stop` and detailed at `/v1/transport/kmb/stop/{stop_id}`."
+        },
+        "auth": false
       },
       "config": {
         "auth": {
@@ -26,7 +39,15 @@
         },
         "headers": {
           "content-type": "application/json"
-        }
+        },
+        "docs_order": [
+          "ts",
+          "py",
+          "php",
+          "go",
+          "rb",
+          "lua"
+        ]
       },
       "entity": {
         "eta": {

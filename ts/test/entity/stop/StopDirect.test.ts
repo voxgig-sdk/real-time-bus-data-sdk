@@ -117,14 +117,12 @@ function directSetup(mockres?: any) {
   const env = envOverride({
     'REALTIMEBUSDATA_TEST_STOP_ENTID': {},
     'REALTIMEBUSDATA_TEST_LIVE': 'FALSE',
-    'REALTIMEBUSDATA_APIKEY': 'NONE',
   })
 
   const live = 'TRUE' === env.REALTIMEBUSDATA_TEST_LIVE
 
   if (live) {
     const client = new RealTimeBusDataSDK({
-      apikey: env.REALTIMEBUSDATA_APIKEY,
     })
 
     let idmap: any = env['REALTIMEBUSDATA_TEST_STOP_ENTID']

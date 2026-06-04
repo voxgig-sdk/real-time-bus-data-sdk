@@ -175,14 +175,12 @@ func stopDirectSetup(mockres any) *stopDirectSetupResult {
 	env := envOverride(map[string]any{
 		"REALTIMEBUSDATA_TEST_STOP_ENTID": map[string]any{},
 		"REALTIMEBUSDATA_TEST_LIVE":    "FALSE",
-		"REALTIMEBUSDATA_APIKEY":       "NONE",
 	})
 
 	live := env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
-			"apikey": env["REALTIMEBUSDATA_APIKEY"],
 		}
 		client := sdk.NewRealTimeBusDataSDK(mergedOpts)
 

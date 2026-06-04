@@ -38,10 +38,6 @@ class Config {
   options = {
     base: 'https://data.etabus.gov.hk',
 
-    auth: {
-      prefix: 'Bearer',
-    },
-
     headers: {
       "content-type": "application/json"
     },
