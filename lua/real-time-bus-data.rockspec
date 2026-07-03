@@ -8,12 +8,14 @@ source = {
   dir = "real-time-bus-data-sdk/lua"
 }
 description = {
-  summary = "RealTimeBusData SDK for Lua",
-  license = "MIT"
+  summary = "Unofficial generated Lua SDK for the Real Time Bus Data public API. Not affiliated with or endorsed by the upstream API provider.",
+  homepage = "https://github.com/voxgig-sdk/real-time-bus-data-sdk",
+  issues_url = "https://github.com/voxgig-sdk/real-time-bus-data-sdk/issues",
+  license = "MIT",
+  labels = { "voxgig", "sdk", "generated-sdk", "openapi", "api-client", "real-time-bus-data" }
 }
 dependencies = {
   "lua >= 5.3",
-  "dkjson >= 2.5",
   "dkjson >= 2.5",
 }
 build = {

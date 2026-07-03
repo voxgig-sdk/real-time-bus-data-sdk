@@ -10,7 +10,7 @@ The Python SDK for the RealTimeBusData API — an entity-oriented client followi
 
 ## Install
 ```bash
-pip install real-time-bus-data-sdk
+pip install voxgig-sdk-real-time-bus-data
 ```
 
 Or install from source:

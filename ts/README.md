@@ -10,7 +10,7 @@ The TypeScript SDK for the RealTimeBusData API — a type-safe, entity-oriented 
 
 ## Install
 ```bash
-npm install real-time-bus-data
+npm install @voxgig-sdk/real-time-bus-data
 ```
 ## Tutorial: your first API call
 

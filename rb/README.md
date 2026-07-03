@@ -10,13 +10,13 @@ The Ruby SDK for the RealTimeBusData API — an entity-oriented client using idi
 
 ## Install
 ```bash
-gem install real-time-bus-data-sdk
+gem install voxgig-sdk-real-time-bus-data
 ```
 
 Or add to your `Gemfile`:
 
 ```ruby
-gem "real-time-bus-data-sdk"
+gem "voxgig-sdk-real-time-bus-data"
 ```
 
 Then run:

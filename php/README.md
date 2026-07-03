@@ -10,7 +10,7 @@ The PHP SDK for the RealTimeBusData API — an entity-oriented client using PHP 
 
 ## Install
 ```bash
-composer require voxgig/real-time-bus-data-sdk
+composer require voxgig-sdk/real-time-bus-data
 ```
 
 

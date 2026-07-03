@@ -10,7 +10,7 @@ The Lua SDK for the RealTimeBusData API — an entity-oriented client using Lua 
 
 ## Install
 ```bash
-luarocks install real-time-bus-data-sdk
+luarocks install voxgig-sdk-real-time-bus-data
 ```
 
 If the module is not yet published, add the source directory to
