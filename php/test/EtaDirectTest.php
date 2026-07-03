@@ -145,12 +145,14 @@ function eta_direct_setup($mockres)
     $env = Runner::env_override([
         "REALTIMEBUSDATA_TEST_ETA_ENTID" => [],
         "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
+        "REALTIMEBUSDATA_APIKEY" => "NONE",
     ]);
 
     $live = $env["REALTIMEBUSDATA_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
+            "apikey" => $env["REALTIMEBUSDATA_APIKEY"],
         ];
         $client = new RealTimeBusDataSDK($merged_opts);
         return [

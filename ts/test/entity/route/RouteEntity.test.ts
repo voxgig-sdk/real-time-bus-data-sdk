@@ -114,6 +114,7 @@ function basicSetup(extra?: any) {
     'REAL_TIME_BUS_DATA_TEST_ROUTE_ENTID': idmap,
     'REAL_TIME_BUS_DATA_TEST_LIVE': 'FALSE',
     'REAL_TIME_BUS_DATA_TEST_EXPLAIN': 'FALSE',
+    'REAL_TIME_BUS_DATA_APIKEY': 'NONE',
   })
 
   idmap = env['REAL_TIME_BUS_DATA_TEST_ROUTE_ENTID']
@@ -123,6 +124,7 @@ function basicSetup(extra?: any) {
   if (live) {
     client = new RealTimeBusDataSDK(merge([
       {
+        apikey: env.REAL_TIME_BUS_DATA_APIKEY,
       },
       extra
     ]))

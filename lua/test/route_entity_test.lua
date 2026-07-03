@@ -98,6 +98,7 @@ function route_basic_setup(extra)
     ["REALTIMEBUSDATA_TEST_ROUTE_ENTID"] = idmap,
     ["REALTIMEBUSDATA_TEST_LIVE"] = "FALSE",
     ["REALTIMEBUSDATA_TEST_EXPLAIN"] = "FALSE",
+    ["REALTIMEBUSDATA_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -109,6 +110,7 @@ function route_basic_setup(extra)
   if env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
+        apikey = env["REALTIMEBUSDATA_APIKEY"],
       },
       extra or {},
     })

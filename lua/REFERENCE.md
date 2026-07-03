@@ -30,12 +30,12 @@ Create a new SDK client instance.
 
 ### Static Methods
 
-#### `sdk.test(testopts, sdkopts)`
+#### `sdk.test(testopts?, sdkopts?)`
 
-Create a test client with mock features active. Both arguments may be `nil`.
+Create a test client with mock features active. Both arguments are optional.
 
 ```lua
-local client = sdk.test(nil, nil)
+local client = sdk.test()
 ```
 
 
@@ -130,7 +130,7 @@ local eta = client:Eta(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Eta(nil):list(nil, nil)
+local results, err = client:Eta():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -138,7 +138,7 @@ local results, err = client:Eta(nil):list(nil, nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Eta(nil):load({ id = "eta_id" }, nil)
+local result, err = client:Eta():load({ id = "eta_id" })
 ```
 
 ### Common Methods
@@ -202,7 +202,7 @@ local route = client:Route(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Route(nil):list(nil, nil)
+local results, err = client:Route():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -210,7 +210,7 @@ local results, err = client:Route(nil):list(nil, nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Route(nil):load({ id = "route_id" }, nil)
+local result, err = client:Route():load({ id = "route_id" })
 ```
 
 ### Common Methods
@@ -266,7 +266,7 @@ local route_stop = client:RouteStop(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:RouteStop(nil):list(nil, nil)
+local results, err = client:RouteStop():list()
 ```
 
 ### Common Methods
@@ -327,7 +327,7 @@ local stop = client:Stop(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Stop(nil):list(nil, nil)
+local results, err = client:Stop():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -335,7 +335,7 @@ local results, err = client:Stop(nil):list(nil, nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Stop(nil):load({ id = "stop_id" }, nil)
+local result, err = client:Stop():load({ id = "stop_id" })
 ```
 
 ### Common Methods

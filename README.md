@@ -1,21 +1,8 @@
 # RealTimeBusData SDK
 
-Real-time arrival estimates for Hong Kong's KMB and Long Win bus services
+Real Time Bus Data client, generated from the OpenAPI spec.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI, an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
-
-## About Real Time Bus Data
-
-This SDK wraps the public real-time bus ETA API hosted at [data.etabus.gov.hk](https://data.etabus.gov.hk). The service is provided by [Kowloon Motor Bus](https://www.kmb.hk/) (KMB) and [Long Win Bus](https://www.lwb.hk/) (LWB) and is distributed through Hong Kong's open data programme at [data.gov.hk](https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb).
-
-What you get from the API:
-
-- Full list of bus routes operated by KMB and LWB
-- Full list of bus stops with identifiers and location data
-- Route-stop mappings describing the stop sequence for each route, direction and service type
-- Estimated time of arrival (ETA) for buses at a stop, by route, or by stop-and-route combination
-
-Responses are JSON. According to the data.gov.hk dataset page, ETA data is refreshed approximately every minute, while route and stop reference data is updated daily. The API is open and does not require authentication, and CORS is reported as enabled by community catalogues. Rate limits are not documented on the dataset page.
 
 ## Try it
 
@@ -49,29 +36,31 @@ gem install real-time-bus-data-sdk
 luarocks install real-time-bus-data-sdk
 ```
 
-## 30-second quickstart
+## Quickstart
 
 ### TypeScript
 
 ```ts
 import { RealTimeBusDataSDK } from 'real-time-bus-data'
 
-const client = new RealTimeBusDataSDK({})
+const client = new RealTimeBusDataSDK({
+  apikey: process.env.REAL-TIME-BUS-DATA_APIKEY,
+})
 
 // List all etas
 const etas = await client.Eta().list()
+console.log(etas.data)
 ```
 
-See the [TypeScript README](ts/README.md) for the
-full guide, or scroll down for the same example in other languages.
+See the [TypeScript README](ts/README.md) for the full guide.
 
-## What's in the box
+## Surfaces
 
-| Surface | Use it for | Path |
-| --- | --- | --- |
-| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | App integration | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
-| **CLI** | Scripts, CI, ops, one-off API calls | `go-cli/` |
-| **MCP server** | AI agents (Claude, Cursor, Cline) | `go-mcp/` |
+| Surface | Path |
+| --- | --- |
+| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
+| **CLI** | `go-cli/` |
+| **MCP server** | `go-mcp/` |
 
 ## Use it from an AI agent (MCP)
 
@@ -101,10 +90,10 @@ The API exposes 4 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **Eta** | Real-time estimated arrival times for buses; accessible via `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`, `/v1/transport/kmb/stop-eta/{stop_id}` (all ETAs at a stop) and `/v1/transport/kmb/route-eta/{route}/{service_type}` (all ETAs along a route). | `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}` |
-| **Route** | A KMB or LWB bus route, including origin and destination; listed at `/v1/transport/kmb/route/` and detailed at `/v1/transport/kmb/route/{route}/{direction}/{service_type}`. | `/v1/transport/kmb/route` |
-| **RouteStop** | The ordered mapping of stops along a given route, direction and service type; available at `/v1/transport/kmb/route-stop` and `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`. | `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}` |
-| **Stop** | A physical bus stop with identifier and location; listed at `/v1/transport/kmb/stop` and detailed at `/v1/transport/kmb/stop/{stop_id}`. | `/v1/transport/kmb/stop` |
+| **Eta** |  | `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}` |
+| **Route** |  | `/v1/transport/kmb/route` |
+| **RouteStop** |  | `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}` |
+| **Stop** |  | `/v1/transport/kmb/stop` |
 
 Each entity supports the following operations where available: **load**,
 **list**, **create**, **update**, and **remove**.
@@ -114,17 +103,20 @@ Each entity supports the following operations where available: **load**,
 ### Python
 
 ```python
+import os
 from realtimebusdata_sdk import RealTimeBusDataSDK
 
-client = RealTimeBusDataSDK({})
+client = RealTimeBusDataSDK({
+    "apikey": os.environ.get("REAL-TIME-BUS-DATA_APIKEY"),
+})
 
 # List all etas
-etas, err = client.Eta(None).list(None, None)
+etas, err = client.Eta().list()
+print(etas)
 
 # Load a specific eta
-eta, err = client.Eta(None).load(
-    {"id": "example_id"}, None
-)
+eta, err = client.Eta().load({"id": "example_id"})
+print(eta)
 ```
 
 ### PHP
@@ -133,15 +125,17 @@ eta, err = client.Eta(None).load(
 <?php
 require_once 'realtimebusdata_sdk.php';
 
-$client = new RealTimeBusDataSDK([]);
+$client = new RealTimeBusDataSDK([
+    "apikey" => getenv("REAL-TIME-BUS-DATA_APIKEY"),
+]);
 
 // List all etas
-[$etas, $err] = $client->Eta(null)->list(null, null);
+[$etas, $err] = $client->Eta()->list();
+print_r($etas);
 
 // Load a specific eta
-[$eta, $err] = $client->Eta(null)->load(
-    ["id" => "example_id"], null
-);
+[$eta, $err] = $client->Eta()->load(["id" => "example_id"]);
+print_r($eta);
 ```
 
 ### Golang
@@ -149,10 +143,13 @@ $client = new RealTimeBusDataSDK([]);
 ```go
 import sdk "github.com/voxgig-sdk/real-time-bus-data-sdk/go"
 
-client := sdk.NewRealTimeBusDataSDK(map[string]any{})
+client := sdk.NewRealTimeBusDataSDK(map[string]any{
+    "apikey": os.Getenv("REAL-TIME-BUS-DATA_APIKEY"),
+})
 
 // List all etas
 etas, err := client.Eta(nil).List(nil, nil)
+fmt.Println(etas)
 ```
 
 ### Ruby
@@ -160,15 +157,17 @@ etas, err := client.Eta(nil).List(nil, nil)
 ```ruby
 require_relative "RealTimeBusData_sdk"
 
-client = RealTimeBusDataSDK.new({})
+client = RealTimeBusDataSDK.new({
+  "apikey" => ENV["REAL-TIME-BUS-DATA_APIKEY"],
+})
 
 # List all etas
-etas, err = client.Eta(nil).list(nil, nil)
+etas, err = client.Eta().list
+puts etas
 
 # Load a specific eta
-eta, err = client.Eta(nil).load(
-  { "id" => "example_id" }, nil
-)
+eta, err = client.Eta().load({ "id" => "example_id" })
+puts eta
 ```
 
 ### Lua
@@ -176,15 +175,17 @@ eta, err = client.Eta(nil).load(
 ```lua
 local sdk = require("real-time-bus-data_sdk")
 
-local client = sdk.new({})
+local client = sdk.new({
+  apikey = os.getenv("REAL-TIME-BUS-DATA_APIKEY"),
+})
 
 -- List all etas
-local etas, err = client:Eta(nil):list(nil, nil)
+local etas, err = client:Eta():list()
+print(etas)
 
 -- Load a specific eta
-local eta, err = client:Eta(nil):load(
-  { id = "example_id" }, nil
-)
+local eta, err = client:Eta():load({ id = "example_id" })
+print(eta)
 ```
 
 ## Unit testing in offline mode
@@ -203,25 +204,21 @@ const result = await client.Eta().load({ id: 'test01' })
 ### Python
 
 ```python
-client = RealTimeBusDataSDK.test(None, None)
-result, err = client.Eta(None).load(
-    {"id": "test01"}, None
-)
+client = RealTimeBusDataSDK.test()
+result, err = client.Eta().load({"id": "test01"})
 ```
 
 ### PHP
 
 ```php
-$client = RealTimeBusDataSDK::test(null, null);
-[$result, $err] = $client->Eta(null)->load(
-    ["id" => "test01"], null
-);
+$client = RealTimeBusDataSDK::test();
+[$result, $err] = $client->Eta()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
-client := sdk.TestSDK(nil, nil)
+client := sdk.Test()
 result, err := client.Eta(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
@@ -230,19 +227,15 @@ result, err := client.Eta(nil).Load(
 ### Ruby
 
 ```ruby
-client = RealTimeBusDataSDK.test(nil, nil)
-result, err = client.Eta(nil).load(
-  { "id" => "test01" }, nil
-)
+client = RealTimeBusDataSDK.test
+result, err = client.Eta().load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
-local client = sdk.test(nil, nil)
-local result, err = client:Eta(nil):load(
-  { id = "test01" }, nil
-)
+local client = sdk.test()
+local result, err = client:Eta():load({ id = "test01" })
 ```
 
 ## How it works
@@ -346,16 +339,6 @@ local result, err = client:direct({
 - [Golang](go/README.md)
 - [Ruby](rb/README.md)
 - [Lua](lua/README.md)
-
-## Using the Real Time Bus Data
-
-- Upstream: [https://data.etabus.gov.hk](https://data.etabus.gov.hk)
-- API docs: [https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb](https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb)
-
-- Dataset published through the Hong Kong government open data portal at [data.gov.hk](https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb)
-- Raw data is owned by Kowloon Motor Bus Company (1933) Limited (KMB) and Long Win Bus Company Limited (LWB)
-- Check the dataset page for the current terms and conditions before redistributing or using commercially
-- No licence text is published on the API server itself; treat undocumented details (rate limits, SLAs) as unspecified
 
 ---
 
