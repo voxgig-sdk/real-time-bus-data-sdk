@@ -9,9 +9,10 @@ The PHP SDK for the RealTimeBusData API — an entity-oriented client using PHP 
 
 
 ## Install
-```bash
-composer require voxgig-sdk/real-time-bus-data
-```
+This package is not yet published to Packagist. Install it from the
+GitHub release tag (`php/vX.Y.Z`):
+
+- Releases: [https://github.com/voxgig-sdk/real-time-bus-data-sdk/releases](https://github.com/voxgig-sdk/real-time-bus-data-sdk/releases)
 
 
 ## Tutorial: your first API call
@@ -25,31 +26,34 @@ loading a specific record.
 <?php
 require_once 'realtimebusdata_sdk.php';
 
-$client = new RealTimeBusDataSDK([
-    "apikey" => getenv("REAL-TIME-BUS-DATA_APIKEY"),
-]);
+$client = new RealTimeBusDataSDK();
 ```
 
 ### 2. List etas
 
 ```php
-[$result, $err] = $client->Eta()->list();
-if ($err) { throw new \Exception($err); }
-
-if (is_array($result)) {
-    foreach ($result as $item) {
-        $d = $item->data_get();
-        echo $d["id"] . " " . $d["name"] . "\n";
+try {
+    $result = $client->eta()->list();
+    if (is_array($result)) {
+        foreach ($result as $item) {
+            $d = $item->data_get();
+            echo $d["id"] . " " . $d["name"] . "\n";
+        }
     }
+} catch (\Exception $err) {
+    echo "Error: " . $err->getMessage();
 }
 ```
 
-### 3. Load a eta
+### 3. Load an eta
 
 ```php
-[$result, $err] = $client->Eta()->load(["id" => "example_id"]);
-if ($err) { throw new \Exception($err); }
-print_r($result);
+try {
+    $result = $client->eta()->load(["id" => "example_id"]);
+    print_r($result);
+} catch (\Exception $err) {
+    echo "Error: " . $err->getMessage();
+}
 ```
 
 
@@ -60,28 +64,31 @@ print_r($result);
 For endpoints not covered by entity methods:
 
 ```php
-[$result, $err] = $client->direct([
+// direct() is the raw-HTTP escape hatch: it returns a result array
+// (it does not throw). Branch on $result["ok"].
+$result = $client->direct([
     "path" => "/api/resource/{id}",
     "method" => "GET",
     "params" => ["id" => "example"],
 ]);
-if ($err) { throw new \Exception($err); }
 
 if ($result["ok"]) {
     echo $result["status"];  // 200
     print_r($result["data"]);  // response body
+} else {
+    echo "Error: " . $result["err"]->getMessage();
 }
 ```
 
 ### Prepare a request without sending it
 
 ```php
-[$fetchdef, $err] = $client->prepare([
+// prepare() throws on error and returns the fetch definition.
+$fetchdef = $client->prepare([
     "path" => "/api/resource/{id}",
     "method" => "DELETE",
     "params" => ["id" => "example"],
 ]);
-if ($err) { throw new \Exception($err); }
 
 echo $fetchdef["url"];
 echo $fetchdef["method"];
@@ -95,7 +102,7 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = RealTimeBusDataSDK::test();
 
-[$result, $err] = $client->RealTimeBusData()->load(["id" => "test01"]);
+$result = $client->eta()->load(["id" => "test01"]);
 // $result contains mock response data
 ```
 
@@ -129,8 +136,7 @@ $client = new RealTimeBusDataSDK([
 Create a `.env.local` file at the project root:
 
 ```
-REAL-TIME-BUS-DATA_TEST_LIVE=TRUE
-REAL-TIME-BUS-DATA_APIKEY=<your-key>
+REAL_TIME_BUS_DATA_TEST_LIVE=TRUE
 ```
 
 Then run:
@@ -153,7 +159,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -202,8 +207,12 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `[$result, $err]`. The first value is an
-`array` with these keys:
+Entity operations return the bare result data (an `array` for single-entity
+ops, a `list` for `list`) and throw on error. Wrap calls in
+`try`/`catch` to handle failures.
+
+The `direct()` escape hatch never throws — it returns a result `array`
+you branch on via `$result["ok"]`:
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -306,7 +315,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.Eta()`
+Create an instance: `const eta = client.eta`
 
 #### Operations
 
@@ -342,19 +351,19 @@ Create an instance: `const eta = client.Eta()`
 #### Example: Load
 
 ```ts
-const eta = await client.Eta().load({ id: 'eta_id' })
+const eta = await client.eta.load({ id: 'eta_id' })
 ```
 
 #### Example: List
 
 ```ts
-const etas = await client.Eta().list()
+const etas = await client.eta.list()
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.Route()`
+Create an instance: `const route = client.route`
 
 #### Operations
 
@@ -384,19 +393,19 @@ Create an instance: `const route = client.Route()`
 #### Example: Load
 
 ```ts
-const route = await client.Route().load({ id: 'route_id' })
+const route = await client.route.load({ id: 'route_id' })
 ```
 
 #### Example: List
 
 ```ts
-const routes = await client.Route().list()
+const routes = await client.route.list()
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.RouteStop()`
+Create an instance: `const route_stop = client.route_stop`
 
 #### Operations
 
@@ -417,13 +426,13 @@ Create an instance: `const route_stop = client.RouteStop()`
 #### Example: List
 
 ```ts
-const route_stops = await client.RouteStop().list()
+const route_stops = await client.route_stop.list()
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.Stop()`
+Create an instance: `const stop = client.stop`
 
 #### Operations
 
@@ -450,13 +459,13 @@ Create an instance: `const stop = client.Stop()`
 #### Example: Load
 
 ```ts
-const stop = await client.Stop().load({ id: 'stop_id' })
+const stop = await client.stop.load({ id: 'stop_id' })
 ```
 
 #### Example: List
 
 ```ts
-const stops = await client.Stop().list()
+const stops = await client.stop.list()
 ```
 
 
@@ -531,11 +540,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$moon = $client->Moon();
-[$result, $err] = $moon->load(["planet_id" => "earth", "id" => "luna"]);
+$eta = $client->eta();
+$eta->load(["id" => "example_id"]);
 
-// $moon->dataGet() now returns the loaded moon data
-// $moon->matchGet() returns the last match criteria
+// $eta->dataGet() now returns the loaded eta data
+// $eta->matchGet() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

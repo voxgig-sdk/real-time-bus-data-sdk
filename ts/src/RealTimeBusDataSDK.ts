@@ -5,6 +5,8 @@ import { RouteEntity } from './entity/RouteEntity'
 import { RouteStopEntity } from './entity/RouteStopEntity'
 import { StopEntity } from './entity/StopEntity'
 
+export type * from './RealTimeBusDataTypes'
+
 
 import { inspect } from 'node:util'
 
@@ -205,24 +207,56 @@ class RealTimeBusDataSDK {
 
 
 
+  _eta?: EtaEntity
+
+  // Idiomatic facade: `client.eta.list()` / `client.eta.load({ id })`.
+  get eta(): EtaEntity {
+    return (this._eta ??= new EtaEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.eta` instead. */
   Eta(data?: any) {
     const self = this
     return new EtaEntity(self,data)
   }
 
 
+  _route?: RouteEntity
+
+  // Idiomatic facade: `client.route.list()` / `client.route.load({ id })`.
+  get route(): RouteEntity {
+    return (this._route ??= new RouteEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.route` instead. */
   Route(data?: any) {
     const self = this
     return new RouteEntity(self,data)
   }
 
 
+  _route_stop?: RouteStopEntity
+
+  // Idiomatic facade: `client.route_stop.list()` / `client.route_stop.load({ id })`.
+  get route_stop(): RouteStopEntity {
+    return (this._route_stop ??= new RouteStopEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.route_stop` instead. */
   RouteStop(data?: any) {
     const self = this
     return new RouteStopEntity(self,data)
   }
 
 
+  _stop?: StopEntity
+
+  // Idiomatic facade: `client.stop.list()` / `client.stop.load({ id })`.
+  get stop(): StopEntity {
+    return (this._stop ??= new StopEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.stop` instead. */
   Stop(data?: any) {
     const self = this
     return new StopEntity(self,data)

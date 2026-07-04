@@ -81,6 +81,10 @@ end
 
 
 
+---@param reqmatch RouteStopListMatch
+---@param ctrl? table
+---@return RouteStop[]
+---@return string? err
 function RouteStopEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

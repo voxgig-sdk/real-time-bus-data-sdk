@@ -43,14 +43,12 @@ class StopEntityTest < Minitest::Test
     stop_ref01_ent = client.Stop(nil)
     stop_ref01_match = {}
 
-    stop_ref01_list_result, err = stop_ref01_ent.list(stop_ref01_match, nil)
-    assert_nil err
+    stop_ref01_list_result = stop_ref01_ent.list(stop_ref01_match, nil)
     assert stop_ref01_list_result.is_a?(Array)
 
     # LOAD
     stop_ref01_match_dt0 = {}
-    stop_ref01_data_dt0_loaded, err = stop_ref01_ent.load(stop_ref01_match_dt0, nil)
-    assert_nil err
+    stop_ref01_data_dt0_loaded = stop_ref01_ent.load(stop_ref01_match_dt0, nil)
     assert !stop_ref01_data_dt0_loaded.nil?
 
   end
@@ -89,7 +87,6 @@ def stop_basic_setup(extra)
     "REALTIMEBUSDATA_TEST_STOP_ENTID" => idmap,
     "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
     "REALTIMEBUSDATA_TEST_EXPLAIN" => "FALSE",
-    "REALTIMEBUSDATA_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -101,7 +98,6 @@ def stop_basic_setup(extra)
   if env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["REALTIMEBUSDATA_APIKEY"],
       },
       extra || {},
     ])

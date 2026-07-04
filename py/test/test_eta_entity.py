@@ -53,14 +53,12 @@ class TestEtaEntity:
             "service_type": setup["idmap"]["service_type01"],
         }
 
-        eta_ref01_list_result, err = eta_ref01_ent.list(eta_ref01_match, None)
-        assert err is None
+        eta_ref01_list_result = eta_ref01_ent.list(eta_ref01_match, None)
         assert isinstance(eta_ref01_list_result, list)
 
         # LOAD
         eta_ref01_match_dt0 = {}
-        eta_ref01_data_dt0_loaded, err = eta_ref01_ent.load(eta_ref01_match_dt0, None)
-        assert err is None
+        eta_ref01_data_dt0_loaded = eta_ref01_ent.load(eta_ref01_match_dt0, None)
         assert eta_ref01_data_dt0_loaded is not None
 
 
@@ -101,7 +99,6 @@ def _eta_basic_setup(extra):
         "REALTIMEBUSDATA_TEST_ETA_ENTID": idmap,
         "REALTIMEBUSDATA_TEST_LIVE": "FALSE",
         "REALTIMEBUSDATA_TEST_EXPLAIN": "FALSE",
-        "REALTIMEBUSDATA_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -112,7 +109,6 @@ def _eta_basic_setup(extra):
     if env.get("REALTIMEBUSDATA_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("REALTIMEBUSDATA_APIKEY"),
             },
             extra or {},
         ])

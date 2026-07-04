@@ -43,14 +43,12 @@ class RouteEntityTest < Minitest::Test
     route_ref01_ent = client.Route(nil)
     route_ref01_match = {}
 
-    route_ref01_list_result, err = route_ref01_ent.list(route_ref01_match, nil)
-    assert_nil err
+    route_ref01_list_result = route_ref01_ent.list(route_ref01_match, nil)
     assert route_ref01_list_result.is_a?(Array)
 
     # LOAD
     route_ref01_match_dt0 = {}
-    route_ref01_data_dt0_loaded, err = route_ref01_ent.load(route_ref01_match_dt0, nil)
-    assert_nil err
+    route_ref01_data_dt0_loaded = route_ref01_ent.load(route_ref01_match_dt0, nil)
     assert !route_ref01_data_dt0_loaded.nil?
 
   end
@@ -89,7 +87,6 @@ def route_basic_setup(extra)
     "REALTIMEBUSDATA_TEST_ROUTE_ENTID" => idmap,
     "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
     "REALTIMEBUSDATA_TEST_EXPLAIN" => "FALSE",
-    "REALTIMEBUSDATA_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -101,7 +98,6 @@ def route_basic_setup(extra)
   if env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["REALTIMEBUSDATA_APIKEY"],
       },
       extra || {},
     ])

@@ -50,14 +50,12 @@ class TestRouteEntity:
         route_ref01_ent = client.Route(None)
         route_ref01_match = {}
 
-        route_ref01_list_result, err = route_ref01_ent.list(route_ref01_match, None)
-        assert err is None
+        route_ref01_list_result = route_ref01_ent.list(route_ref01_match, None)
         assert isinstance(route_ref01_list_result, list)
 
         # LOAD
         route_ref01_match_dt0 = {}
-        route_ref01_data_dt0_loaded, err = route_ref01_ent.load(route_ref01_match_dt0, None)
-        assert err is None
+        route_ref01_data_dt0_loaded = route_ref01_ent.load(route_ref01_match_dt0, None)
         assert route_ref01_data_dt0_loaded is not None
 
 
@@ -98,7 +96,6 @@ def _route_basic_setup(extra):
         "REALTIMEBUSDATA_TEST_ROUTE_ENTID": idmap,
         "REALTIMEBUSDATA_TEST_LIVE": "FALSE",
         "REALTIMEBUSDATA_TEST_EXPLAIN": "FALSE",
-        "REALTIMEBUSDATA_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -109,7 +106,6 @@ def _route_basic_setup(extra):
     if env.get("REALTIMEBUSDATA_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("REALTIMEBUSDATA_APIKEY"),
             },
             extra or {},
         ])

@@ -244,24 +244,76 @@ end
 
 
 
+-- Idiomatic facade: client:eta():list() / client:eta():load({ id = ... })
+function RealTimeBusDataSDK:eta(data)
+  local EntityMod = require("entity.eta_entity")
+  if data == nil then
+    if self._eta == nil then
+      self._eta = EntityMod.new(self, nil)
+    end
+    return self._eta
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:eta() instead.
 function RealTimeBusDataSDK:Eta(data)
   local EntityMod = require("entity.eta_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:route():list() / client:route():load({ id = ... })
+function RealTimeBusDataSDK:route(data)
+  local EntityMod = require("entity.route_entity")
+  if data == nil then
+    if self._route == nil then
+      self._route = EntityMod.new(self, nil)
+    end
+    return self._route
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:route() instead.
 function RealTimeBusDataSDK:Route(data)
   local EntityMod = require("entity.route_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:route_stop():list() / client:route_stop():load({ id = ... })
+function RealTimeBusDataSDK:route_stop(data)
+  local EntityMod = require("entity.route_stop_entity")
+  if data == nil then
+    if self._route_stop == nil then
+      self._route_stop = EntityMod.new(self, nil)
+    end
+    return self._route_stop
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:route_stop() instead.
 function RealTimeBusDataSDK:RouteStop(data)
   local EntityMod = require("entity.route_stop_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:stop():list() / client:stop():load({ id = ... })
+function RealTimeBusDataSDK:stop(data)
+  local EntityMod = require("entity.stop_entity")
+  if data == nil then
+    if self._stop == nil then
+      self._stop = EntityMod.new(self, nil)
+    end
+    return self._stop
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:stop() instead.
 function RealTimeBusDataSDK:Stop(data)
   local EntityMod = require("entity.stop_entity")
   return EntityMod.new(self, data)

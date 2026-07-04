@@ -9,12 +9,9 @@ The Lua SDK for the RealTimeBusData API — an entity-oriented client using Lua 
 
 
 ## Install
-```bash
-luarocks install voxgig-sdk-real-time-bus-data
-```
-
-If the module is not yet published, add the source directory to
-your `LUA_PATH`:
+This package is not yet published to LuaRocks. Install it from the
+GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/real-time-bus-data-sdk/releases)),
+or add the source directory to your `LUA_PATH`:
 
 ```bash
 export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
@@ -31,15 +28,13 @@ loading a specific record.
 ```lua
 local sdk = require("real-time-bus-data_sdk")
 
-local client = sdk.new({
-  apikey = os.getenv("REAL-TIME-BUS-DATA_APIKEY"),
-})
+local client = sdk.new()
 ```
 
 ### 2. List etas
 
 ```lua
-local result, err = client:Eta():list()
+local result, err = client:eta():list()
 if err then error(err) end
 
 if type(result) == "table" then
@@ -50,10 +45,10 @@ if type(result) == "table" then
 end
 ```
 
-### 3. Load a eta
+### 3. Load an eta
 
 ```lua
-local result, err = client:Eta():load({ id = "example_id" })
+local result, err = client:eta():load({ id = "example_id" })
 if err then error(err) end
 print(result)
 ```
@@ -101,7 +96,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:RealTimeBusData():load({ id = "test01" })
+local result, err = client:eta():load({ id = "test01" })
 -- result contains mock response data
 ```
 
@@ -134,8 +129,7 @@ local client = sdk.new({
 Create a `.env.local` file at the project root:
 
 ```
-REAL-TIME-BUS-DATA_TEST_LIVE=TRUE
-REAL-TIME-BUS-DATA_APIKEY=<your-key>
+REAL_TIME_BUS_DATA_TEST_LIVE=TRUE
 ```
 
 Then run:
@@ -158,7 +152,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -311,7 +304,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.Eta()`
+Create an instance: `const eta = client.eta`
 
 #### Operations
 
@@ -347,19 +340,19 @@ Create an instance: `const eta = client.Eta()`
 #### Example: Load
 
 ```ts
-const eta = await client.Eta().load({ id: 'eta_id' })
+const eta = await client.eta.load({ id: 'eta_id' })
 ```
 
 #### Example: List
 
 ```ts
-const etas = await client.Eta().list()
+const etas = await client.eta.list()
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.Route()`
+Create an instance: `const route = client.route`
 
 #### Operations
 
@@ -389,19 +382,19 @@ Create an instance: `const route = client.Route()`
 #### Example: Load
 
 ```ts
-const route = await client.Route().load({ id: 'route_id' })
+const route = await client.route.load({ id: 'route_id' })
 ```
 
 #### Example: List
 
 ```ts
-const routes = await client.Route().list()
+const routes = await client.route.list()
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.RouteStop()`
+Create an instance: `const route_stop = client.route_stop`
 
 #### Operations
 
@@ -422,13 +415,13 @@ Create an instance: `const route_stop = client.RouteStop()`
 #### Example: List
 
 ```ts
-const route_stops = await client.RouteStop().list()
+const route_stops = await client.route_stop.list()
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.Stop()`
+Create an instance: `const stop = client.stop`
 
 #### Operations
 
@@ -455,13 +448,13 @@ Create an instance: `const stop = client.Stop()`
 #### Example: Load
 
 ```ts
-const stop = await client.Stop().load({ id: 'stop_id' })
+const stop = await client.stop.load({ id: 'stop_id' })
 ```
 
 #### Example: List
 
 ```ts
-const stops = await client.Stop().list()
+const stops = await client.stop.list()
 ```
 
 
@@ -536,11 +529,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local moon = client:Moon(nil)
-moon:load({ planet_id = "earth", id = "luna" }, nil)
+local eta = client:eta()
+eta:load({ id = "example_id" })
 
--- moon:data_get() now returns the loaded moon data
--- moon:match_get() returns the last match criteria
+-- eta:data_get() now returns the loaded eta data
+-- eta:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

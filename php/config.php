@@ -20,9 +20,6 @@ class RealTimeBusDataConfig
             ],
             "options" => [
                 "base" => "https://data.etabus.gov.hk",
-                "auth" => [
-                    "prefix" => "Bearer",
-                ],
                 "headers" => [
           'content-type' => 'application/json',
         ],
@@ -188,6 +185,7 @@ class RealTimeBusDataConfig
                         'orig' => 'route',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                       [
                         'active' => true,
@@ -197,6 +195,7 @@ class RealTimeBusDataConfig
                         'orig' => 'service_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 1,
                       ],
                       [
                         'active' => true,
@@ -206,6 +205,7 @@ class RealTimeBusDataConfig
                         'orig' => 'stop_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 2,
                       ],
                     ],
                   ],
@@ -245,6 +245,7 @@ class RealTimeBusDataConfig
                         'orig' => 'route',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                       [
                         'active' => true,
@@ -254,6 +255,7 @@ class RealTimeBusDataConfig
                         'orig' => 'service_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -298,6 +300,7 @@ class RealTimeBusDataConfig
                         'orig' => 'stop_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -476,6 +479,7 @@ class RealTimeBusDataConfig
                         'orig' => 'route',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -568,6 +572,7 @@ class RealTimeBusDataConfig
                         'orig' => 'direction',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                       [
                         'active' => true,
@@ -577,6 +582,7 @@ class RealTimeBusDataConfig
                         'orig' => 'route',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 1,
                       ],
                       [
                         'active' => true,
@@ -586,6 +592,7 @@ class RealTimeBusDataConfig
                         'orig' => 'service_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 2,
                       ],
                     ],
                   ],
@@ -759,6 +766,7 @@ class RealTimeBusDataConfig
                         'orig' => 'stop_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                   ],

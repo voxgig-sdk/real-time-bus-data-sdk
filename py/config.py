@@ -15,9 +15,6 @@ def make_config():
         },
         "options": {
             "base": "https://data.etabus.gov.hk",
-            "auth": {
-                "prefix": "Bearer",
-            },
             "headers": {
         "content-type": "application/json",
       },
@@ -183,6 +180,7 @@ def make_config():
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 0,
                     },
                     {
                       "active": True,
@@ -192,6 +190,7 @@ def make_config():
                       "orig": "service_type",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 1,
                     },
                     {
                       "active": True,
@@ -201,6 +200,7 @@ def make_config():
                       "orig": "stop_id",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 2,
                     },
                   ],
                 },
@@ -240,6 +240,7 @@ def make_config():
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 0,
                     },
                     {
                       "active": True,
@@ -249,6 +250,7 @@ def make_config():
                       "orig": "service_type",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 1,
                     },
                   ],
                 },
@@ -293,6 +295,7 @@ def make_config():
                       "orig": "stop_id",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 0,
                     },
                   ],
                 },
@@ -471,6 +474,7 @@ def make_config():
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 0,
                     },
                   ],
                 },
@@ -563,6 +567,7 @@ def make_config():
                       "orig": "direction",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 0,
                     },
                     {
                       "active": True,
@@ -572,6 +577,7 @@ def make_config():
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 1,
                     },
                     {
                       "active": True,
@@ -581,6 +587,7 @@ def make_config():
                       "orig": "service_type",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 2,
                     },
                   ],
                 },
@@ -754,6 +761,7 @@ def make_config():
                       "orig": "stop_id",
                       "reqd": True,
                       "type": "`$STRING`",
+                      "index$": 0,
                     },
                   ],
                 },

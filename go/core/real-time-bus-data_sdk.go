@@ -245,21 +245,33 @@ func (sdk *RealTimeBusDataSDK) Direct(fetchargs map[string]any) (map[string]any,
 }
 
 
+// Eta returns a Eta entity bound to this client.
+// Idiomatic usage: client.Eta(nil).List(nil, nil) or
+// client.Eta(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RealTimeBusDataSDK) Eta(data map[string]any) RealTimeBusDataEntity {
 	return NewEtaEntityFunc(sdk, data)
 }
 
 
+// Route returns a Route entity bound to this client.
+// Idiomatic usage: client.Route(nil).List(nil, nil) or
+// client.Route(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RealTimeBusDataSDK) Route(data map[string]any) RealTimeBusDataEntity {
 	return NewRouteEntityFunc(sdk, data)
 }
 
 
+// RouteStop returns a RouteStop entity bound to this client.
+// Idiomatic usage: client.RouteStop(nil).List(nil, nil) or
+// client.RouteStop(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RealTimeBusDataSDK) RouteStop(data map[string]any) RealTimeBusDataEntity {
 	return NewRouteStopEntityFunc(sdk, data)
 }
 
 
+// Stop returns a Stop entity bound to this client.
+// Idiomatic usage: client.Stop(nil).List(nil, nil) or
+// client.Stop(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RealTimeBusDataSDK) Stop(data map[string]any) RealTimeBusDataEntity {
 	return NewStopEntityFunc(sdk, data)
 }

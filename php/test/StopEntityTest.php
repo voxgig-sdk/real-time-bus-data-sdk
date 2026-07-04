@@ -50,14 +50,12 @@ class StopEntityTest extends TestCase
         $stop_ref01_ent = $client->Stop(null);
         $stop_ref01_match = [];
 
-        [$stop_ref01_list_result, $err] = $stop_ref01_ent->list($stop_ref01_match, null);
-        $this->assertNull($err);
+        $stop_ref01_list_result = $stop_ref01_ent->list($stop_ref01_match, null);
         $this->assertIsArray($stop_ref01_list_result);
 
         // LOAD
         $stop_ref01_match_dt0 = [];
-        [$stop_ref01_data_dt0_loaded, $err] = $stop_ref01_ent->load($stop_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $stop_ref01_data_dt0_loaded = $stop_ref01_ent->load($stop_ref01_match_dt0, null);
         $this->assertNotNull($stop_ref01_data_dt0_loaded);
 
     }
@@ -92,7 +90,6 @@ function stop_basic_setup($extra)
         "REALTIMEBUSDATA_TEST_STOP_ENTID" => $idmap,
         "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
         "REALTIMEBUSDATA_TEST_EXPLAIN" => "FALSE",
-        "REALTIMEBUSDATA_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -104,7 +101,6 @@ function stop_basic_setup($extra)
     if ($env["REALTIMEBUSDATA_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["REALTIMEBUSDATA_APIKEY"],
             ],
             $extra ?? [],
         ]);

@@ -14,9 +14,14 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Route,
+  RouteLoadMatch,
+  RouteListMatch,
+} from '../RealTimeBusDataTypes'
 
 // TODO: needs Entity superclass
-class RouteEntity extends RealTimeBusDataEntityBase {
+class RouteEntity extends RealTimeBusDataEntityBase<Route> {
 
   constructor(client: RealTimeBusDataSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +37,7 @@ class RouteEntity extends RealTimeBusDataEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: RouteLoadMatch, ctrl?: Control): Promise<Route> {
 
     const utility = this._utility
 
@@ -136,14 +141,16 @@ class RouteEntity extends RealTimeBusDataEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Route> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: RouteListMatch, ctrl?: Control): Promise<Route[]> {
 
     const utility = this._utility
 
@@ -243,7 +250,9 @@ class RouteEntity extends RealTimeBusDataEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Route[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

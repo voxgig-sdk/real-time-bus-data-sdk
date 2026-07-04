@@ -46,14 +46,12 @@ class EtaEntityTest < Minitest::Test
       "service_type" => setup[:idmap]["service_type01"],
     }
 
-    eta_ref01_list_result, err = eta_ref01_ent.list(eta_ref01_match, nil)
-    assert_nil err
+    eta_ref01_list_result = eta_ref01_ent.list(eta_ref01_match, nil)
     assert eta_ref01_list_result.is_a?(Array)
 
     # LOAD
     eta_ref01_match_dt0 = {}
-    eta_ref01_data_dt0_loaded, err = eta_ref01_ent.load(eta_ref01_match_dt0, nil)
-    assert_nil err
+    eta_ref01_data_dt0_loaded = eta_ref01_ent.load(eta_ref01_match_dt0, nil)
     assert !eta_ref01_data_dt0_loaded.nil?
 
   end
@@ -92,7 +90,6 @@ def eta_basic_setup(extra)
     "REALTIMEBUSDATA_TEST_ETA_ENTID" => idmap,
     "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
     "REALTIMEBUSDATA_TEST_EXPLAIN" => "FALSE",
-    "REALTIMEBUSDATA_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -104,7 +101,6 @@ def eta_basic_setup(extra)
   if env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["REALTIMEBUSDATA_APIKEY"],
       },
       extra || {},
     ])

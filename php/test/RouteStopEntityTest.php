@@ -50,8 +50,7 @@ class RouteStopEntityTest extends TestCase
         $route_stop_ref01_ent = $client->RouteStop(null);
         $route_stop_ref01_match = [];
 
-        [$route_stop_ref01_list_result, $err] = $route_stop_ref01_ent->list($route_stop_ref01_match, null);
-        $this->assertNull($err);
+        $route_stop_ref01_list_result = $route_stop_ref01_ent->list($route_stop_ref01_match, null);
         $this->assertIsArray($route_stop_ref01_list_result);
 
     }
@@ -86,7 +85,6 @@ function route_stop_basic_setup($extra)
         "REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID" => $idmap,
         "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
         "REALTIMEBUSDATA_TEST_EXPLAIN" => "FALSE",
-        "REALTIMEBUSDATA_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -98,7 +96,6 @@ function route_stop_basic_setup($extra)
     if ($env["REALTIMEBUSDATA_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["REALTIMEBUSDATA_APIKEY"],
             ],
             $extra ?? [],
         ]);

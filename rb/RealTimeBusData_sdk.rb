@@ -13,6 +13,9 @@ require_relative 'config'
 require_relative 'feature/base_feature'
 require_relative 'features'
 
+# Load typed models (Struct value objects).
+require_relative 'RealTimeBusData_types'
+
 
 class RealTimeBusDataSDK
   attr_accessor :mode, :features, :options
@@ -131,7 +134,7 @@ class RealTimeBusDataSDK
     end
 
     _, err = utility.prepare_auth.call(ctx)
-    return nil, err if err
+    raise err if err
 
     utility.make_fetch_def.call(ctx)
   end
@@ -139,8 +142,14 @@ class RealTimeBusDataSDK
   def direct(fetchargs = {})
     utility = @_utility
 
-    fetchdef, err = prepare(fetchargs)
-    return { "ok" => false, "err" => err }, nil if err
+    # direct() is the raw-HTTP escape hatch: it always returns a result hash
+    # ({ "ok" => ..., ... }) and never raises. prepare() raises on error, so
+    # trap that and surface it in the hash.
+    begin
+      fetchdef = prepare(fetchargs)
+    rescue RealTimeBusDataError => err
+      return { "ok" => false, "err" => err }
+    end
 
     fetchargs ||= {}
     ctrl = RealTimeBusDataHelpers.to_map(VoxgigStruct.getprop(fetchargs, "ctrl")) || {}
@@ -153,13 +162,13 @@ class RealTimeBusDataSDK
     url = fetchdef["url"] || ""
     fetched, fetch_err = utility.fetcher.call(ctx, url, fetchdef)
 
-    return { "ok" => false, "err" => fetch_err }, nil if fetch_err
+    return { "ok" => false, "err" => fetch_err } if fetch_err
 
     if fetched.nil?
       return {
         "ok" => false,
         "err" => ctx.make_error("direct_no_response", "response: undefined"),
-      }, nil
+      }
     end
 
     if fetched.is_a?(Hash)
@@ -189,34 +198,62 @@ class RealTimeBusDataSDK
         "status" => status,
         "headers" => headers,
         "data" => json_data,
-      }, nil
+      }
     end
 
     return {
       "ok" => false,
       "err" => ctx.make_error("direct_invalid", "invalid response type"),
-    }, nil
+    }
   end
 
 
+  # Idiomatic facade: client.eta.list / client.eta.load({ "id" => ... })
+  def eta
+    require_relative 'entity/eta_entity'
+    @eta ||= EtaEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.eta instead.
   def Eta(data = nil)
     require_relative 'entity/eta_entity'
     EtaEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.route.list / client.route.load({ "id" => ... })
+  def route
+    require_relative 'entity/route_entity'
+    @route ||= RouteEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.route instead.
   def Route(data = nil)
     require_relative 'entity/route_entity'
     RouteEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.route_stop.list / client.route_stop.load({ "id" => ... })
+  def route_stop
+    require_relative 'entity/route_stop_entity'
+    @route_stop ||= RouteStopEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.route_stop instead.
   def RouteStop(data = nil)
     require_relative 'entity/route_stop_entity'
     RouteStopEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.stop.list / client.stop.load({ "id" => ... })
+  def stop
+    require_relative 'entity/stop_entity'
+    @stop ||= StopEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.stop instead.
   def Stop(data = nil)
     require_relative 'entity/stop_entity'
     StopEntity.new(self, data)

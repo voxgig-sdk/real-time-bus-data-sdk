@@ -9,9 +9,12 @@ The TypeScript SDK for the RealTimeBusData API — a type-safe, entity-oriented 
 
 
 ## Install
-```bash
-npm install @voxgig-sdk/real-time-bus-data
-```
+This package is not yet published to npm. Install it from the GitHub
+release tag (`ts/vX.Y.Z`):
+
+- Releases: [https://github.com/voxgig-sdk/real-time-bus-data-sdk/releases](https://github.com/voxgig-sdk/real-time-bus-data-sdk/releases)
+
+
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
@@ -20,17 +23,15 @@ loading a specific record.
 ### 1. Create a client
 
 ```ts
-import { RealTimeBusDataSDK } from 'real-time-bus-data'
+import { RealTimeBusDataSDK } from '@voxgig-sdk/real-time-bus-data'
 
-const client = new RealTimeBusDataSDK({
-  apikey: process.env.REAL-TIME-BUS-DATA_APIKEY,
-})
+const client = new RealTimeBusDataSDK()
 ```
 
 ### 2. List etas
 
 ```ts
-const result = await client.Eta().list()
+const result = await client.eta.list()
 
 if (result.ok) {
   for (const item of result.data) {
@@ -39,10 +40,10 @@ if (result.ok) {
 }
 ```
 
-### 3. Load a eta
+### 3. Load an eta
 
 ```ts
-const result = await client.Eta().load({ id: 'example_id' })
+const result = await client.eta.load({ id: 'example_id' })
 
 if (result.ok) {
   console.log(result.data)
@@ -91,7 +92,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RealTimeBusDataSDK.test()
 
-const result = await client.Planet().load({ id: 'test01' })
+const result = await client.eta.load({ id: 'test01' })
 // result.ok === true
 // result.data contains mock response data
 ```
@@ -99,7 +100,7 @@ const result = await client.Planet().load({ id: 'test01' })
 You can also use the instance method:
 
 ```ts
-const client = new RealTimeBusDataSDK({ apikey: '...' })
+const client = new RealTimeBusDataSDK()
 const testClient = client.tester()
 ```
 
@@ -108,7 +109,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Planet()
+const entity = client.eta
 
 // First call sets internal match
 await entity.load({ id: 'example' })
@@ -135,7 +136,6 @@ const logger = {
 }
 
 const client = new RealTimeBusDataSDK({
-  apikey: '...',
   extend: [logger],
 })
 ```
@@ -145,8 +145,7 @@ const client = new RealTimeBusDataSDK({
 Create a `.env.local` file at the project root:
 
 ```
-REAL-TIME-BUS-DATA_TEST_LIVE=TRUE
-REAL-TIME-BUS-DATA_APIKEY=<your-key>
+REAL_TIME_BUS_DATA_TEST_LIVE=TRUE
 ```
 
 Then run:
@@ -164,7 +163,6 @@ cd ts && npm test
 
 ```ts
 new RealTimeBusDataSDK(options?: {
-  apikey?: string
   base?: string
   prefix?: string
   suffix?: string
@@ -175,7 +173,6 @@ new RealTimeBusDataSDK(options?: {
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -354,7 +351,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.Eta()`
+Create an instance: `const eta = client.eta`
 
 #### Operations
 
@@ -390,19 +387,19 @@ Create an instance: `const eta = client.Eta()`
 #### Example: Load
 
 ```ts
-const eta = await client.Eta().load({ id: 'eta_id' })
+const eta = await client.eta.load({ id: 'eta_id' })
 ```
 
 #### Example: List
 
 ```ts
-const etas = await client.Eta().list()
+const etas = await client.eta.list()
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.Route()`
+Create an instance: `const route = client.route`
 
 #### Operations
 
@@ -432,19 +429,19 @@ Create an instance: `const route = client.Route()`
 #### Example: Load
 
 ```ts
-const route = await client.Route().load({ id: 'route_id' })
+const route = await client.route.load({ id: 'route_id' })
 ```
 
 #### Example: List
 
 ```ts
-const routes = await client.Route().list()
+const routes = await client.route.list()
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.RouteStop()`
+Create an instance: `const route_stop = client.route_stop`
 
 #### Operations
 
@@ -465,13 +462,13 @@ Create an instance: `const route_stop = client.RouteStop()`
 #### Example: List
 
 ```ts
-const route_stops = await client.RouteStop().list()
+const route_stops = await client.route_stop.list()
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.Stop()`
+Create an instance: `const stop = client.stop`
 
 #### Operations
 
@@ -498,13 +495,13 @@ Create an instance: `const stop = client.Stop()`
 #### Example: Load
 
 ```ts
-const stop = await client.Stop().load({ id: 'stop_id' })
+const stop = await client.stop.load({ id: 'stop_id' })
 ```
 
 #### Example: List
 
 ```ts
-const stops = await client.Stop().list()
+const stops = await client.stop.list()
 ```
 
 
@@ -565,7 +562,7 @@ real-time-bus-data/
 Import the SDK from the package root:
 
 ```ts
-import { RealTimeBusDataSDK } from 'real-time-bus-data'
+import { RealTimeBusDataSDK } from '@voxgig-sdk/real-time-bus-data'
 ```
 
 ### Entity state
@@ -575,11 +572,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const moon = client.Moon()
-await moon.load({ planet_id: 'earth', id: 'luna' })
+const eta = client.eta
+await eta.load({ id: "example_id" })
 
-// moon.data() now returns the loaded moon data
-// moon.match() returns { planet_id: 'earth', id: 'luna' }
+// eta.data() now returns the loaded eta data
+// eta.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

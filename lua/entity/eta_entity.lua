@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch EtaLoadMatch
+---@param ctrl? table
+---@return Eta
+---@return string? err
 function EtaEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch EtaListMatch
+---@param ctrl? table
+---@return Eta[]
+---@return string? err
 function EtaEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

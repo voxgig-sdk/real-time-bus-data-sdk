@@ -50,8 +50,7 @@ class TestRouteStopEntity:
         route_stop_ref01_ent = client.RouteStop(None)
         route_stop_ref01_match = {}
 
-        route_stop_ref01_list_result, err = route_stop_ref01_ent.list(route_stop_ref01_match, None)
-        assert err is None
+        route_stop_ref01_list_result = route_stop_ref01_ent.list(route_stop_ref01_match, None)
         assert isinstance(route_stop_ref01_list_result, list)
 
 
@@ -92,7 +91,6 @@ def _route_stop_basic_setup(extra):
         "REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID": idmap,
         "REALTIMEBUSDATA_TEST_LIVE": "FALSE",
         "REALTIMEBUSDATA_TEST_EXPLAIN": "FALSE",
-        "REALTIMEBUSDATA_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -103,7 +101,6 @@ def _route_stop_basic_setup(extra):
     if env.get("REALTIMEBUSDATA_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("REALTIMEBUSDATA_APIKEY"),
             },
             extra or {},
         ])

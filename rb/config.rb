@@ -15,9 +15,6 @@ module RealTimeBusDataConfig
       },
       "options" => {
         "base" => "https://data.etabus.gov.hk",
-        "auth" => {
-          "prefix" => "Bearer",
-        },
         "headers" => {
           "content-type" => "application/json",
         },
@@ -183,6 +180,7 @@ module RealTimeBusDataConfig
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                       {
                         "active" => true,
@@ -192,6 +190,7 @@ module RealTimeBusDataConfig
                         "orig" => "service_type",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 1,
                       },
                       {
                         "active" => true,
@@ -201,6 +200,7 @@ module RealTimeBusDataConfig
                         "orig" => "stop_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 2,
                       },
                     ],
                   },
@@ -240,6 +240,7 @@ module RealTimeBusDataConfig
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                       {
                         "active" => true,
@@ -249,6 +250,7 @@ module RealTimeBusDataConfig
                         "orig" => "service_type",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 1,
                       },
                     ],
                   },
@@ -293,6 +295,7 @@ module RealTimeBusDataConfig
                         "orig" => "stop_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                     ],
                   },
@@ -471,6 +474,7 @@ module RealTimeBusDataConfig
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                     ],
                   },
@@ -563,6 +567,7 @@ module RealTimeBusDataConfig
                         "orig" => "direction",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                       {
                         "active" => true,
@@ -572,6 +577,7 @@ module RealTimeBusDataConfig
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 1,
                       },
                       {
                         "active" => true,
@@ -581,6 +587,7 @@ module RealTimeBusDataConfig
                         "orig" => "service_type",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 2,
                       },
                     ],
                   },
@@ -754,6 +761,7 @@ module RealTimeBusDataConfig
                         "orig" => "stop_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                     ],
                   },

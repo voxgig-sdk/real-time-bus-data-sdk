@@ -103,7 +103,7 @@ class RealTimeBusDataSDK
         return $this->_rootctx;
     }
 
-    public function prepare(array $fetchargs = []): array
+    public function prepare(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
         $fetchargs = $fetchargs ?? [];
@@ -149,19 +149,27 @@ class RealTimeBusDataSDK
 
         [$_, $err] = ($utility->prepare_auth)($ctx);
         if ($err) {
-            return [null, $err];
+            return ($utility->make_error)($ctx, $err);
         }
 
-        return ($utility->make_fetch_def)($ctx);
+        [$fetchdef, $fd_err] = ($utility->make_fetch_def)($ctx);
+        if ($fd_err) {
+            return ($utility->make_error)($ctx, $fd_err);
+        }
+        return $fetchdef;
     }
 
-    public function direct(array $fetchargs = []): array
+    public function direct(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
 
-        [$fetchdef, $err] = $this->prepare($fetchargs);
-        if ($err) {
-            return [["ok" => false, "err" => $err], null];
+        // direct() is the raw-HTTP escape hatch: it never throws, it returns
+        // an {ok, err, ...} dict. prepare() now raises on error, so catch it
+        // and surface the failure through the dict instead.
+        try {
+            $fetchdef = $this->prepare($fetchargs);
+        } catch (\Throwable $err) {
+            return ["ok" => false, "err" => $err];
         }
 
         $fetchargs = $fetchargs ?? [];
@@ -176,14 +184,14 @@ class RealTimeBusDataSDK
         [$fetched, $fetch_err] = ($utility->fetcher)($ctx, $url, $fetchdef);
 
         if ($fetch_err) {
-            return [["ok" => false, "err" => $fetch_err], null];
+            return ["ok" => false, "err" => $fetch_err];
         }
 
         if ($fetched === null) {
-            return [[
+            return [
                 "ok" => false,
                 "err" => $ctx->make_error("direct_no_response", "response: undefined"),
-            ], null];
+            ];
         }
 
         if (is_array($fetched)) {
@@ -208,45 +216,89 @@ class RealTimeBusDataSDK
                 }
             }
 
-            return [[
+            return [
                 "ok" => $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
-            ], null];
+            ];
         }
 
-        return [[
+        return [
             "ok" => false,
             "err" => $ctx->make_error("direct_invalid", "invalid response type"),
-        ], null];
+        ];
     }
 
 
-    public function Eta($data = null)
+    private $_eta = null;
+
+    // Idiomatic facade: $client->eta()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Eta() (PHP method
+    // names are case-insensitive).
+    public function eta($data = null)
     {
         require_once __DIR__ . '/entity/eta_entity.php';
+        if ($data === null) {
+            if ($this->_eta === null) {
+                $this->_eta = new EtaEntity($this, null);
+            }
+            return $this->_eta;
+        }
         return new EtaEntity($this, $data);
     }
 
 
-    public function Route($data = null)
+    private $_route = null;
+
+    // Idiomatic facade: $client->route()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Route() (PHP method
+    // names are case-insensitive).
+    public function route($data = null)
     {
         require_once __DIR__ . '/entity/route_entity.php';
+        if ($data === null) {
+            if ($this->_route === null) {
+                $this->_route = new RouteEntity($this, null);
+            }
+            return $this->_route;
+        }
         return new RouteEntity($this, $data);
     }
 
 
-    public function RouteStop($data = null)
+    private $_route_stop = null;
+
+    // Idiomatic facade: $client->route_stop()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias RouteStop() (PHP method
+    // names are case-insensitive).
+    public function route_stop($data = null)
     {
         require_once __DIR__ . '/entity/route_stop_entity.php';
+        if ($data === null) {
+            if ($this->_route_stop === null) {
+                $this->_route_stop = new RouteStopEntity($this, null);
+            }
+            return $this->_route_stop;
+        }
         return new RouteStopEntity($this, $data);
     }
 
 
-    public function Stop($data = null)
+    private $_stop = null;
+
+    // Idiomatic facade: $client->stop()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Stop() (PHP method
+    // names are case-insensitive).
+    public function stop($data = null)
     {
         require_once __DIR__ . '/entity/stop_entity.php';
+        if ($data === null) {
+            if ($this->_stop === null) {
+                $this->_stop = new StopEntity($this, null);
+            }
+            return $this->_stop;
+        }
         return new StopEntity($this, $data);
     }
 

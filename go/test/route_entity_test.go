@@ -129,7 +129,6 @@ func routeBasicSetup(extra map[string]any) *entityTestSetup {
 		"REALTIMEBUSDATA_TEST_ROUTE_ENTID": idmap,
 		"REALTIMEBUSDATA_TEST_LIVE":      "FALSE",
 		"REALTIMEBUSDATA_TEST_EXPLAIN":   "FALSE",
-		"REALTIMEBUSDATA_APIKEY":         "NONE",
 	})
 
 	idmapResolved := core.ToMapAny(env["REALTIMEBUSDATA_TEST_ROUTE_ENTID"])
@@ -140,7 +139,6 @@ func routeBasicSetup(extra map[string]any) *entityTestSetup {
 	if env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["REALTIMEBUSDATA_APIKEY"],
 			},
 			extra,
 		})

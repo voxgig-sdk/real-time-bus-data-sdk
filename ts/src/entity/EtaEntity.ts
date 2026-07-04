@@ -14,9 +14,14 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Eta,
+  EtaLoadMatch,
+  EtaListMatch,
+} from '../RealTimeBusDataTypes'
 
 // TODO: needs Entity superclass
-class EtaEntity extends RealTimeBusDataEntityBase {
+class EtaEntity extends RealTimeBusDataEntityBase<Eta> {
 
   constructor(client: RealTimeBusDataSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +37,7 @@ class EtaEntity extends RealTimeBusDataEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: EtaLoadMatch, ctrl?: Control): Promise<Eta> {
 
     const utility = this._utility
 
@@ -136,14 +141,16 @@ class EtaEntity extends RealTimeBusDataEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Eta> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: EtaListMatch, ctrl?: Control): Promise<Eta[]> {
 
     const utility = this._utility
 
@@ -243,7 +250,9 @@ class EtaEntity extends RealTimeBusDataEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Eta[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

@@ -14,9 +14,6 @@ local function make_config()
     },
     options = {
       base = "https://data.etabus.gov.hk",
-      auth = {
-        prefix = "Bearer",
-      },
       headers = {
         ["content-type"] = "application/json",
       },
@@ -182,6 +179,7 @@ local function make_config()
                       ["orig"] = "route",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                     {
                       ["active"] = true,
@@ -191,6 +189,7 @@ local function make_config()
                       ["orig"] = "service_type",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 1,
                     },
                     {
                       ["active"] = true,
@@ -200,6 +199,7 @@ local function make_config()
                       ["orig"] = "stop_id",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 2,
                     },
                   },
                 },
@@ -239,6 +239,7 @@ local function make_config()
                       ["orig"] = "route",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                     {
                       ["active"] = true,
@@ -248,6 +249,7 @@ local function make_config()
                       ["orig"] = "service_type",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 1,
                     },
                   },
                 },
@@ -292,6 +294,7 @@ local function make_config()
                       ["orig"] = "stop_id",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                 },
@@ -470,6 +473,7 @@ local function make_config()
                       ["orig"] = "route",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                 },
@@ -562,6 +566,7 @@ local function make_config()
                       ["orig"] = "direction",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                     {
                       ["active"] = true,
@@ -571,6 +576,7 @@ local function make_config()
                       ["orig"] = "route",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 1,
                     },
                     {
                       ["active"] = true,
@@ -580,6 +586,7 @@ local function make_config()
                       ["orig"] = "service_type",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 2,
                     },
                   },
                 },
@@ -753,6 +760,7 @@ local function make_config()
                       ["orig"] = "stop_id",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                 },

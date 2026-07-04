@@ -144,16 +144,23 @@ class RealTimeBusDataSDK:
 
         _, err = utility.prepare_auth(ctx)
         if err is not None:
-            return None, err
+            raise err
 
-        return utility.make_fetch_def(ctx)
+        fetchdef, err = utility.make_fetch_def(ctx)
+        if err is not None:
+            raise err
+
+        return fetchdef
 
     def direct(self, fetchargs=None):
         utility = self._utility
 
-        fetchdef, err = self.prepare(fetchargs)
-        if err is not None:
-            return {"ok": False, "err": err}, None
+        try:
+            fetchdef = self.prepare(fetchargs)
+        except Exception as err:
+            # direct() is the raw-HTTP escape hatch: it never raises, it
+            # returns a result object callers branch on via result["ok"].
+            return {"ok": False, "err": err}
 
         if fetchargs is None:
             fetchargs = {}
@@ -170,13 +177,13 @@ class RealTimeBusDataSDK:
         fetched, fetch_err = utility.fetcher(ctx, url, fetchdef)
 
         if fetch_err is not None:
-            return {"ok": False, "err": fetch_err}, None
+            return {"ok": False, "err": fetch_err}
 
         if fetched is None:
             return {
                 "ok": False,
                 "err": ctx.make_error("direct_no_response", "response: undefined"),
-            }, None
+            }
 
         if isinstance(fetched, dict):
             status = helpers.to_int(vs.getprop(fetched, "status"))
@@ -205,30 +212,74 @@ class RealTimeBusDataSDK:
                 "status": status,
                 "headers": headers,
                 "data": json_data,
-            }, None
+            }
 
         return {
             "ok": False,
             "err": ctx.make_error("direct_invalid", "invalid response type"),
-        }, None
+        }
 
+
+    @property
+    def eta(self):
+        """Idiomatic facade: client.eta.list() / client.eta.load({"id": ...})."""
+        from entity.eta_entity import EtaEntity
+        cached = getattr(self, "_eta", None)
+        if cached is None:
+            cached = EtaEntity(self, None)
+            self._eta = cached
+        return cached
 
     def Eta(self, data=None):
+        # Deprecated: use client.eta instead.
         from entity.eta_entity import EtaEntity
         return EtaEntity(self, data)
 
 
+    @property
+    def route(self):
+        """Idiomatic facade: client.route.list() / client.route.load({"id": ...})."""
+        from entity.route_entity import RouteEntity
+        cached = getattr(self, "_route", None)
+        if cached is None:
+            cached = RouteEntity(self, None)
+            self._route = cached
+        return cached
+
     def Route(self, data=None):
+        # Deprecated: use client.route instead.
         from entity.route_entity import RouteEntity
         return RouteEntity(self, data)
 
 
+    @property
+    def route_stop(self):
+        """Idiomatic facade: client.route_stop.list() / client.route_stop.load({"id": ...})."""
+        from entity.route_stop_entity import RouteStopEntity
+        cached = getattr(self, "_route_stop", None)
+        if cached is None:
+            cached = RouteStopEntity(self, None)
+            self._route_stop = cached
+        return cached
+
     def RouteStop(self, data=None):
+        # Deprecated: use client.route_stop instead.
         from entity.route_stop_entity import RouteStopEntity
         return RouteStopEntity(self, data)
 
 
+    @property
+    def stop(self):
+        """Idiomatic facade: client.stop.list() / client.stop.load({"id": ...})."""
+        from entity.stop_entity import StopEntity
+        cached = getattr(self, "_stop", None)
+        if cached is None:
+            cached = StopEntity(self, None)
+            self._stop = cached
+        return cached
+
     def Stop(self, data=None):
+        # Deprecated: use client.stop instead.
         from entity.stop_entity import StopEntity
         return StopEntity(self, data)
 

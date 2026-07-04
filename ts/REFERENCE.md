@@ -18,7 +18,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `object` | SDK configuration options. |
-| `options.apikey` | `string` | API key for authentication. |
 | `options.base` | `string` | Base URL for API requests. |
 | `options.prefix` | `string` | URL prefix appended after base. |
 | `options.suffix` | `string` | URL suffix appended after path. |
@@ -146,7 +145,7 @@ Alias for `RealTimeBusDataSDK.test()`.
 ## EtaEntity
 
 ```ts
-const eta = client.Eta()
+const eta = client.eta
 ```
 
 ### Fields
@@ -180,7 +179,7 @@ const eta = client.Eta()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Eta().list()
+const results = await client.eta.list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -188,7 +187,7 @@ const results = await client.Eta().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Eta().load({ id: 'eta_id' })
+const result = await client.eta.load({ id: 'eta_id' })
 ```
 
 ### Common Methods
@@ -222,7 +221,7 @@ Return a copy of the entity options.
 ## RouteEntity
 
 ```ts
-const route = client.Route()
+const route = client.route
 ```
 
 ### Fields
@@ -250,7 +249,7 @@ const route = client.Route()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Route().list()
+const results = await client.route.list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -258,7 +257,7 @@ const results = await client.Route().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Route().load({ id: 'route_id' })
+const result = await client.route.load({ id: 'route_id' })
 ```
 
 ### Common Methods
@@ -292,7 +291,7 @@ Return a copy of the entity options.
 ## RouteStopEntity
 
 ```ts
-const route_stop = client.RouteStop()
+const route_stop = client.route_stop
 ```
 
 ### Fields
@@ -312,7 +311,7 @@ const route_stop = client.RouteStop()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.RouteStop().list()
+const results = await client.route_stop.list()
 ```
 
 ### Common Methods
@@ -346,7 +345,7 @@ Return a copy of the entity options.
 ## StopEntity
 
 ```ts
-const stop = client.Stop()
+const stop = client.stop
 ```
 
 ### Fields
@@ -371,7 +370,7 @@ const stop = client.Stop()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Stop().list()
+const results = await client.stop.list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -379,7 +378,7 @@ const results = await client.Stop().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Stop().load({ id: 'stop_id' })
+const result = await client.stop.load({ id: 'stop_id' })
 ```
 
 ### Common Methods

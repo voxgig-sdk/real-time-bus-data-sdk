@@ -38,10 +38,6 @@ class Config {
   options = {
     base: 'https://data.etabus.gov.hk',
 
-    auth: {
-      prefix: 'Bearer',
-    },
-
     headers: {
       "content-type": "application/json"
     },
@@ -218,7 +214,8 @@ class Config {
                     "name": "route",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   },
                   {
                     "active": true,
@@ -227,7 +224,8 @@ class Config {
                     "name": "service_type",
                     "orig": "service_type",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 1
                   },
                   {
                     "active": true,
@@ -236,7 +234,8 @@ class Config {
                     "name": "stop_id",
                     "orig": "stop_id",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 2
                   }
                 ]
               },
@@ -275,7 +274,8 @@ class Config {
                     "name": "route",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   },
                   {
                     "active": true,
@@ -284,7 +284,8 @@ class Config {
                     "name": "service_type",
                     "orig": "service_type",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 1
                   }
                 ]
               },
@@ -328,7 +329,8 @@ class Config {
                     "name": "stop_id",
                     "orig": "stop_id",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ]
               },
@@ -506,7 +508,8 @@ class Config {
                     "name": "id",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ]
               },
@@ -598,7 +601,8 @@ class Config {
                     "name": "direction",
                     "orig": "direction",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   },
                   {
                     "active": true,
@@ -607,7 +611,8 @@ class Config {
                     "name": "route",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 1
                   },
                   {
                     "active": true,
@@ -616,7 +621,8 @@ class Config {
                     "name": "service_type",
                     "orig": "service_type",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 2
                   }
                 ]
               },
@@ -789,7 +795,8 @@ class Config {
                     "name": "id",
                     "orig": "stop_id",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ]
               },

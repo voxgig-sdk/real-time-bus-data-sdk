@@ -19,7 +19,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `table` | SDK configuration options. |
-| `options.apikey` | `string` | API key for authentication. |
 | `options.base` | `string` | Base URL for API requests. |
 | `options.prefix` | `string` | URL prefix appended after base. |
 | `options.suffix` | `string` | URL suffix appended after path. |
@@ -96,7 +95,7 @@ same parameters as `direct()`.
 ## EtaEntity
 
 ```lua
-local eta = client:Eta(nil)
+local eta = client:eta(nil)
 ```
 
 ### Fields
@@ -130,7 +129,7 @@ local eta = client:Eta(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Eta():list()
+local results, err = client:eta():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -138,7 +137,7 @@ local results, err = client:Eta():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Eta():load({ id = "eta_id" })
+local result, err = client:eta():load({ id = "eta_id" })
 ```
 
 ### Common Methods
@@ -174,7 +173,7 @@ Return the entity name.
 ## RouteEntity
 
 ```lua
-local route = client:Route(nil)
+local route = client:route(nil)
 ```
 
 ### Fields
@@ -202,7 +201,7 @@ local route = client:Route(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Route():list()
+local results, err = client:route():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -210,7 +209,7 @@ local results, err = client:Route():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Route():load({ id = "route_id" })
+local result, err = client:route():load({ id = "route_id" })
 ```
 
 ### Common Methods
@@ -246,7 +245,7 @@ Return the entity name.
 ## RouteStopEntity
 
 ```lua
-local route_stop = client:RouteStop(nil)
+local route_stop = client:route_stop(nil)
 ```
 
 ### Fields
@@ -266,7 +265,7 @@ local route_stop = client:RouteStop(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:RouteStop():list()
+local results, err = client:route_stop():list()
 ```
 
 ### Common Methods
@@ -302,7 +301,7 @@ Return the entity name.
 ## StopEntity
 
 ```lua
-local stop = client:Stop(nil)
+local stop = client:stop(nil)
 ```
 
 ### Fields
@@ -327,7 +326,7 @@ local stop = client:Stop(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Stop():list()
+local results, err = client:stop():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -335,7 +334,7 @@ local results, err = client:Stop():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Stop():load({ id = "stop_id" })
+local result, err = client:stop():load({ id = "stop_id" })
 ```
 
 ### Common Methods

@@ -14,9 +14,6 @@ func MakeConfig() map[string]any {
 		},
 		"options": map[string]any{
 			"base": "https://data.etabus.gov.hk",
-			"auth": map[string]any{
-				"prefix": "Bearer",
-			},
 			"headers": map[string]any{
 				"content-type": "application/json",
 			},
@@ -182,6 +179,7 @@ func MakeConfig() map[string]any {
 											"orig": "route",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 0,
 										},
 										map[string]any{
 											"active": true,
@@ -191,6 +189,7 @@ func MakeConfig() map[string]any {
 											"orig": "service_type",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 1,
 										},
 										map[string]any{
 											"active": true,
@@ -200,6 +199,7 @@ func MakeConfig() map[string]any {
 											"orig": "stop_id",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 2,
 										},
 									},
 								},
@@ -239,6 +239,7 @@ func MakeConfig() map[string]any {
 											"orig": "route",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 0,
 										},
 										map[string]any{
 											"active": true,
@@ -248,6 +249,7 @@ func MakeConfig() map[string]any {
 											"orig": "service_type",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 1,
 										},
 									},
 								},
@@ -292,6 +294,7 @@ func MakeConfig() map[string]any {
 											"orig": "stop_id",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 0,
 										},
 									},
 								},
@@ -470,6 +473,7 @@ func MakeConfig() map[string]any {
 											"orig": "route",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 0,
 										},
 									},
 								},
@@ -562,6 +566,7 @@ func MakeConfig() map[string]any {
 											"orig": "direction",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 0,
 										},
 										map[string]any{
 											"active": true,
@@ -571,6 +576,7 @@ func MakeConfig() map[string]any {
 											"orig": "route",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 1,
 										},
 										map[string]any{
 											"active": true,
@@ -580,6 +586,7 @@ func MakeConfig() map[string]any {
 											"orig": "service_type",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 2,
 										},
 									},
 								},
@@ -753,6 +760,7 @@ func MakeConfig() map[string]any {
 											"orig": "stop_id",
 											"reqd": true,
 											"type": "`$STRING`",
+											"index$": 0,
 										},
 									},
 								},

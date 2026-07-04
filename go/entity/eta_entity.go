@@ -85,6 +85,27 @@ func (e *EtaEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an Eta; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *EtaEntity) DataTyped(data ...Eta) Eta {
+	if len(data) > 0 {
+		return typedFrom[Eta](e.Data(asMap(data[0])))
+	}
+	return typedFrom[Eta](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through Eta (all fields
+// optional at the wire level).
+func (e *EtaEntity) MatchTyped(match ...Eta) Eta {
+	if len(match) > 0 {
+		return typedFrom[Eta](e.Match(asMap(match[0])))
+	}
+	return typedFrom[Eta](e.Match())
+}
+
 
 func (e *EtaEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -111,6 +132,17 @@ func (e *EtaEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, err
 	})
 }
 
+// LoadTyped is the statically-typed variant of Load: it takes an
+// EtaLoadMatch and returns an Eta. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *EtaEntity) LoadTyped(reqmatch EtaLoadMatch, ctrl map[string]any) (Eta, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Eta{}, err
+	}
+	return typedFrom[Eta](res), nil
+}
+
 
 
 
@@ -131,6 +163,17 @@ func (e *EtaEntity) List(reqmatch map[string]any, ctrl map[string]any) (any, err
 			}
 		}
 	})
+}
+
+// ListTyped is the statically-typed variant of List: it takes an
+// EtaListMatch and returns []Eta. It delegates to the untyped
+// List (identical runtime) and converts at the typed boundary.
+func (e *EtaEntity) ListTyped(reqmatch EtaListMatch, ctrl map[string]any) ([]Eta, error) {
+	res, err := e.List(asMap(reqmatch), ctrl)
+	if err != nil {
+		return nil, err
+	}
+	return typedSliceFrom[Eta](res), nil
 }
 
 
