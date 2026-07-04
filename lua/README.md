@@ -31,26 +31,26 @@ local sdk = require("real-time-bus-data_sdk")
 local client = sdk.new()
 ```
 
-### 2. List etas
+### 2. List eta records
+
+Entity operations return `(value, err)`. For `list`, `value` is the
+array of records itself — iterate it directly (there is no wrapper).
 
 ```lua
-local result, err = client:eta():list()
+local etas, err = client:Eta():list()
 if err then error(err) end
 
-if type(result) == "table" then
-  for _, item in ipairs(result) do
-    local d = item:data_get()
-    print(d["id"], d["name"])
-  end
+for _, item in ipairs(etas) do
+  print(item["id"], item["name"])
 end
 ```
 
 ### 3. Load an eta
 
 ```lua
-local result, err = client:eta():load({ id = "example_id" })
+local eta, err = client:Eta():load({ id = "example_id" })
 if err then error(err) end
-print(result)
+print(eta)
 ```
 
 
@@ -96,8 +96,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:eta():load({ id = "test01" })
--- result contains mock response data
+local result, err = client:Eta():load({ id = "test01" })
+-- result is the loaded data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -175,7 +175,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
-| `Eta` | `(data) -> EtaEntity` | Create a Eta entity instance. |
+| `Eta` | `(data) -> EtaEntity` | Create an Eta entity instance. |
 | `Route` | `(data) -> RouteEntity` | Create a Route entity instance. |
 | `RouteStop` | `(data) -> RouteStopEntity` | Create a RouteStop entity instance. |
 | `Stop` | `(data) -> StopEntity` | Create a Stop entity instance. |
@@ -200,17 +200,22 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(any, err)`. The first value is a
-`table` with these keys:
+Entity operations return `(value, err)`. The `value` is the operation's
+data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `ok` | `boolean` | `true` if the HTTP status is 2xx. |
-| `status` | `number` | HTTP status code. |
-| `headers` | `table` | Response headers. |
-| `data` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
+| `list` | an array (`table`) of entity records |
 
-On error, `ok` is `false` and `err` contains the error value.
+Check `err` first (it is non-`nil` on failure), then use `value`:
+
+    local eta, err = client:Eta():load({ id = "example_id" })
+    if err then error(err) end
+    -- eta is the loaded record
+
+Only `direct()` returns a response envelope — a `table` with `ok`,
+`status`, `headers`, and `data` keys.
 
 ### Entities
 
@@ -304,7 +309,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.eta`
+Create an instance: `local eta = client:Eta(nil)`
 
 #### Operations
 
@@ -339,20 +344,20 @@ Create an instance: `const eta = client.eta`
 
 #### Example: Load
 
-```ts
-const eta = await client.eta.load({ id: 'eta_id' })
+```lua
+local eta, err = client:Eta():load({ id = "eta_id" })
 ```
 
 #### Example: List
 
-```ts
-const etas = await client.eta.list()
+```lua
+local etas, err = client:Eta():list()
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.route`
+Create an instance: `local route = client:Route(nil)`
 
 #### Operations
 
@@ -381,20 +386,20 @@ Create an instance: `const route = client.route`
 
 #### Example: Load
 
-```ts
-const route = await client.route.load({ id: 'route_id' })
+```lua
+local route, err = client:Route():load({ id = "route_id" })
 ```
 
 #### Example: List
 
-```ts
-const routes = await client.route.list()
+```lua
+local routes, err = client:Route():list()
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.route_stop`
+Create an instance: `local route_stop = client:RouteStop(nil)`
 
 #### Operations
 
@@ -414,14 +419,14 @@ Create an instance: `const route_stop = client.route_stop`
 
 #### Example: List
 
-```ts
-const route_stops = await client.route_stop.list()
+```lua
+local route_stops, err = client:RouteStop():list()
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.stop`
+Create an instance: `local stop = client:Stop(nil)`
 
 #### Operations
 
@@ -447,14 +452,14 @@ Create an instance: `const stop = client.stop`
 
 #### Example: Load
 
-```ts
-const stop = await client.stop.load({ id: 'stop_id' })
+```lua
+local stop, err = client:Stop():load({ id = "stop_id" })
 ```
 
 #### Example: List
 
-```ts
-const stops = await client.stop.list()
+```lua
+local stops, err = client:Stop():list()
 ```
 
 
@@ -529,7 +534,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local eta = client:eta()
+local eta = client:Eta()
 eta:load({ id = "example_id" })
 
 -- eta:data_get() now returns the loaded eta data

@@ -244,8 +244,9 @@ end
 
 
 
--- Idiomatic facade: client:eta():list() / client:eta():load({ id = ... })
-function RealTimeBusDataSDK:eta(data)
+-- Idiomatic facade: client:Eta():list() / client:Eta():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RealTimeBusDataSDK:Eta(data)
   local EntityMod = require("entity.eta_entity")
   if data == nil then
     if self._eta == nil then
@@ -256,15 +257,10 @@ function RealTimeBusDataSDK:eta(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:eta() instead.
-function RealTimeBusDataSDK:Eta(data)
-  local EntityMod = require("entity.eta_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:route():list() / client:route():load({ id = ... })
-function RealTimeBusDataSDK:route(data)
+-- Idiomatic facade: client:Route():list() / client:Route():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RealTimeBusDataSDK:Route(data)
   local EntityMod = require("entity.route_entity")
   if data == nil then
     if self._route == nil then
@@ -275,15 +271,10 @@ function RealTimeBusDataSDK:route(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:route() instead.
-function RealTimeBusDataSDK:Route(data)
-  local EntityMod = require("entity.route_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:route_stop():list() / client:route_stop():load({ id = ... })
-function RealTimeBusDataSDK:route_stop(data)
+-- Idiomatic facade: client:RouteStop():list() / client:RouteStop():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RealTimeBusDataSDK:RouteStop(data)
   local EntityMod = require("entity.route_stop_entity")
   if data == nil then
     if self._route_stop == nil then
@@ -294,15 +285,10 @@ function RealTimeBusDataSDK:route_stop(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:route_stop() instead.
-function RealTimeBusDataSDK:RouteStop(data)
-  local EntityMod = require("entity.route_stop_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:stop():list() / client:stop():load({ id = ... })
-function RealTimeBusDataSDK:stop(data)
+-- Idiomatic facade: client:Stop():list() / client:Stop():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RealTimeBusDataSDK:Stop(data)
   local EntityMod = require("entity.stop_entity")
   if data == nil then
     if self._stop == nil then
@@ -310,12 +296,6 @@ function RealTimeBusDataSDK:stop(data)
     end
     return self._stop
   end
-  return EntityMod.new(self, data)
-end
-
--- Deprecated: use client:stop() instead.
-function RealTimeBusDataSDK:Stop(data)
-  local EntityMod = require("entity.stop_entity")
   return EntityMod.new(self, data)
 end
 

@@ -208,52 +208,28 @@ class RealTimeBusDataSDK
   end
 
 
-  # Idiomatic facade: client.eta.list / client.eta.load({ "id" => ... })
-  def eta
-    require_relative 'entity/eta_entity'
-    @eta ||= EtaEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.eta instead.
+  # Canonical facade: client.Eta.list / client.Eta.load({ "id" => ... })
   def Eta(data = nil)
     require_relative 'entity/eta_entity'
     EtaEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.route.list / client.route.load({ "id" => ... })
-  def route
-    require_relative 'entity/route_entity'
-    @route ||= RouteEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.route instead.
+  # Canonical facade: client.Route.list / client.Route.load({ "id" => ... })
   def Route(data = nil)
     require_relative 'entity/route_entity'
     RouteEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.route_stop.list / client.route_stop.load({ "id" => ... })
-  def route_stop
-    require_relative 'entity/route_stop_entity'
-    @route_stop ||= RouteStopEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.route_stop instead.
+  # Canonical facade: client.RouteStop.list / client.RouteStop.load({ "id" => ... })
   def RouteStop(data = nil)
     require_relative 'entity/route_stop_entity'
     RouteStopEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.stop.list / client.stop.load({ "id" => ... })
-  def stop
-    require_relative 'entity/stop_entity'
-    @stop ||= StopEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.stop instead.
+  # Canonical facade: client.Stop.list / client.Stop.load({ "id" => ... })
   def Stop(data = nil)
     require_relative 'entity/stop_entity'
     StopEntity.new(self, data)

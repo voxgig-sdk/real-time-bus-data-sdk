@@ -220,73 +220,33 @@ class RealTimeBusDataSDK:
         }
 
 
-    @property
-    def eta(self):
-        """Idiomatic facade: client.eta.list() / client.eta.load({"id": ...})."""
-        from entity.eta_entity import EtaEntity
-        cached = getattr(self, "_eta", None)
-        if cached is None:
-            cached = EtaEntity(self, None)
-            self._eta = cached
-        return cached
-
-    def Eta(self, data=None):
-        # Deprecated: use client.eta instead.
+    def Eta(self, data=None) -> "EtaEntity":
+        """Entity factory: client.Eta().list({}) / client.Eta().load({"id": ...})."""
         from entity.eta_entity import EtaEntity
         return EtaEntity(self, data)
 
 
-    @property
-    def route(self):
-        """Idiomatic facade: client.route.list() / client.route.load({"id": ...})."""
-        from entity.route_entity import RouteEntity
-        cached = getattr(self, "_route", None)
-        if cached is None:
-            cached = RouteEntity(self, None)
-            self._route = cached
-        return cached
-
-    def Route(self, data=None):
-        # Deprecated: use client.route instead.
+    def Route(self, data=None) -> "RouteEntity":
+        """Entity factory: client.Route().list({}) / client.Route().load({"id": ...})."""
         from entity.route_entity import RouteEntity
         return RouteEntity(self, data)
 
 
-    @property
-    def route_stop(self):
-        """Idiomatic facade: client.route_stop.list() / client.route_stop.load({"id": ...})."""
-        from entity.route_stop_entity import RouteStopEntity
-        cached = getattr(self, "_route_stop", None)
-        if cached is None:
-            cached = RouteStopEntity(self, None)
-            self._route_stop = cached
-        return cached
-
-    def RouteStop(self, data=None):
-        # Deprecated: use client.route_stop instead.
+    def RouteStop(self, data=None) -> "RouteStopEntity":
+        """Entity factory: client.RouteStop().list({}) / client.RouteStop().load({"id": ...})."""
         from entity.route_stop_entity import RouteStopEntity
         return RouteStopEntity(self, data)
 
 
-    @property
-    def stop(self):
-        """Idiomatic facade: client.stop.list() / client.stop.load({"id": ...})."""
-        from entity.stop_entity import StopEntity
-        cached = getattr(self, "_stop", None)
-        if cached is None:
-            cached = StopEntity(self, None)
-            self._stop = cached
-        return cached
-
-    def Stop(self, data=None):
-        # Deprecated: use client.stop instead.
+    def Stop(self, data=None) -> "StopEntity":
+        """Entity factory: client.Stop().list({}) / client.Stop().load({"id": ...})."""
         from entity.stop_entity import StopEntity
         return StopEntity(self, data)
 
 
 
     @classmethod
-    def test(cls, testopts=None, sdkopts=None):
+    def test(cls, testopts=None, sdkopts=None) -> "RealTimeBusDataSDK":
         if sdkopts is None:
             sdkopts = {}
         sdkopts = vs.clone(sdkopts)
@@ -306,3 +266,12 @@ class RealTimeBusDataSDK:
         sdk.mode = "test"
 
         return sdk
+
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from entity.eta_entity import EtaEntity
+    from entity.route_entity import RouteEntity
+    from entity.route_stop_entity import RouteStopEntity
+    from entity.stop_entity import StopEntity

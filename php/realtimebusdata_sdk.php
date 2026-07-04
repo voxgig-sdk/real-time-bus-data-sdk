@@ -233,10 +233,10 @@ class RealTimeBusDataSDK
 
     private $_eta = null;
 
-    // Idiomatic facade: $client->eta()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Eta() (PHP method
-    // names are case-insensitive).
-    public function eta($data = null)
+    // Canonical facade: $client->Eta()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->eta()
+    // resolves here too.
+    public function Eta($data = null)
     {
         require_once __DIR__ . '/entity/eta_entity.php';
         if ($data === null) {
@@ -251,10 +251,10 @@ class RealTimeBusDataSDK
 
     private $_route = null;
 
-    // Idiomatic facade: $client->route()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Route() (PHP method
-    // names are case-insensitive).
-    public function route($data = null)
+    // Canonical facade: $client->Route()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->route()
+    // resolves here too.
+    public function Route($data = null)
     {
         require_once __DIR__ . '/entity/route_entity.php';
         if ($data === null) {
@@ -269,10 +269,10 @@ class RealTimeBusDataSDK
 
     private $_route_stop = null;
 
-    // Idiomatic facade: $client->route_stop()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias RouteStop() (PHP method
-    // names are case-insensitive).
-    public function route_stop($data = null)
+    // Canonical facade: $client->RouteStop()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->route_stop()
+    // resolves here too.
+    public function RouteStop($data = null)
     {
         require_once __DIR__ . '/entity/route_stop_entity.php';
         if ($data === null) {
@@ -287,10 +287,10 @@ class RealTimeBusDataSDK
 
     private $_stop = null;
 
-    // Idiomatic facade: $client->stop()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Stop() (PHP method
-    // names are case-insensitive).
-    public function stop($data = null)
+    // Canonical facade: $client->Stop()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->stop()
+    // resolves here too.
+    public function Stop($data = null)
     {
         require_once __DIR__ . '/entity/stop_entity.php';
         if ($data === null) {

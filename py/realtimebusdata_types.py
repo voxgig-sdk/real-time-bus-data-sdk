@@ -4,132 +4,125 @@
 # params (op.<name>.points[].args.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
+#
+# These are TypedDicts, not dataclasses: the SDK ops return/accept plain dicts
+# at runtime, and a TypedDict IS a dict shape, so the types match the runtime.
+# Optional (req:false) keys are modelled as TypedDict key-optionality
+# (total=False), split into a required base + total=False subclass when a type
+# has both required and optional keys.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, Any
+from typing import TypedDict, Any
 
 
-@dataclass
-class Eta:
-    co: Optional[str] = None
-    data: Optional[list] = None
-    data_timestamp: Optional[str] = None
-    dest_en: Optional[str] = None
-    dest_sc: Optional[str] = None
-    dest_tc: Optional[str] = None
-    dir: Optional[str] = None
-    eta: Optional[str] = None
-    eta_seq: Optional[int] = None
-    generated_timestamp: Optional[str] = None
-    rmk_en: Optional[str] = None
-    rmk_sc: Optional[str] = None
-    rmk_tc: Optional[str] = None
-    route: Optional[str] = None
-    seq: Optional[int] = None
-    service_type: Optional[int] = None
-    stop: Optional[str] = None
-    type: Optional[str] = None
-    version: Optional[str] = None
+class Eta(TypedDict, total=False):
+    co: str
+    data: list
+    data_timestamp: str
+    dest_en: str
+    dest_sc: str
+    dest_tc: str
+    dir: str
+    eta: str
+    eta_seq: int
+    generated_timestamp: str
+    rmk_en: str
+    rmk_sc: str
+    rmk_tc: str
+    route: str
+    seq: int
+    service_type: int
+    stop: str
+    type: str
+    version: str
 
 
-@dataclass
-class EtaLoadMatch:
+class EtaLoadMatch(TypedDict):
     stop_id: str
 
 
-@dataclass
-class EtaListMatch:
+class EtaListMatch(TypedDict):
     route: str
     service_type: str
     stop_id: str
 
 
-@dataclass
-class Route:
-    bound: Optional[str] = None
-    data: Optional[list] = None
-    dest_en: Optional[str] = None
-    dest_sc: Optional[str] = None
-    dest_tc: Optional[str] = None
-    generated_timestamp: Optional[str] = None
-    orig_en: Optional[str] = None
-    orig_sc: Optional[str] = None
-    orig_tc: Optional[str] = None
-    route: Optional[str] = None
-    service_type: Optional[str] = None
-    type: Optional[str] = None
-    version: Optional[str] = None
+class Route(TypedDict, total=False):
+    bound: str
+    data: list
+    dest_en: str
+    dest_sc: str
+    dest_tc: str
+    generated_timestamp: str
+    orig_en: str
+    orig_sc: str
+    orig_tc: str
+    route: str
+    service_type: str
+    type: str
+    version: str
 
 
-@dataclass
-class RouteLoadMatch:
+class RouteLoadMatch(TypedDict):
     id: str
 
 
-@dataclass
-class RouteListMatch:
-    bound: Optional[str] = None
-    data: Optional[list] = None
-    dest_en: Optional[str] = None
-    dest_sc: Optional[str] = None
-    dest_tc: Optional[str] = None
-    generated_timestamp: Optional[str] = None
-    orig_en: Optional[str] = None
-    orig_sc: Optional[str] = None
-    orig_tc: Optional[str] = None
-    route: Optional[str] = None
-    service_type: Optional[str] = None
-    type: Optional[str] = None
-    version: Optional[str] = None
+class RouteListMatch(TypedDict, total=False):
+    bound: str
+    data: list
+    dest_en: str
+    dest_sc: str
+    dest_tc: str
+    generated_timestamp: str
+    orig_en: str
+    orig_sc: str
+    orig_tc: str
+    route: str
+    service_type: str
+    type: str
+    version: str
 
 
-@dataclass
-class RouteStop:
-    bound: Optional[str] = None
-    route: Optional[str] = None
-    seq: Optional[str] = None
-    service_type: Optional[str] = None
-    stop: Optional[str] = None
+class RouteStop(TypedDict, total=False):
+    bound: str
+    route: str
+    seq: str
+    service_type: str
+    stop: str
 
 
-@dataclass
-class RouteStopListMatch:
+class RouteStopListMatch(TypedDict):
     direction: str
     route: str
     service_type: str
 
 
-@dataclass
-class Stop:
-    data: Optional[dict] = None
-    generated_timestamp: Optional[str] = None
-    lat: Optional[str] = None
-    long: Optional[str] = None
-    name_en: Optional[str] = None
-    name_sc: Optional[str] = None
-    name_tc: Optional[str] = None
-    stop: Optional[str] = None
-    type: Optional[str] = None
-    version: Optional[str] = None
+class Stop(TypedDict, total=False):
+    data: dict
+    generated_timestamp: str
+    lat: str
+    long: str
+    name_en: str
+    name_sc: str
+    name_tc: str
+    stop: str
+    type: str
+    version: str
 
 
-@dataclass
-class StopLoadMatch:
+class StopLoadMatch(TypedDict):
     id: str
 
 
-@dataclass
-class StopListMatch:
-    data: Optional[dict] = None
-    generated_timestamp: Optional[str] = None
-    lat: Optional[str] = None
-    long: Optional[str] = None
-    name_en: Optional[str] = None
-    name_sc: Optional[str] = None
-    name_tc: Optional[str] = None
-    stop: Optional[str] = None
-    type: Optional[str] = None
-    version: Optional[str] = None
-
+class StopListMatch(TypedDict, total=False):
+    data: dict
+    generated_timestamp: str
+    lat: str
+    long: str
+    name_en: str
+    name_sc: str
+    name_tc: str
+    stop: str
+    type: str
+    version: str

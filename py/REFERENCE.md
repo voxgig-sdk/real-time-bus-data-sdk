@@ -92,7 +92,7 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 ## EtaEntity
 
 ```python
-eta = client.eta
+eta = client.Eta()
 ```
 
 ### Fields
@@ -126,7 +126,9 @@ eta = client.eta
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.eta.list({})
+results = client.Eta().list({})
+for eta in results:
+    print(eta)
 ```
 
 #### `load(reqmatch, ctrl=None) -> dict`
@@ -134,7 +136,7 @@ results = client.eta.list({})
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.eta.load({"id": "eta_id"})
+result = client.Eta().load({"id": "eta_id"})
 ```
 
 ### Common Methods
@@ -169,7 +171,7 @@ Return the entity name.
 ## RouteEntity
 
 ```python
-route = client.route
+route = client.Route()
 ```
 
 ### Fields
@@ -197,7 +199,9 @@ route = client.route
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.route.list({})
+results = client.Route().list({})
+for route in results:
+    print(route)
 ```
 
 #### `load(reqmatch, ctrl=None) -> dict`
@@ -205,7 +209,7 @@ results = client.route.list({})
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.route.load({"id": "route_id"})
+result = client.Route().load({"id": "route_id"})
 ```
 
 ### Common Methods
@@ -240,7 +244,7 @@ Return the entity name.
 ## RouteStopEntity
 
 ```python
-route_stop = client.route_stop
+route_stop = client.RouteStop()
 ```
 
 ### Fields
@@ -260,7 +264,9 @@ route_stop = client.route_stop
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.route_stop.list({})
+results = client.RouteStop().list({})
+for route_stop in results:
+    print(route_stop)
 ```
 
 ### Common Methods
@@ -295,7 +301,7 @@ Return the entity name.
 ## StopEntity
 
 ```python
-stop = client.stop
+stop = client.Stop()
 ```
 
 ### Fields
@@ -320,7 +326,9 @@ stop = client.stop
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.stop.list({})
+results = client.Stop().list({})
+for stop in results:
+    print(stop)
 ```
 
 #### `load(reqmatch, ctrl=None) -> dict`
@@ -328,7 +336,7 @@ results = client.stop.list({})
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.stop.load({"id": "stop_id"})
+result = client.Stop().load({"id": "stop_id"})
 ```
 
 ### Common Methods

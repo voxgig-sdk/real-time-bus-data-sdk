@@ -207,56 +207,28 @@ class RealTimeBusDataSDK {
 
 
 
-  _eta?: EtaEntity
-
-  // Idiomatic facade: `client.eta.list()` / `client.eta.load({ id })`.
-  get eta(): EtaEntity {
-    return (this._eta ??= new EtaEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.eta` instead. */
+  // Entity access: `client.Eta().list()` / `client.Eta().load({ id })`.
   Eta(data?: any) {
     const self = this
     return new EtaEntity(self,data)
   }
 
 
-  _route?: RouteEntity
-
-  // Idiomatic facade: `client.route.list()` / `client.route.load({ id })`.
-  get route(): RouteEntity {
-    return (this._route ??= new RouteEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.route` instead. */
+  // Entity access: `client.Route().list()` / `client.Route().load({ id })`.
   Route(data?: any) {
     const self = this
     return new RouteEntity(self,data)
   }
 
 
-  _route_stop?: RouteStopEntity
-
-  // Idiomatic facade: `client.route_stop.list()` / `client.route_stop.load({ id })`.
-  get route_stop(): RouteStopEntity {
-    return (this._route_stop ??= new RouteStopEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.route_stop` instead. */
+  // Entity access: `client.RouteStop().list()` / `client.RouteStop().load({ id })`.
   RouteStop(data?: any) {
     const self = this
     return new RouteStopEntity(self,data)
   }
 
 
-  _stop?: StopEntity
-
-  // Idiomatic facade: `client.stop.list()` / `client.stop.load({ id })`.
-  get stop(): StopEntity {
-    return (this._stop ??= new StopEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.stop` instead. */
+  // Entity access: `client.Stop().list()` / `client.Stop().load({ id })`.
   Stop(data?: any) {
     const self = this
     return new StopEntity(self,data)

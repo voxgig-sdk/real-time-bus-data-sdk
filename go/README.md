@@ -30,53 +30,39 @@ go mod edit -replace github.com/voxgig-sdk/real-time-bus-data-sdk/go=../real-tim
 This tutorial walks through creating a client, listing entities, and
 loading a specific record.
 
-### 1. Create a client
+### Quickstart
+
+A complete program: create a client, then call the entity operations.
+Each operation returns `(value, error)` — the value is the data itself
+(there is no `{ok, data}` wrapper), so check `err` and use the value
+directly.
 
 ```go
 package main
 
 import (
     "fmt"
-
     sdk "github.com/voxgig-sdk/real-time-bus-data-sdk/go"
-    "github.com/voxgig-sdk/real-time-bus-data-sdk/go/core"
 )
 
 func main() {
     client := sdk.New()
-```
 
-### 2. List etas
-
-```go
-    result, err := client.Eta(nil).List(nil, nil)
+    // List eta records — the value is the array of records itself.
+    etas, err := client.Eta(nil).List(nil, nil)
     if err != nil {
         panic(err)
     }
-
-    rm := core.ToMapAny(result)
-    if rm["ok"] == true {
-        for _, item := range rm["data"].([]any) {
-            p := core.ToMapAny(item)
-            fmt.Println(p["id"], p["name"])
-        }
+    for _, item := range etas.([]any) {
+        fmt.Println(item)
     }
-```
 
-### 3. Load an eta
-
-```go
-    result, err = client.Eta(nil).Load(
-        map[string]any{"id": "example_id"}, nil,
-    )
+    // Load a single eta — the value is the loaded record.
+    eta, err := client.Eta(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
-
-    rm = core.ToMapAny(result)
-    if rm["ok"] == true {
-        fmt.Println(rm["data"])
-    }
+    fmt.Println(eta)
 }
 ```
 
@@ -127,10 +113,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-result, err := client.Eta(nil).Load(
+eta, err := client.Eta(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
-// result contains mock response data
+if err != nil {
+    panic(err)
+}
+fmt.Println(eta) // the loaded mock data
 ```
 
 ### Use a custom fetch function
@@ -207,7 +196,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
-| `Eta` | `(data map[string]any) RealTimeBusDataEntity` | Create a Eta entity instance. |
+| `Eta` | `(data map[string]any) RealTimeBusDataEntity` | Create an Eta entity instance. |
 | `Route` | `(data map[string]any) RealTimeBusDataEntity` | Create a Route entity instance. |
 | `RouteStop` | `(data map[string]any) RealTimeBusDataEntity` | Create a RouteStop entity instance. |
 | `Stop` | `(data map[string]any) RealTimeBusDataEntity` | Create a Stop entity instance. |
@@ -230,17 +219,24 @@ All entities implement the `RealTimeBusDataEntity` interface.
 
 ### Result shape
 
-Entity operations return `(any, error)`. The `any` value is a
-`map[string]any` with these keys:
+Entity operations return `(value, error)`. The `value` is the
+operation's data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `"ok"` | `bool` | `true` if the HTTP status is 2xx. |
-| `"status"` | `int` | HTTP status code. |
-| `"headers"` | `map[string]any` | Response headers. |
-| `"data"` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
+| `List` | a `[]any` of entity records |
 
-On error, `"ok"` is `false` and `"err"` contains the error value.
+Check `err` first, then use the value directly (or the typed
+`...Typed` variants, which return the entity's model struct and a typed
+slice):
+
+    eta, err := client.Eta(nil).Load(map[string]any{"id": "example_id"}, nil)
+    if err != nil { /* handle */ }
+    // eta is the loaded record
+
+Only `Direct()` returns a response envelope — a `map[string]any` with
+`"ok"`, `"status"`, `"headers"`, and `"data"` keys.
 
 ### Entities
 
@@ -370,13 +366,21 @@ Create an instance: `eta := client.Eta(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Eta(nil).Load(map[string]any{"id": "eta_id"}, nil)
+eta, err := client.Eta(nil).Load(map[string]any{"id": "eta_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(eta) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Eta(nil).List(nil, nil)
+etas, err := client.Eta(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(etas) // the array of records
 ```
 
 
@@ -412,13 +416,21 @@ Create an instance: `route := client.Route(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Route(nil).Load(map[string]any{"id": "route_id"}, nil)
+route, err := client.Route(nil).Load(map[string]any{"id": "route_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(route) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Route(nil).List(nil, nil)
+routes, err := client.Route(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(routes) // the array of records
 ```
 
 
@@ -445,7 +457,11 @@ Create an instance: `route_stop := client.RouteStop(nil)`
 #### Example: List
 
 ```go
-results, err := client.RouteStop(nil).List(nil, nil)
+route_stops, err := client.RouteStop(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(route_stops) // the array of records
 ```
 
 
@@ -478,13 +494,21 @@ Create an instance: `stop := client.Stop(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Stop(nil).Load(map[string]any{"id": "stop_id"}, nil)
+stop, err := client.Stop(nil).Load(map[string]any{"id": "stop_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(stop) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Stop(nil).List(nil, nil)
+stops, err := client.Stop(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(stops) // the array of records
 ```
 
 

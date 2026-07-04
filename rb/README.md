@@ -28,16 +28,14 @@ require_relative "RealTimeBusData_sdk"
 client = RealTimeBusDataSDK.new
 ```
 
-### 2. List etas
+### 2. List eta records
 
 ```ruby
 begin
-  result = client.eta.list
-  if result.is_a?(Array)
-    result.each do |item|
-      d = item.data_get
-      puts "#{d["id"]} #{d["name"]}"
-    end
+  # list returns an Array of Eta records — iterate directly.
+  etas = client.Eta.list
+  etas.each do |item|
+    puts "#{item["id"]} #{item["name"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -48,8 +46,9 @@ end
 
 ```ruby
 begin
-  result = client.eta.load({ "id" => "example_id" })
-  puts result
+  # load returns the bare Eta record (raises on error).
+  eta = client.Eta.load({ "id" => "example_id" })
+  puts eta
 rescue => err
   warn "load failed: #{err}"
 end
@@ -96,13 +95,17 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
-client = RealTimeBusDataSDK.test
+client = RealTimeBusDataSDK.test({
+  "entity" => { "eta" => { "test01" => { "id" => "test01" } } },
+})
 
-result = client.eta.load({ "id" => "test01" })
-# result contains mock response data
+# load returns the bare mock record (raises on error).
+eta = client.Eta.load({ "id" => "test01" })
+puts eta
 ```
 
 ### Use a custom fetch function
@@ -178,7 +181,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> Hash` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
-| `Eta` | `(data) -> EtaEntity` | Create a Eta entity instance. |
+| `Eta` | `(data) -> EtaEntity` | Create an Eta entity instance. |
 | `Route` | `(data) -> RouteEntity` | Create a Route entity instance. |
 | `RouteStop` | `(data) -> RouteStopEntity` | Create a RouteStop entity instance. |
 | `Stop` | `(data) -> StopEntity` | Create a Stop entity instance. |
@@ -310,7 +313,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.eta`
+Create an instance: `eta = client.Eta`
 
 #### Operations
 
@@ -345,20 +348,22 @@ Create an instance: `const eta = client.eta`
 
 #### Example: Load
 
-```ts
-const eta = await client.eta.load({ id: 'eta_id' })
+```ruby
+# load returns the bare Eta record (raises on error).
+eta = client.Eta.load({ "id" => "eta_id" })
 ```
 
 #### Example: List
 
-```ts
-const etas = await client.eta.list()
+```ruby
+# list returns an Array of Eta records (raises on error).
+etas = client.Eta.list
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.route`
+Create an instance: `route = client.Route`
 
 #### Operations
 
@@ -387,20 +392,22 @@ Create an instance: `const route = client.route`
 
 #### Example: Load
 
-```ts
-const route = await client.route.load({ id: 'route_id' })
+```ruby
+# load returns the bare Route record (raises on error).
+route = client.Route.load({ "id" => "route_id" })
 ```
 
 #### Example: List
 
-```ts
-const routes = await client.route.list()
+```ruby
+# list returns an Array of Route records (raises on error).
+routes = client.Route.list
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.route_stop`
+Create an instance: `route_stop = client.RouteStop`
 
 #### Operations
 
@@ -420,14 +427,15 @@ Create an instance: `const route_stop = client.route_stop`
 
 #### Example: List
 
-```ts
-const route_stops = await client.route_stop.list()
+```ruby
+# list returns an Array of RouteStop records (raises on error).
+route_stops = client.RouteStop.list
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.stop`
+Create an instance: `stop = client.Stop`
 
 #### Operations
 
@@ -453,14 +461,16 @@ Create an instance: `const stop = client.stop`
 
 #### Example: Load
 
-```ts
-const stop = await client.stop.load({ id: 'stop_id' })
+```ruby
+# load returns the bare Stop record (raises on error).
+stop = client.Stop.load({ "id" => "stop_id" })
 ```
 
 #### Example: List
 
-```ts
-const stops = await client.stop.list()
+```ruby
+# list returns an Array of Stop records (raises on error).
+stops = client.Stop.list
 ```
 
 
@@ -535,7 +545,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-eta = client.eta
+eta = client.Eta
 eta.load({ "id" => "example_id" })
 
 # eta.data_get now returns the loaded eta data

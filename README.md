@@ -26,9 +26,11 @@ import { RealTimeBusDataSDK } from '@voxgig-sdk/real-time-bus-data'
 
 const client = new RealTimeBusDataSDK()
 
-// List all etas
-const etas = await client.eta.list()
-console.log(etas.data)
+// List all etas (returns Eta[])
+const etas = await client.Eta().list()
+for (const eta of etas) {
+  console.log(eta)
+}
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -86,12 +88,13 @@ from realtimebusdata_sdk import RealTimeBusDataSDK
 
 client = RealTimeBusDataSDK()
 
-# List all etas
-etas = client.eta.list()
-print(etas)
+# List all etas (returns a list, raises on error)
+etas = client.Eta().list({})
+for eta in etas:
+    print(eta)
 
-# Load a specific eta
-eta = client.eta.load({"id": "example_id"})
+# Load a specific eta (returns the record, raises on error)
+eta = client.Eta().load({"id": "example_id"})
 print(eta)
 ```
 
@@ -103,12 +106,12 @@ require_once 'realtimebusdata_sdk.php';
 
 $client = new RealTimeBusDataSDK();
 
-// List all etas (throws on error)
-$etas = $client->eta()->list();
+// List all etas (returns an array; throws on error)
+$etas = $client->Eta()->list();
 print_r($etas);
 
-// Load a specific eta
-$eta = $client->eta()->load(["id" => "example_id"]);
+// Load a specific eta (returns the bare record; throws on error)
+$eta = $client->Eta()->load(["id" => "example_id"]);
 print_r($eta);
 ```
 
@@ -131,12 +134,12 @@ require_relative "RealTimeBusData_sdk"
 
 client = RealTimeBusDataSDK.new
 
-# List all etas
-etas = client.eta.list
+# List all etas (returns an Array; raises on error)
+etas = client.Eta.list
 puts etas
 
-# Load a specific eta
-eta = client.eta.load({ "id" => "example_id" })
+# Load a specific eta (returns the bare record; raises on error)
+eta = client.Eta.load({ "id" => "example_id" })
 puts eta
 ```
 
@@ -148,11 +151,11 @@ local sdk = require("real-time-bus-data_sdk")
 local client = sdk.new()
 
 -- List all etas
-local etas, err = client:eta():list()
+local etas, err = client:Eta():list()
 print(etas)
 
 -- Load a specific eta
-local eta, err = client:eta():load({ id = "example_id" })
+local eta, err = client:Eta():load({ id = "example_id" })
 print(eta)
 ```
 
@@ -165,22 +168,27 @@ in-memory mock, so unit tests run offline.
 
 ```ts
 const client = RealTimeBusDataSDK.test()
-const result = await client.eta.load({ id: 'test01' })
-// result.ok === true, result.data contains mock data
+const eta = await client.Eta().load({ id: 'test01' })
+// eta is a bare Eta populated with mock data
+console.log(eta)
 ```
 
 ### Python
 
 ```python
 client = RealTimeBusDataSDK.test()
-result = client.eta.load({"id": "test01"})
+eta = client.Eta().load({"id": "test01"})
+print(eta)
 ```
 
 ### PHP
 
 ```php
-$client = RealTimeBusDataSDK::test();
-$result = $client->eta()->load(["id" => "test01"]);
+// Seed fixture data so offline calls resolve without a live server.
+$client = RealTimeBusDataSDK::test([
+    "entity" => ["eta" => ["test01" => ["id" => "test01"]]],
+]);
+$eta = $client->Eta()->load(["id" => "test01"]);
 ```
 
 ### Golang
@@ -195,15 +203,18 @@ result, err := client.Eta(nil).Load(
 ### Ruby
 
 ```ruby
-client = RealTimeBusDataSDK.test
-result = client.eta.load({ "id" => "test01" })
+# Seed fixture data so offline calls resolve without a live server.
+client = RealTimeBusDataSDK.test({
+  "entity" => { "eta" => { "test01" => { "id" => "test01" } } },
+})
+eta = client.Eta.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:eta():load({ id = "test01" })
+local result, err = client:Eta():load({ id = "test01" })
 ```
 
 ## How it works
@@ -251,6 +262,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
+if (result instanceof Error) {
+  throw result
+}
 console.log(result.data)
 ```
 

@@ -97,7 +97,7 @@ Prepare a fetch definition without sending the request. Returns the
 ## EtaEntity
 
 ```php
-$eta = $client->eta();
+$eta = $client->Eta();
 ```
 
 ### Fields
@@ -131,7 +131,7 @@ $eta = $client->eta();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->eta()->list([]);
+$results = $client->Eta()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -139,7 +139,7 @@ $results = $client->eta()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->eta()->load(["id" => "eta_id"]);
+$result = $client->Eta()->load(["id" => "eta_id"]);
 ```
 
 ### Common Methods
@@ -175,7 +175,7 @@ Return the entity name.
 ## RouteEntity
 
 ```php
-$route = $client->route();
+$route = $client->Route();
 ```
 
 ### Fields
@@ -203,7 +203,7 @@ $route = $client->route();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->route()->list([]);
+$results = $client->Route()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -211,7 +211,7 @@ $results = $client->route()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->route()->load(["id" => "route_id"]);
+$result = $client->Route()->load(["id" => "route_id"]);
 ```
 
 ### Common Methods
@@ -247,7 +247,7 @@ Return the entity name.
 ## RouteStopEntity
 
 ```php
-$route_stop = $client->route_stop();
+$route_stop = $client->RouteStop();
 ```
 
 ### Fields
@@ -267,7 +267,7 @@ $route_stop = $client->route_stop();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->route_stop()->list([]);
+$results = $client->RouteStop()->list([]);
 ```
 
 ### Common Methods
@@ -303,7 +303,7 @@ Return the entity name.
 ## StopEntity
 
 ```php
-$stop = $client->stop();
+$stop = $client->Stop();
 ```
 
 ### Fields
@@ -328,7 +328,7 @@ $stop = $client->stop();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->stop()->list([]);
+$results = $client->Stop()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -336,7 +336,7 @@ $results = $client->stop()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->stop()->load(["id" => "stop_id"]);
+$result = $client->Stop()->load(["id" => "stop_id"]);
 ```
 
 ### Common Methods

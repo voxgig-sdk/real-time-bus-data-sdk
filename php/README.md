@@ -29,18 +29,16 @@ require_once 'realtimebusdata_sdk.php';
 $client = new RealTimeBusDataSDK();
 ```
 
-### 2. List etas
+### 2. List eta records
 
 ```php
 try {
-    $result = $client->eta()->list();
-    if (is_array($result)) {
-        foreach ($result as $item) {
-            $d = $item->data_get();
-            echo $d["id"] . " " . $d["name"] . "\n";
-        }
+    // list() returns an array of Eta records — iterate directly.
+    $etas = $client->Eta()->list();
+    foreach ($etas as $item) {
+        echo $item["id"] . " " . $item["name"] . "\n";
     }
-} catch (\Exception $err) {
+} catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
 ```
@@ -49,9 +47,10 @@ try {
 
 ```php
 try {
-    $result = $client->eta()->load(["id" => "example_id"]);
-    print_r($result);
-} catch (\Exception $err) {
+    // load() returns the bare Eta record (throws on error).
+    $eta = $client->Eta()->load(["id" => "example_id"]);
+    print_r($eta);
+} catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
 ```
@@ -97,13 +96,17 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = RealTimeBusDataSDK::test();
+$client = RealTimeBusDataSDK::test([
+    "entity" => ["eta" => ["test01" => ["id" => "test01"]]],
+]);
 
-$result = $client->eta()->load(["id" => "test01"]);
-// $result contains mock response data
+// load() returns the bare mock record (throws on error).
+$eta = $client->Eta()->load(["id" => "test01"]);
+print_r($eta);
 ```
 
 ### Use a custom fetch function
@@ -182,7 +185,7 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
-| `Eta` | `($data): EtaEntity` | Create a Eta entity instance. |
+| `Eta` | `($data): EtaEntity` | Create an Eta entity instance. |
 | `Route` | `($data): RouteEntity` | Create a Route entity instance. |
 | `RouteStop` | `($data): RouteStopEntity` | Create a RouteStop entity instance. |
 | `Stop` | `($data): StopEntity` | Create a Stop entity instance. |
@@ -315,7 +318,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.eta`
+Create an instance: `$eta = $client->Eta();`
 
 #### Operations
 
@@ -350,20 +353,22 @@ Create an instance: `const eta = client.eta`
 
 #### Example: Load
 
-```ts
-const eta = await client.eta.load({ id: 'eta_id' })
+```php
+// load() returns the bare Eta record (throws on error).
+$eta = $client->Eta()->load(["id" => "eta_id"]);
 ```
 
 #### Example: List
 
-```ts
-const etas = await client.eta.list()
+```php
+// list() returns an array of Eta records (throws on error).
+$etas = $client->Eta()->list();
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.route`
+Create an instance: `$route = $client->Route();`
 
 #### Operations
 
@@ -392,20 +397,22 @@ Create an instance: `const route = client.route`
 
 #### Example: Load
 
-```ts
-const route = await client.route.load({ id: 'route_id' })
+```php
+// load() returns the bare Route record (throws on error).
+$route = $client->Route()->load(["id" => "route_id"]);
 ```
 
 #### Example: List
 
-```ts
-const routes = await client.route.list()
+```php
+// list() returns an array of Route records (throws on error).
+$routes = $client->Route()->list();
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.route_stop`
+Create an instance: `$route_stop = $client->RouteStop();`
 
 #### Operations
 
@@ -425,14 +432,15 @@ Create an instance: `const route_stop = client.route_stop`
 
 #### Example: List
 
-```ts
-const route_stops = await client.route_stop.list()
+```php
+// list() returns an array of RouteStop records (throws on error).
+$route_stops = $client->RouteStop()->list();
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.stop`
+Create an instance: `$stop = $client->Stop();`
 
 #### Operations
 
@@ -458,14 +466,16 @@ Create an instance: `const stop = client.stop`
 
 #### Example: Load
 
-```ts
-const stop = await client.stop.load({ id: 'stop_id' })
+```php
+// load() returns the bare Stop record (throws on error).
+$stop = $client->Stop()->load(["id" => "stop_id"]);
 ```
 
 #### Example: List
 
-```ts
-const stops = await client.stop.list()
+```php
+// list() returns an array of Stop records (throws on error).
+$stops = $client->Stop()->list();
 ```
 
 
@@ -540,7 +550,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$eta = $client->eta();
+$eta = $client->Eta();
 $eta->load(["id" => "example_id"]);
 
 // $eta->dataGet() now returns the loaded eta data

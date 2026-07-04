@@ -28,25 +28,28 @@ import { RealTimeBusDataSDK } from '@voxgig-sdk/real-time-bus-data'
 const client = new RealTimeBusDataSDK()
 ```
 
-### 2. List etas
+### 2. List eta records
+
+`list()` resolves to an array of Eta objects — iterate it directly:
 
 ```ts
-const result = await client.eta.list()
+const etas = await client.Eta().list()
 
-if (result.ok) {
-  for (const item of result.data) {
-    console.log(item.id, item.name)
-  }
+for (const eta of etas) {
+  console.log(eta)
 }
 ```
 
 ### 3. Load an eta
 
-```ts
-const result = await client.eta.load({ id: 'example_id' })
+`load()` returns the entity directly and throws on failure:
 
-if (result.ok) {
-  console.log(result.data)
+```ts
+try {
+  const eta = await client.Eta().load({ id: 'example_id' })
+  console.log(eta)
+} catch (err) {
+  console.error('load failed:', err)
 }
 ```
 
@@ -64,6 +67,9 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
+if (result instanceof Error) {
+  throw result
+}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -92,9 +98,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RealTimeBusDataSDK.test()
 
-const result = await client.eta.load({ id: 'test01' })
-// result.ok === true
-// result.data contains mock response data
+const eta = await client.Eta().load({ id: 'test01' })
+// eta is a bare entity populated with mock response data
+console.log(eta)
 ```
 
 You can also use the instance method:
@@ -109,7 +115,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.eta
+const entity = client.Eta()
 
 // First call sets internal match
 await entity.load({ id: 'example' })
@@ -187,7 +193,7 @@ new RealTimeBusDataSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
-| `Eta(data?)` | `EtaEntity` | Create a Eta entity instance. |
+| `Eta(data?)` | `EtaEntity` | Create an Eta entity instance. |
 | `Route(data?)` | `RouteEntity` | Create a Route entity instance. |
 | `RouteStop(data?)` | `RouteStopEntity` | Create a RouteStop entity instance. |
 | `Stop(data?)` | `StopEntity` | Create a Stop entity instance. |
@@ -207,29 +213,30 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Result>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Result>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Result>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Result>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<Result>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
 | `data` | `data(data?): any` | Get or set entity data. |
 | `match` | `match(match?): any` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
 | `client` | `client(): RealTimeBusDataSDK` | Return the parent SDK client. |
 | `entopts` | `entopts(): object` | Return a copy of the entity options. |
 
-#### Result shape
+#### Return values
 
-All entity operations return a Result object:
+Entity operations resolve to the entity data directly — there is no
+result envelope:
 
-```ts
-{
-  ok: boolean      // true if the HTTP status is 2xx
-  status: number   // HTTP status code
-  headers: object  // response headers
-  data: any        // parsed JSON response body
-}
-```
+- `load`, `create` and `update` resolve to a single entity object.
+- `list` resolves to an **array** of entity objects (iterate it directly;
+  there is no `.data` and no `.ok`).
+- `remove` resolves to `void`.
+
+On a failed request these methods **throw**, so wrap calls in
+`try`/`catch` to handle errors. Only `direct()` returns the result
+envelope described below.
 
 ### DirectResult shape
 
@@ -351,7 +358,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.eta`
+Create an instance: `const eta = client.Eta()`
 
 #### Operations
 
@@ -387,19 +394,19 @@ Create an instance: `const eta = client.eta`
 #### Example: Load
 
 ```ts
-const eta = await client.eta.load({ id: 'eta_id' })
+const eta = await client.Eta().load({ id: 'eta_id' })
 ```
 
 #### Example: List
 
 ```ts
-const etas = await client.eta.list()
+const etas = await client.Eta().list()
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.route`
+Create an instance: `const route = client.Route()`
 
 #### Operations
 
@@ -429,19 +436,19 @@ Create an instance: `const route = client.route`
 #### Example: Load
 
 ```ts
-const route = await client.route.load({ id: 'route_id' })
+const route = await client.Route().load({ id: 'route_id' })
 ```
 
 #### Example: List
 
 ```ts
-const routes = await client.route.list()
+const routes = await client.Route().list()
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.route_stop`
+Create an instance: `const route_stop = client.RouteStop()`
 
 #### Operations
 
@@ -462,13 +469,13 @@ Create an instance: `const route_stop = client.route_stop`
 #### Example: List
 
 ```ts
-const route_stops = await client.route_stop.list()
+const route_stops = await client.RouteStop().list()
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.stop`
+Create an instance: `const stop = client.Stop()`
 
 #### Operations
 
@@ -495,13 +502,13 @@ Create an instance: `const stop = client.stop`
 #### Example: Load
 
 ```ts
-const stop = await client.stop.load({ id: 'stop_id' })
+const stop = await client.Stop().load({ id: 'stop_id' })
 ```
 
 #### Example: List
 
 ```ts
-const stops = await client.stop.list()
+const stops = await client.Stop().list()
 ```
 
 
@@ -572,7 +579,7 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const eta = client.eta
+const eta = client.Eta()
 await eta.load({ id: "example_id" })
 
 // eta.data() now returns the loaded eta data

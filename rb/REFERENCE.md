@@ -98,7 +98,7 @@ same parameters as `direct()`. Raises on error.
 ## EtaEntity
 
 ```ruby
-eta = client.eta
+eta = client.Eta
 ```
 
 ### Fields
@@ -132,7 +132,7 @@ eta = client.eta
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.eta.list(nil)
+results = client.Eta.list(nil)
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -140,7 +140,7 @@ results = client.eta.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.eta.load({ "id" => "eta_id" })
+result = client.Eta.load({ "id" => "eta_id" })
 ```
 
 ### Common Methods
@@ -176,7 +176,7 @@ Return the entity name.
 ## RouteEntity
 
 ```ruby
-route = client.route
+route = client.Route
 ```
 
 ### Fields
@@ -204,7 +204,7 @@ route = client.route
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.route.list(nil)
+results = client.Route.list(nil)
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -212,7 +212,7 @@ results = client.route.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.route.load({ "id" => "route_id" })
+result = client.Route.load({ "id" => "route_id" })
 ```
 
 ### Common Methods
@@ -248,7 +248,7 @@ Return the entity name.
 ## RouteStopEntity
 
 ```ruby
-route_stop = client.route_stop
+route_stop = client.RouteStop
 ```
 
 ### Fields
@@ -268,7 +268,7 @@ route_stop = client.route_stop
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.route_stop.list(nil)
+results = client.RouteStop.list(nil)
 ```
 
 ### Common Methods
@@ -304,7 +304,7 @@ Return the entity name.
 ## StopEntity
 
 ```ruby
-stop = client.stop
+stop = client.Stop
 ```
 
 ### Fields
@@ -329,7 +329,7 @@ stop = client.stop
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.stop.list(nil)
+results = client.Stop.list(nil)
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -337,7 +337,7 @@ results = client.stop.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.stop.load({ "id" => "stop_id" })
+result = client.Stop.load({ "id" => "stop_id" })
 ```
 
 ### Common Methods

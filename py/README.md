@@ -31,24 +31,28 @@ from realtimebusdata_sdk import RealTimeBusDataSDK
 client = RealTimeBusDataSDK()
 ```
 
-### 2. List etas
+### 2. List eta records
+
+`list()` returns a `list` of records (each a `dict`) and raises on
+error — iterate it directly.
 
 ```python
 try:
-    result = client.eta.list()
-    for item in result:
-        d = item.data_get()
-        print(d["id"], d["name"])
+    etas = client.Eta().list({})
+    for eta in etas:
+        print(eta)
 except Exception as err:
     print(f"list failed: {err}")
 ```
 
 ### 3. Load an eta
 
+`load()` returns the bare record (a `dict`) and raises on error.
+
 ```python
 try:
-    result = client.eta.load({"id": "example_id"})
-    print(result)
+    eta = client.Eta().load({"id": "example_id"})
+    print(eta)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -96,8 +100,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = RealTimeBusDataSDK.test()
 
-result = client.eta.load({"id": "test01"})
-# result contains mock response data
+# Entity ops return the bare record and raise on error.
+eta = client.Eta().load({"id": "test01"})
+# eta contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -173,7 +178,7 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
-| `Eta` | `(data) -> EtaEntity` | Create a Eta entity instance. |
+| `Eta` | `(data) -> EtaEntity` | Create an Eta entity instance. |
 | `Route` | `(data) -> RouteEntity` | Create a Route entity instance. |
 | `RouteStop` | `(data) -> RouteStopEntity` | Create a RouteStop entity instance. |
 | `Stop` | `(data) -> StopEntity` | Create a Stop entity instance. |
@@ -306,7 +311,7 @@ API path: `/v1/transport/kmb/stop`
 
 ### Eta
 
-Create an instance: `const eta = client.eta`
+Create an instance: `eta = client.Eta()`
 
 #### Operations
 
@@ -341,20 +346,20 @@ Create an instance: `const eta = client.eta`
 
 #### Example: Load
 
-```ts
-const eta = await client.eta.load({ id: 'eta_id' })
+```python
+eta = client.Eta().load({"id": "eta_id"})
 ```
 
 #### Example: List
 
-```ts
-const etas = await client.eta.list()
+```python
+etas = client.Eta().list({})
 ```
 
 
 ### Route
 
-Create an instance: `const route = client.route`
+Create an instance: `route = client.Route()`
 
 #### Operations
 
@@ -383,20 +388,20 @@ Create an instance: `const route = client.route`
 
 #### Example: Load
 
-```ts
-const route = await client.route.load({ id: 'route_id' })
+```python
+route = client.Route().load({"id": "route_id"})
 ```
 
 #### Example: List
 
-```ts
-const routes = await client.route.list()
+```python
+routes = client.Route().list({})
 ```
 
 
 ### RouteStop
 
-Create an instance: `const route_stop = client.route_stop`
+Create an instance: `route_stop = client.RouteStop()`
 
 #### Operations
 
@@ -416,14 +421,14 @@ Create an instance: `const route_stop = client.route_stop`
 
 #### Example: List
 
-```ts
-const route_stops = await client.route_stop.list()
+```python
+route_stops = client.RouteStop().list({})
 ```
 
 
 ### Stop
 
-Create an instance: `const stop = client.stop`
+Create an instance: `stop = client.Stop()`
 
 #### Operations
 
@@ -449,14 +454,14 @@ Create an instance: `const stop = client.stop`
 
 #### Example: Load
 
-```ts
-const stop = await client.stop.load({ id: 'stop_id' })
+```python
+stop = client.Stop().load({"id": "stop_id"})
 ```
 
 #### Example: List
 
-```ts
-const stops = await client.stop.list()
+```python
+stops = client.Stop().list({})
 ```
 
 
@@ -530,7 +535,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-eta = client.eta
+eta = client.Eta()
 eta.load({"id": "example_id"})
 
 # eta.data_get() now returns the loaded eta data
