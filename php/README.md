@@ -4,6 +4,8 @@
 
 The PHP SDK for the RealTimeBusData API — an entity-oriented client using PHP conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Eta()` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -36,7 +38,7 @@ try {
     // list() returns an array of Eta records — iterate directly.
     $etas = $client->Eta()->list();
     foreach ($etas as $item) {
-        echo $item["id"] . " " . $item["name"] . "\n";
+        echo $item["co"] . "\n";
     }
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -48,10 +50,41 @@ try {
 ```php
 try {
     // load() returns the bare Eta record (throws on error).
-    $eta = $client->Eta()->load(["id" => "example_id"]);
+    $eta = $client->Eta()->load();
     print_r($eta);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
+}
+```
+
+
+## Error handling
+
+Entity operations throw a `\Throwable` on failure, so wrap them in
+`try` / `catch`:
+
+```php
+try {
+    $etas = $client->Eta()->list();
+} catch (\Throwable $err) {
+    echo "Error: " . $err->getMessage();
+}
+```
+
+`direct()` does **not** throw — it returns the result array. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```php
+$result = $client->direct([
+    "path" => "/api/resource/{id}",
+    "method" => "GET",
+    "params" => ["id" => "example_id"],
+]);
+
+if (! $result["ok"]) {
+    $err = $result["err"] ?? null;
+    echo "request failed: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
 }
 ```
 
@@ -75,7 +108,10 @@ if ($result["ok"]) {
     echo $result["status"];  // 200
     print_r($result["data"]);  // response body
 } else {
-    echo "Error: " . $result["err"]->getMessage();
+    // On an HTTP error status there is no err (only a transport failure sets
+    // it), so fall back to the status code.
+    $err = $result["err"] ?? null;
+    echo "Error: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
 }
 ```
 
@@ -96,16 +132,13 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```php
-$client = RealTimeBusDataSDK::test([
-    "entity" => ["eta" => ["test01" => ["id" => "test01"]]],
-]);
+$client = RealTimeBusDataSDK::test();
 
-// load() returns the bare mock record (throws on error).
-$eta = $client->Eta()->load(["id" => "test01"]);
+// Entity ops return the bare mock record (throws on error).
+$eta = $client->Eta()->list();
 print_r($eta);
 ```
 
@@ -197,10 +230,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `($reqmatch, $ctrl): array` | List entities matching the criteria. |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -331,31 +361,31 @@ Create an instance: `$eta = $client->Eta();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | ``$STRING`` |  |
-| `data` | ``$ARRAY`` |  |
-| `data_timestamp` | ``$STRING`` |  |
-| `dest_en` | ``$STRING`` |  |
-| `dest_sc` | ``$STRING`` |  |
-| `dest_tc` | ``$STRING`` |  |
-| `dir` | ``$STRING`` |  |
-| `eta` | ``$STRING`` |  |
-| `eta_seq` | ``$INTEGER`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `rmk_en` | ``$STRING`` |  |
-| `rmk_sc` | ``$STRING`` |  |
-| `rmk_tc` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `seq` | ``$INTEGER`` |  |
-| `service_type` | ``$INTEGER`` |  |
-| `stop` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `co` | `string` |  |
+| `data` | `array` |  |
+| `data_timestamp` | `string` |  |
+| `dest_en` | `string` |  |
+| `dest_sc` | `string` |  |
+| `dest_tc` | `string` |  |
+| `dir` | `string` |  |
+| `eta` | `string` |  |
+| `eta_seq` | `int` |  |
+| `generated_timestamp` | `string` |  |
+| `rmk_en` | `string` |  |
+| `rmk_sc` | `string` |  |
+| `rmk_tc` | `string` |  |
+| `route` | `string` |  |
+| `seq` | `int` |  |
+| `service_type` | `int` |  |
+| `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare Eta record (throws on error).
-$eta = $client->Eta()->load(["id" => "eta_id"]);
+$eta = $client->Eta()->load();
 ```
 
 #### Example: List
@@ -381,19 +411,19 @@ Create an instance: `$route = $client->Route();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | ``$STRING`` |  |
-| `data` | ``$ARRAY`` |  |
-| `dest_en` | ``$STRING`` |  |
-| `dest_sc` | ``$STRING`` |  |
-| `dest_tc` | ``$STRING`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `orig_en` | ``$STRING`` |  |
-| `orig_sc` | ``$STRING`` |  |
-| `orig_tc` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `service_type` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `bound` | `string` |  |
+| `data` | `array` |  |
+| `dest_en` | `string` |  |
+| `dest_sc` | `string` |  |
+| `dest_tc` | `string` |  |
+| `generated_timestamp` | `string` |  |
+| `orig_en` | `string` |  |
+| `orig_sc` | `string` |  |
+| `orig_tc` | `string` |  |
+| `route` | `string` |  |
+| `service_type` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -424,11 +454,11 @@ Create an instance: `$route_stop = $client->RouteStop();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `seq` | ``$STRING`` |  |
-| `service_type` | ``$STRING`` |  |
-| `stop` | ``$STRING`` |  |
+| `bound` | `string` |  |
+| `route` | `string` |  |
+| `seq` | `string` |  |
+| `service_type` | `string` |  |
+| `stop` | `string` |  |
 
 #### Example: List
 
@@ -453,16 +483,16 @@ Create an instance: `$stop = $client->Stop();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `lat` | ``$STRING`` |  |
-| `long` | ``$STRING`` |  |
-| `name_en` | ``$STRING`` |  |
-| `name_sc` | ``$STRING`` |  |
-| `name_tc` | ``$STRING`` |  |
-| `stop` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `data` | `array` |  |
+| `generated_timestamp` | `string` |  |
+| `lat` | `string` |  |
+| `long` | `string` |  |
+| `name_en` | `string` |  |
+| `name_sc` | `string` |  |
+| `name_tc` | `string` |  |
+| `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -479,12 +509,16 @@ $stops = $client->Stop()->list();
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -501,8 +535,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as the second element in the return array.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -546,15 +581,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
 $eta = $client->Eta();
-$eta->load(["id" => "example_id"]);
+$eta->list();
 
-// $eta->dataGet() now returns the loaded eta data
-// $eta->matchGet() returns the last match criteria
+// $eta->data_get() now returns the eta data from the last list
+// $eta->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

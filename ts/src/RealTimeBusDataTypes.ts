@@ -57,7 +57,21 @@ export interface RouteLoadMatch {
   id: string
 }
 
-export type RouteListMatch = Partial<Route>
+export interface RouteListMatch {
+  bound?: string
+  data?: any[]
+  dest_en?: string
+  dest_sc?: string
+  dest_tc?: string
+  generated_timestamp?: string
+  orig_en?: string
+  orig_sc?: string
+  orig_tc?: string
+  route?: string
+  service_type?: string
+  type?: string
+  version?: string
+}
 
 export interface RouteStop {
   bound?: string
@@ -90,5 +104,16 @@ export interface StopLoadMatch {
   id: string
 }
 
-export type StopListMatch = Partial<Stop>
+export interface StopListMatch {
+  data?: Record<string, any>
+  generated_timestamp?: string
+  lat?: string
+  long?: string
+  name_en?: string
+  name_sc?: string
+  name_tc?: string
+  stop?: string
+  type?: string
+  version?: string
+}
 

@@ -74,7 +74,7 @@ class RouteLoadMatch
     public string $id;
 }
 
-/** Match filter for Route#list (any subset of Route fields). */
+/** Request payload for Route#list. */
 class RouteListMatch
 {
     public ?string $bound = null;
@@ -131,7 +131,7 @@ class StopLoadMatch
     public string $id;
 }
 
-/** Match filter for Stop#list (any subset of Stop fields). */
+/** Request payload for Stop#list. */
 class StopListMatch
 {
     public ?array $data = null;

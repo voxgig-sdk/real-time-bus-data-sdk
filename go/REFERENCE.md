@@ -109,25 +109,25 @@ eta := client.Eta(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `data_timestamp` | ``$STRING`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `dir` | ``$STRING`` | No |  |
-| `eta` | ``$STRING`` | No |  |
-| `eta_seq` | ``$INTEGER`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `rmk_en` | ``$STRING`` | No |  |
-| `rmk_sc` | ``$STRING`` | No |  |
-| `rmk_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$INTEGER`` | No |  |
-| `service_type` | ``$INTEGER`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `co` | `string` | No |  |
+| `data` | `[]any` | No |  |
+| `data_timestamp` | `string` | No |  |
+| `dest_en` | `string` | No |  |
+| `dest_sc` | `string` | No |  |
+| `dest_tc` | `string` | No |  |
+| `dir` | `string` | No |  |
+| `eta` | `string` | No |  |
+| `eta_seq` | `int` | No |  |
+| `generated_timestamp` | `string` | No |  |
+| `rmk_en` | `string` | No |  |
+| `rmk_sc` | `string` | No |  |
+| `rmk_tc` | `string` | No |  |
+| `route` | `string` | No |  |
+| `seq` | `int` | No |  |
+| `service_type` | `int` | No |  |
+| `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
@@ -144,7 +144,7 @@ results, err := client.Eta(nil).List(nil, nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Eta(nil).Load(map[string]any{"id": "eta_id"}, nil)
+result, err := client.Eta(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -181,19 +181,19 @@ route := client.Route(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `orig_en` | ``$STRING`` | No |  |
-| `orig_sc` | ``$STRING`` | No |  |
-| `orig_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `bound` | `string` | No |  |
+| `data` | `[]any` | No |  |
+| `dest_en` | `string` | No |  |
+| `dest_sc` | `string` | No |  |
+| `dest_tc` | `string` | No |  |
+| `generated_timestamp` | `string` | No |  |
+| `orig_en` | `string` | No |  |
+| `orig_sc` | `string` | No |  |
+| `orig_tc` | `string` | No |  |
+| `route` | `string` | No |  |
+| `service_type` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
@@ -247,11 +247,11 @@ route_stop := client.RouteStop(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
+| `bound` | `string` | No |  |
+| `route` | `string` | No |  |
+| `seq` | `string` | No |  |
+| `service_type` | `string` | No |  |
+| `stop` | `string` | No |  |
 
 ### Operations
 
@@ -297,16 +297,16 @@ stop := client.Stop(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `lat` | ``$STRING`` | No |  |
-| `long` | ``$STRING`` | No |  |
-| `name_en` | ``$STRING`` | No |  |
-| `name_sc` | ``$STRING`` | No |  |
-| `name_tc` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `data` | `map[string]any` | No |  |
+| `generated_timestamp` | `string` | No |  |
+| `lat` | `string` | No |  |
+| `long` | `string` | No |  |
+| `name_en` | `string` | No |  |
+| `name_sc` | `string` | No |  |
+| `name_tc` | `string` | No |  |
+| `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 

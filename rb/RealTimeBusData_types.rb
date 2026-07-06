@@ -181,7 +181,7 @@ RouteLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Route#list (any subset of Route fields).
+# Request payload for Route#list.
 #
 # @!attribute [rw] bound
 #   @return [String, nil]
@@ -334,7 +334,7 @@ StopLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Stop#list (any subset of Stop fields).
+# Request payload for Stop#list.
 #
 # @!attribute [rw] data
 #   @return [Hash, nil]

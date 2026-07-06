@@ -4,6 +4,8 @@
 
 The Ruby SDK for the RealTimeBusData API — an entity-oriented client using idiomatic Ruby conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Eta` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -35,7 +37,7 @@ begin
   # list returns an Array of Eta records — iterate directly.
   etas = client.Eta.list
   etas.each do |item|
-    puts "#{item["id"]} #{item["name"]}"
+    puts "#{item["co"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -47,11 +49,38 @@ end
 ```ruby
 begin
   # load returns the bare Eta record (raises on error).
-  eta = client.Eta.load({ "id" => "example_id" })
+  eta = client.Eta.load()
   puts eta
 rescue => err
   warn "load failed: #{err}"
 end
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so rescue them:
+
+```ruby
+begin
+  etas = client.Eta.list()
+rescue => err
+  warn "list failed: #{err}"
+end
+```
+
+`direct` does **not** raise — it returns the result hash. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```ruby
+result = client.direct({
+  "path" => "/api/resource/{id}",
+  "method" => "GET",
+  "params" => { "id" => "example_id" },
+})
+
+warn "request failed: #{result["err"] || "HTTP #{result["status"]}"}" unless result["ok"]
 ```
 
 
@@ -72,7 +101,9 @@ if result["ok"]
   puts result["status"]  # 200
   puts result["data"]    # response body
 else
-  warn result["err"]
+  # On an HTTP error status there is no err (only a transport failure sets
+  # it), so fall back to the status code.
+  warn(result["err"] || "HTTP #{result["status"]}")
 end
 ```
 
@@ -95,16 +126,13 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```ruby
-client = RealTimeBusDataSDK.test({
-  "entity" => { "eta" => { "test01" => { "id" => "test01" } } },
-})
+client = RealTimeBusDataSDK.test
 
-# load returns the bare mock record (raises on error).
-eta = client.Eta.load({ "id" => "test01" })
+# Entity ops return the bare mock record (raises on error).
+eta = client.Eta.list()
 puts eta
 ```
 
@@ -193,10 +221,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> Array` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -326,31 +351,31 @@ Create an instance: `eta = client.Eta`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | ``$STRING`` |  |
-| `data` | ``$ARRAY`` |  |
-| `data_timestamp` | ``$STRING`` |  |
-| `dest_en` | ``$STRING`` |  |
-| `dest_sc` | ``$STRING`` |  |
-| `dest_tc` | ``$STRING`` |  |
-| `dir` | ``$STRING`` |  |
-| `eta` | ``$STRING`` |  |
-| `eta_seq` | ``$INTEGER`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `rmk_en` | ``$STRING`` |  |
-| `rmk_sc` | ``$STRING`` |  |
-| `rmk_tc` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `seq` | ``$INTEGER`` |  |
-| `service_type` | ``$INTEGER`` |  |
-| `stop` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `co` | `String` |  |
+| `data` | `Array` |  |
+| `data_timestamp` | `String` |  |
+| `dest_en` | `String` |  |
+| `dest_sc` | `String` |  |
+| `dest_tc` | `String` |  |
+| `dir` | `String` |  |
+| `eta` | `String` |  |
+| `eta_seq` | `Integer` |  |
+| `generated_timestamp` | `String` |  |
+| `rmk_en` | `String` |  |
+| `rmk_sc` | `String` |  |
+| `rmk_tc` | `String` |  |
+| `route` | `String` |  |
+| `seq` | `Integer` |  |
+| `service_type` | `Integer` |  |
+| `stop` | `String` |  |
+| `type` | `String` |  |
+| `version` | `String` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare Eta record (raises on error).
-eta = client.Eta.load({ "id" => "eta_id" })
+eta = client.Eta.load()
 ```
 
 #### Example: List
@@ -376,19 +401,19 @@ Create an instance: `route = client.Route`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | ``$STRING`` |  |
-| `data` | ``$ARRAY`` |  |
-| `dest_en` | ``$STRING`` |  |
-| `dest_sc` | ``$STRING`` |  |
-| `dest_tc` | ``$STRING`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `orig_en` | ``$STRING`` |  |
-| `orig_sc` | ``$STRING`` |  |
-| `orig_tc` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `service_type` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `bound` | `String` |  |
+| `data` | `Array` |  |
+| `dest_en` | `String` |  |
+| `dest_sc` | `String` |  |
+| `dest_tc` | `String` |  |
+| `generated_timestamp` | `String` |  |
+| `orig_en` | `String` |  |
+| `orig_sc` | `String` |  |
+| `orig_tc` | `String` |  |
+| `route` | `String` |  |
+| `service_type` | `String` |  |
+| `type` | `String` |  |
+| `version` | `String` |  |
 
 #### Example: Load
 
@@ -419,11 +444,11 @@ Create an instance: `route_stop = client.RouteStop`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `seq` | ``$STRING`` |  |
-| `service_type` | ``$STRING`` |  |
-| `stop` | ``$STRING`` |  |
+| `bound` | `String` |  |
+| `route` | `String` |  |
+| `seq` | `String` |  |
+| `service_type` | `String` |  |
+| `stop` | `String` |  |
 
 #### Example: List
 
@@ -448,16 +473,16 @@ Create an instance: `stop = client.Stop`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `lat` | ``$STRING`` |  |
-| `long` | ``$STRING`` |  |
-| `name_en` | ``$STRING`` |  |
-| `name_sc` | ``$STRING`` |  |
-| `name_tc` | ``$STRING`` |  |
-| `stop` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `data` | `Hash` |  |
+| `generated_timestamp` | `String` |  |
+| `lat` | `String` |  |
+| `long` | `String` |  |
+| `name_en` | `String` |  |
+| `name_sc` | `String` |  |
+| `name_tc` | `String` |  |
+| `stop` | `String` |  |
+| `type` | `String` |  |
+| `version` | `String` |  |
 
 #### Example: Load
 
@@ -474,12 +499,16 @@ stops = client.Stop.list
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -496,8 +525,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -541,14 +571,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
 eta = client.Eta
-eta.load({ "id" => "example_id" })
+eta.list()
 
-# eta.data_get now returns the loaded eta data
+# eta.data_get now returns the eta data from the last list
 # eta.match_get returns the last match criteria
 ```
 

@@ -8,7 +8,7 @@ Complete API reference for the RealTimeBusData Python SDK.
 ### Constructor
 
 ```python
-from real-time-bus-data_sdk import RealTimeBusDataSDK
+from realtimebusdata_sdk import RealTimeBusDataSDK
 
 client = RealTimeBusDataSDK(options)
 ```
@@ -99,34 +99,34 @@ eta = client.Eta()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `data_timestamp` | ``$STRING`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `dir` | ``$STRING`` | No |  |
-| `eta` | ``$STRING`` | No |  |
-| `eta_seq` | ``$INTEGER`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `rmk_en` | ``$STRING`` | No |  |
-| `rmk_sc` | ``$STRING`` | No |  |
-| `rmk_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$INTEGER`` | No |  |
-| `service_type` | ``$INTEGER`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `co` | `str` | No |  |
+| `data` | `list` | No |  |
+| `data_timestamp` | `str` | No |  |
+| `dest_en` | `str` | No |  |
+| `dest_sc` | `str` | No |  |
+| `dest_tc` | `str` | No |  |
+| `dir` | `str` | No |  |
+| `eta` | `str` | No |  |
+| `eta_seq` | `int` | No |  |
+| `generated_timestamp` | `str` | No |  |
+| `rmk_en` | `str` | No |  |
+| `rmk_sc` | `str` | No |  |
+| `rmk_tc` | `str` | No |  |
+| `route` | `str` | No |  |
+| `seq` | `int` | No |  |
+| `service_type` | `int` | No |  |
+| `stop` | `str` | No |  |
+| `type` | `str` | No |  |
+| `version` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Eta().list({})
+results = client.Eta().list()
 for eta in results:
     print(eta)
 ```
@@ -136,7 +136,7 @@ for eta in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Eta().load({"id": "eta_id"})
+result = client.Eta().load()
 ```
 
 ### Common Methods
@@ -178,28 +178,28 @@ route = client.Route()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `orig_en` | ``$STRING`` | No |  |
-| `orig_sc` | ``$STRING`` | No |  |
-| `orig_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `bound` | `str` | No |  |
+| `data` | `list` | No |  |
+| `dest_en` | `str` | No |  |
+| `dest_sc` | `str` | No |  |
+| `dest_tc` | `str` | No |  |
+| `generated_timestamp` | `str` | No |  |
+| `orig_en` | `str` | No |  |
+| `orig_sc` | `str` | No |  |
+| `orig_tc` | `str` | No |  |
+| `route` | `str` | No |  |
+| `service_type` | `str` | No |  |
+| `type` | `str` | No |  |
+| `version` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Route().list({})
+results = client.Route().list()
 for route in results:
     print(route)
 ```
@@ -251,20 +251,20 @@ route_stop = client.RouteStop()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
+| `bound` | `str` | No |  |
+| `route` | `str` | No |  |
+| `seq` | `str` | No |  |
+| `service_type` | `str` | No |  |
+| `stop` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.RouteStop().list({})
+results = client.RouteStop().list()
 for route_stop in results:
     print(route_stop)
 ```
@@ -308,25 +308,25 @@ stop = client.Stop()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `lat` | ``$STRING`` | No |  |
-| `long` | ``$STRING`` | No |  |
-| `name_en` | ``$STRING`` | No |  |
-| `name_sc` | ``$STRING`` | No |  |
-| `name_tc` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `data` | `dict` | No |  |
+| `generated_timestamp` | `str` | No |  |
+| `lat` | `str` | No |  |
+| `long` | `str` | No |  |
+| `name_en` | `str` | No |  |
+| `name_sc` | `str` | No |  |
+| `name_tc` | `str` | No |  |
+| `stop` | `str` | No |  |
+| `type` | `str` | No |  |
+| `version` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Stop().list({})
+results = client.Stop().list()
 for stop in results:
     print(stop)
 ```

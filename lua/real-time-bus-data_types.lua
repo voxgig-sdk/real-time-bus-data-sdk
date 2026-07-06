@@ -54,6 +54,19 @@
 ---@field id string
 
 ---@class RouteListMatch
+---@field bound? string
+---@field data? table
+---@field dest_en? string
+---@field dest_sc? string
+---@field dest_tc? string
+---@field generated_timestamp? string
+---@field orig_en? string
+---@field orig_sc? string
+---@field orig_tc? string
+---@field route? string
+---@field service_type? string
+---@field type? string
+---@field version? string
 
 ---@class RouteStop
 ---@field bound? string
@@ -83,6 +96,16 @@
 ---@field id string
 
 ---@class StopListMatch
+---@field data? table
+---@field generated_timestamp? string
+---@field lat? string
+---@field long? string
+---@field name_en? string
+---@field name_sc? string
+---@field name_tc? string
+---@field stop? string
+---@field type? string
+---@field version? string
 
 local M = {}
 

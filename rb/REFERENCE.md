@@ -8,7 +8,7 @@ Complete API reference for the RealTimeBusData Ruby SDK.
 ### Constructor
 
 ```ruby
-require_relative 'real-time-bus-data_sdk'
+require_relative 'RealTimeBusData_sdk'
 
 client = RealTimeBusDataSDK.new(options)
 ```
@@ -105,34 +105,34 @@ eta = client.Eta
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `data_timestamp` | ``$STRING`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `dir` | ``$STRING`` | No |  |
-| `eta` | ``$STRING`` | No |  |
-| `eta_seq` | ``$INTEGER`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `rmk_en` | ``$STRING`` | No |  |
-| `rmk_sc` | ``$STRING`` | No |  |
-| `rmk_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$INTEGER`` | No |  |
-| `service_type` | ``$INTEGER`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `co` | `String` | No |  |
+| `data` | `Array` | No |  |
+| `data_timestamp` | `String` | No |  |
+| `dest_en` | `String` | No |  |
+| `dest_sc` | `String` | No |  |
+| `dest_tc` | `String` | No |  |
+| `dir` | `String` | No |  |
+| `eta` | `String` | No |  |
+| `eta_seq` | `Integer` | No |  |
+| `generated_timestamp` | `String` | No |  |
+| `rmk_en` | `String` | No |  |
+| `rmk_sc` | `String` | No |  |
+| `rmk_tc` | `String` | No |  |
+| `route` | `String` | No |  |
+| `seq` | `Integer` | No |  |
+| `service_type` | `Integer` | No |  |
+| `stop` | `String` | No |  |
+| `type` | `String` | No |  |
+| `version` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Eta.list(nil)
+results = client.Eta.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -140,7 +140,7 @@ results = client.Eta.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Eta.load({ "id" => "eta_id" })
+result = client.Eta.load()
 ```
 
 ### Common Methods
@@ -183,28 +183,28 @@ route = client.Route
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `orig_en` | ``$STRING`` | No |  |
-| `orig_sc` | ``$STRING`` | No |  |
-| `orig_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `bound` | `String` | No |  |
+| `data` | `Array` | No |  |
+| `dest_en` | `String` | No |  |
+| `dest_sc` | `String` | No |  |
+| `dest_tc` | `String` | No |  |
+| `generated_timestamp` | `String` | No |  |
+| `orig_en` | `String` | No |  |
+| `orig_sc` | `String` | No |  |
+| `orig_tc` | `String` | No |  |
+| `route` | `String` | No |  |
+| `service_type` | `String` | No |  |
+| `type` | `String` | No |  |
+| `version` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Route.list(nil)
+results = client.Route.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -255,20 +255,20 @@ route_stop = client.RouteStop
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
+| `bound` | `String` | No |  |
+| `route` | `String` | No |  |
+| `seq` | `String` | No |  |
+| `service_type` | `String` | No |  |
+| `stop` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.RouteStop.list(nil)
+results = client.RouteStop.list
 ```
 
 ### Common Methods
@@ -311,25 +311,25 @@ stop = client.Stop
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `lat` | ``$STRING`` | No |  |
-| `long` | ``$STRING`` | No |  |
-| `name_en` | ``$STRING`` | No |  |
-| `name_sc` | ``$STRING`` | No |  |
-| `name_tc` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `data` | `Hash` | No |  |
+| `generated_timestamp` | `String` | No |  |
+| `lat` | `String` | No |  |
+| `long` | `String` | No |  |
+| `name_en` | `String` | No |  |
+| `name_sc` | `String` | No |  |
+| `name_tc` | `String` | No |  |
+| `stop` | `String` | No |  |
+| `type` | `String` | No |  |
+| `version` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Stop.list(nil)
+results = client.Stop.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`

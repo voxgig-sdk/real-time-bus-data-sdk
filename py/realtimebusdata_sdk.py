@@ -221,25 +221,25 @@ class RealTimeBusDataSDK:
 
 
     def Eta(self, data=None) -> "EtaEntity":
-        """Entity factory: client.Eta().list({}) / client.Eta().load({"id": ...})."""
+        """Entity factory: client.Eta().list() / client.Eta().load({"id": ...})."""
         from entity.eta_entity import EtaEntity
         return EtaEntity(self, data)
 
 
     def Route(self, data=None) -> "RouteEntity":
-        """Entity factory: client.Route().list({}) / client.Route().load({"id": ...})."""
+        """Entity factory: client.Route().list() / client.Route().load({"id": ...})."""
         from entity.route_entity import RouteEntity
         return RouteEntity(self, data)
 
 
     def RouteStop(self, data=None) -> "RouteStopEntity":
-        """Entity factory: client.RouteStop().list({}) / client.RouteStop().load({"id": ...})."""
+        """Entity factory: client.RouteStop().list() / client.RouteStop().load({"id": ...})."""
         from entity.route_stop_entity import RouteStopEntity
         return RouteStopEntity(self, data)
 
 
     def Stop(self, data=None) -> "StopEntity":
-        """Entity factory: client.Stop().list({}) / client.Stop().load({"id": ...})."""
+        """Entity factory: client.Stop().list() / client.Stop().load({"id": ...})."""
         from entity.stop_entity import StopEntity
         return StopEntity(self, data)
 

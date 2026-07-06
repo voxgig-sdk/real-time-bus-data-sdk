@@ -4,6 +4,8 @@
 
 The Golang SDK for the RealTimeBusData API — an entity-oriented client using standard Go conventions. No generics required; data flows as `map[string]any`.
 
+It exposes the API as capitalised, semantic **Entities** — e.g. `client.Eta(nil)` — each with the same small set of operations (`List`, `Load`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -58,12 +60,41 @@ func main() {
     }
 
     // Load a single eta — the value is the loaded record.
-    eta, err := client.Eta(nil).Load(map[string]any{"id": "example_id"}, nil)
+    eta, err := client.Eta(nil).Load(nil, nil)
     if err != nil {
         panic(err)
     }
     fmt.Println(eta)
 }
+```
+
+
+## Error handling
+
+Every entity operation returns `(value, error)`. Check `err` before
+using the value — there is no exception to catch:
+
+```go
+etas, err := client.Eta(nil).List(nil, nil)
+if err != nil {
+    // handle err
+    return
+}
+_ = etas
+```
+
+`Direct` follows the same `(value, error)` convention:
+
+```go
+result, err := client.Direct(map[string]any{
+    "path":   "/api/resource/{id}",
+    "method": "GET",
+    "params": map[string]any{"id": "example_id"},
+})
+if err != nil {
+    // handle err
+}
+_ = result
 ```
 
 
@@ -113,13 +144,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-eta, err := client.Eta(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+eta, err := client.Eta(nil).List(
+    nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(eta) // the loaded mock data
+fmt.Println(eta) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -209,9 +240,6 @@ All entities implement the `RealTimeBusDataEntity` interface.
 | --- | --- | --- |
 | `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
 | `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -224,16 +252,16 @@ operation's data **directly** — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
+| `Load` | the entity record (`map[string]any`) |
 | `List` | a `[]any` of entity records |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    eta, err := client.Eta(nil).Load(map[string]any{"id": "example_id"}, nil)
+    eta, err := client.Eta(nil).List(map[string]any{/* fields */}, nil)
     if err != nil { /* handle */ }
-    // eta is the loaded record
+    // eta is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -343,30 +371,30 @@ Create an instance: `eta := client.Eta(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | ``$STRING`` |  |
-| `data` | ``$ARRAY`` |  |
-| `data_timestamp` | ``$STRING`` |  |
-| `dest_en` | ``$STRING`` |  |
-| `dest_sc` | ``$STRING`` |  |
-| `dest_tc` | ``$STRING`` |  |
-| `dir` | ``$STRING`` |  |
-| `eta` | ``$STRING`` |  |
-| `eta_seq` | ``$INTEGER`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `rmk_en` | ``$STRING`` |  |
-| `rmk_sc` | ``$STRING`` |  |
-| `rmk_tc` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `seq` | ``$INTEGER`` |  |
-| `service_type` | ``$INTEGER`` |  |
-| `stop` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `co` | `string` |  |
+| `data` | `[]any` |  |
+| `data_timestamp` | `string` |  |
+| `dest_en` | `string` |  |
+| `dest_sc` | `string` |  |
+| `dest_tc` | `string` |  |
+| `dir` | `string` |  |
+| `eta` | `string` |  |
+| `eta_seq` | `int` |  |
+| `generated_timestamp` | `string` |  |
+| `rmk_en` | `string` |  |
+| `rmk_sc` | `string` |  |
+| `rmk_tc` | `string` |  |
+| `route` | `string` |  |
+| `seq` | `int` |  |
+| `service_type` | `int` |  |
+| `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
 ```go
-eta, err := client.Eta(nil).Load(map[string]any{"id": "eta_id"}, nil)
+eta, err := client.Eta(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -399,19 +427,19 @@ Create an instance: `route := client.Route(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | ``$STRING`` |  |
-| `data` | ``$ARRAY`` |  |
-| `dest_en` | ``$STRING`` |  |
-| `dest_sc` | ``$STRING`` |  |
-| `dest_tc` | ``$STRING`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `orig_en` | ``$STRING`` |  |
-| `orig_sc` | ``$STRING`` |  |
-| `orig_tc` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `service_type` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `bound` | `string` |  |
+| `data` | `[]any` |  |
+| `dest_en` | `string` |  |
+| `dest_sc` | `string` |  |
+| `dest_tc` | `string` |  |
+| `generated_timestamp` | `string` |  |
+| `orig_en` | `string` |  |
+| `orig_sc` | `string` |  |
+| `orig_tc` | `string` |  |
+| `route` | `string` |  |
+| `service_type` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -448,11 +476,11 @@ Create an instance: `route_stop := client.RouteStop(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | ``$STRING`` |  |
-| `route` | ``$STRING`` |  |
-| `seq` | ``$STRING`` |  |
-| `service_type` | ``$STRING`` |  |
-| `stop` | ``$STRING`` |  |
+| `bound` | `string` |  |
+| `route` | `string` |  |
+| `seq` | `string` |  |
+| `service_type` | `string` |  |
+| `stop` | `string` |  |
 
 #### Example: List
 
@@ -480,16 +508,16 @@ Create an instance: `stop := client.Stop(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `generated_timestamp` | ``$STRING`` |  |
-| `lat` | ``$STRING`` |  |
-| `long` | ``$STRING`` |  |
-| `name_en` | ``$STRING`` |  |
-| `name_sc` | ``$STRING`` |  |
-| `name_tc` | ``$STRING`` |  |
-| `stop` | ``$STRING`` |  |
-| `type` | ``$STRING`` |  |
-| `version` | ``$STRING`` |  |
+| `data` | `map[string]any` |  |
+| `generated_timestamp` | `string` |  |
+| `lat` | `string` |  |
+| `long` | `string` |  |
+| `name_en` | `string` |  |
+| `name_sc` | `string` |  |
+| `name_tc` | `string` |  |
+| `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -512,12 +540,16 @@ fmt.Println(stops) // the array of records
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -534,9 +566,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller. An unexpected panic triggers the
-`PreUnexpected` hook.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -577,14 +609,14 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `Load`, the entity
+Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
 eta := client.Eta(nil)
-eta.Load(map[string]any{"id": "example_id"}, nil)
+eta.List(nil, nil)
 
-// eta.Data() now returns the loaded eta data
+// eta.Data() now returns the eta data from the last list
 // eta.Match() returns the last match criteria
 ```
 

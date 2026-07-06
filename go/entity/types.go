@@ -65,8 +65,7 @@ type RouteLoadMatch struct {
 	Id string `json:"id"`
 }
 
-// RouteListMatch mirrors the route fields as an all-optional match
-// filter (Go analog of Partial<Route>).
+// RouteListMatch is the typed request payload for Route.ListTyped.
 type RouteListMatch struct {
 	Bound *string `json:"bound,omitempty"`
 	Data *[]any `json:"data,omitempty"`
@@ -118,8 +117,7 @@ type StopLoadMatch struct {
 	Id string `json:"id"`
 }
 
-// StopListMatch mirrors the stop fields as an all-optional match
-// filter (Go analog of Partial<Stop>).
+// StopListMatch is the typed request payload for Stop.ListTyped.
 type StopListMatch struct {
 	Data *map[string]any `json:"data,omitempty"`
 	GeneratedTimestamp *string `json:"generated_timestamp,omitempty"`

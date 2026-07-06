@@ -8,7 +8,7 @@ Complete API reference for the RealTimeBusData PHP SDK.
 ### Constructor
 
 ```php
-require_once __DIR__ . '/real-time-bus-data_sdk.php';
+require_once __DIR__ . '/realtimebusdata_sdk.php';
 
 $client = new RealTimeBusDataSDK($options);
 ```
@@ -57,11 +57,11 @@ Create a new `RouteStopEntity` instance. Pass `null` for no initial data.
 
 Create a new `StopEntity` instance. Pass `null` for no initial data.
 
-#### `optionsMap(): array`
+#### `options_map(): array`
 
 Return a deep copy of the current SDK options.
 
-#### `getUtility(): ProjectNameUtility`
+#### `get_utility(): RealTimeBusDataUtility`
 
 Return a copy of the SDK utility object.
 
@@ -104,34 +104,34 @@ $eta = $client->Eta();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `data_timestamp` | ``$STRING`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `dir` | ``$STRING`` | No |  |
-| `eta` | ``$STRING`` | No |  |
-| `eta_seq` | ``$INTEGER`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `rmk_en` | ``$STRING`` | No |  |
-| `rmk_sc` | ``$STRING`` | No |  |
-| `rmk_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$INTEGER`` | No |  |
-| `service_type` | ``$INTEGER`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `co` | `string` | No |  |
+| `data` | `array` | No |  |
+| `data_timestamp` | `string` | No |  |
+| `dest_en` | `string` | No |  |
+| `dest_sc` | `string` | No |  |
+| `dest_tc` | `string` | No |  |
+| `dir` | `string` | No |  |
+| `eta` | `string` | No |  |
+| `eta_seq` | `int` | No |  |
+| `generated_timestamp` | `string` | No |  |
+| `rmk_en` | `string` | No |  |
+| `rmk_sc` | `string` | No |  |
+| `rmk_tc` | `string` | No |  |
+| `route` | `string` | No |  |
+| `seq` | `int` | No |  |
+| `service_type` | `int` | No |  |
+| `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->Eta()->list([]);
+$results = $client->Eta()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -139,24 +139,24 @@ $results = $client->Eta()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Eta()->load(["id" => "eta_id"]);
+$result = $client->Eta()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -165,7 +165,7 @@ Set the entity match criteria.
 Create a new `EtaEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -182,28 +182,28 @@ $route = $client->Route();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `data` | ``$ARRAY`` | No |  |
-| `dest_en` | ``$STRING`` | No |  |
-| `dest_sc` | ``$STRING`` | No |  |
-| `dest_tc` | ``$STRING`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `orig_en` | ``$STRING`` | No |  |
-| `orig_sc` | ``$STRING`` | No |  |
-| `orig_tc` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `bound` | `string` | No |  |
+| `data` | `array` | No |  |
+| `dest_en` | `string` | No |  |
+| `dest_sc` | `string` | No |  |
+| `dest_tc` | `string` | No |  |
+| `generated_timestamp` | `string` | No |  |
+| `orig_en` | `string` | No |  |
+| `orig_sc` | `string` | No |  |
+| `orig_tc` | `string` | No |  |
+| `route` | `string` | No |  |
+| `service_type` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->Route()->list([]);
+$results = $client->Route()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -216,19 +216,19 @@ $result = $client->Route()->load(["id" => "route_id"]);
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -237,7 +237,7 @@ Set the entity match criteria.
 Create a new `RouteEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -254,37 +254,37 @@ $route_stop = $client->RouteStop();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | ``$STRING`` | No |  |
-| `route` | ``$STRING`` | No |  |
-| `seq` | ``$STRING`` | No |  |
-| `service_type` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
+| `bound` | `string` | No |  |
+| `route` | `string` | No |  |
+| `seq` | `string` | No |  |
+| `service_type` | `string` | No |  |
+| `stop` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->RouteStop()->list([]);
+$results = $client->RouteStop()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -293,7 +293,7 @@ Set the entity match criteria.
 Create a new `RouteStopEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -310,25 +310,25 @@ $stop = $client->Stop();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | No |  |
-| `generated_timestamp` | ``$STRING`` | No |  |
-| `lat` | ``$STRING`` | No |  |
-| `long` | ``$STRING`` | No |  |
-| `name_en` | ``$STRING`` | No |  |
-| `name_sc` | ``$STRING`` | No |  |
-| `name_tc` | ``$STRING`` | No |  |
-| `stop` | ``$STRING`` | No |  |
-| `type` | ``$STRING`` | No |  |
-| `version` | ``$STRING`` | No |  |
+| `data` | `array` | No |  |
+| `generated_timestamp` | `string` | No |  |
+| `lat` | `string` | No |  |
+| `long` | `string` | No |  |
+| `name_en` | `string` | No |  |
+| `name_sc` | `string` | No |  |
+| `name_tc` | `string` | No |  |
+| `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->Stop()->list([]);
+$results = $client->Stop()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -341,19 +341,19 @@ $result = $client->Stop()->load(["id" => "stop_id"]);
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -362,7 +362,7 @@ Set the entity match criteria.
 Create a new `StopEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
