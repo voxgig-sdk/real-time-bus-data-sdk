@@ -136,7 +136,7 @@ for eta in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Eta().load()
+result = client.Eta().load({"stop_id": "stop_id"})
 ```
 
 ### Common Methods

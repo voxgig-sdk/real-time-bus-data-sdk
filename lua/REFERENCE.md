@@ -137,7 +137,7 @@ local results, err = client:Eta():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Eta():load()
+local result, err = client:Eta():load({ stop_id = "stop_id" })
 ```
 
 ### Common Methods

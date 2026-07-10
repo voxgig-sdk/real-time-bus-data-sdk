@@ -42,9 +42,12 @@ class EtaLoadMatch(TypedDict):
     stop_id: str
 
 
-class EtaListMatch(TypedDict):
+class EtaListMatchRequired(TypedDict):
     route: str
     service_type: str
+
+
+class EtaListMatch(EtaListMatchRequired, total=False):
     stop_id: str
 
 
@@ -92,7 +95,7 @@ class RouteStop(TypedDict, total=False):
     stop: str
 
 
-class RouteStopListMatch(TypedDict):
+class RouteStopListMatch(TypedDict, total=False):
     direction: str
     route: str
     service_type: str

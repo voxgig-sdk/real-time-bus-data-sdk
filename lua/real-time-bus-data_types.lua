@@ -33,7 +33,7 @@
 ---@class EtaListMatch
 ---@field route string
 ---@field service_type string
----@field stop_id string
+---@field stop_id? string
 
 ---@class Route
 ---@field bound? string
@@ -76,9 +76,9 @@
 ---@field stop? string
 
 ---@class RouteStopListMatch
----@field direction string
----@field route string
----@field service_type string
+---@field direction? string
+---@field route? string
+---@field service_type? string
 
 ---@class Stop
 ---@field data? table

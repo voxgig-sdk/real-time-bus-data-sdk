@@ -47,11 +47,14 @@ for (const eta of etas) {
 
 ### 3. Load an eta
 
+Eta is nested under stop, so provide the `stop_id`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const eta = await client.Eta().load()
+  const eta = await client.Eta().load({
+    stop_id: 'example_stop_id',
+  })
   console.log(eta)
 } catch (err) {
   console.error('load failed:', err)
@@ -424,7 +427,7 @@ Create an instance: `const eta = client.Eta()`
 #### Example: Load
 
 ```ts
-const eta = await client.Eta().load()
+const eta = await client.Eta().load({ stop_id: 'stop_id' })
 ```
 
 #### Example: List

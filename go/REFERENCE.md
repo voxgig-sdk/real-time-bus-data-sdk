@@ -103,6 +103,7 @@ same parameters as `Direct()`.
 
 ```go
 eta := client.Eta(nil)
+fmt.Println(eta.GetName()) // "eta"
 ```
 
 ### Fields
@@ -137,6 +138,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.Eta(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
@@ -144,7 +149,11 @@ results, err := client.Eta(nil).List(nil, nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Eta(nil).Load(nil, nil)
+result, err := client.Eta(nil).Load(map[string]any{"stop_id": "stop_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -175,6 +184,7 @@ Return the entity name.
 
 ```go
 route := client.Route(nil)
+fmt.Println(route.GetName()) // "route"
 ```
 
 ### Fields
@@ -203,6 +213,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.Route(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
@@ -211,6 +225,10 @@ Load a single entity matching the given criteria.
 
 ```go
 result, err := client.Route(nil).Load(map[string]any{"id": "route_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -240,7 +258,8 @@ Return the entity name.
 ## RouteStopEntity
 
 ```go
-route_stop := client.RouteStop(nil)
+routeStop := client.RouteStop(nil)
+fmt.Println(routeStop.GetName()) // "route_stop"
 ```
 
 ### Fields
@@ -261,6 +280,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.RouteStop(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 ### Common Methods
@@ -291,6 +314,7 @@ Return the entity name.
 
 ```go
 stop := client.Stop(nil)
+fmt.Println(stop.GetName()) // "stop"
 ```
 
 ### Fields
@@ -316,6 +340,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.Stop(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
@@ -324,6 +352,10 @@ Load a single entity matching the given criteria.
 
 ```go
 result, err := client.Stop(nil).Load(map[string]any{"id": "stop_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods

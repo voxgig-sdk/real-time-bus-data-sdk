@@ -139,7 +139,7 @@ $results = $client->Eta()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Eta()->load();
+$result = $client->Eta()->load(["stop_id" => "stop_id"]);
 ```
 
 ### Common Methods

@@ -140,7 +140,7 @@ results = client.Eta.list
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Eta.load()
+result = client.Eta.load({ "stop_id" => "stop_id" })
 ```
 
 ### Common Methods

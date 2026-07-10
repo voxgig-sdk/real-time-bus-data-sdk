@@ -40,7 +40,7 @@ type EtaLoadMatch struct {
 type EtaListMatch struct {
 	Route string `json:"route"`
 	ServiceType string `json:"service_type"`
-	StopId string `json:"stop_id"`
+	StopId *string `json:"stop_id,omitempty"`
 }
 
 // Route is the typed data model for the route entity.
@@ -93,9 +93,9 @@ type RouteStop struct {
 
 // RouteStopListMatch is the typed request payload for RouteStop.ListTyped.
 type RouteStopListMatch struct {
-	Direction string `json:"direction"`
-	Route string `json:"route"`
-	ServiceType string `json:"service_type"`
+	Direction *string `json:"direction,omitempty"`
+	Route *string `json:"route,omitempty"`
+	ServiceType *string `json:"service_type,omitempty"`
 }
 
 // Stop is the typed data model for the stop entity.

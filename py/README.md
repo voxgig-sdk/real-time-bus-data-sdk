@@ -52,11 +52,12 @@ except Exception as err:
 
 ### 3. Load an eta
 
+Eta is nested under stop, so provide the `stop_id`.
 `load()` returns the bare record (a `dict`) and raises on error.
 
 ```python
 try:
-    eta = client.Eta().load()
+    eta = client.Eta().load({"stop_id": "example_stop_id"})
     print(eta)
 except Exception as err:
     print(f"load failed: {err}")
@@ -380,7 +381,7 @@ Create an instance: `eta = client.Eta()`
 #### Example: Load
 
 ```python
-eta = client.Eta().load()
+eta = client.Eta().load({"stop_id": "stop_id"})
 ```
 
 #### Example: List

@@ -17,9 +17,9 @@ main: {
           url: "https://data.etabus.gov.hk"
         }
       ]
+      summary: "This API provides real-time arrival data for Kowloon Motor Bus and Long Win Bus services."
       title: "Real Time Bus Data"
       version: "1.0.0"
+      website: "https://data.etabus.gov.hk"
     }
   }
-}
-

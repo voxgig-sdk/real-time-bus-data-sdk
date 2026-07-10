@@ -107,7 +107,7 @@ EtaLoadMatch = Struct.new(
 #   @return [String]
 #
 # @!attribute [rw] stop_id
-#   @return [String]
+#   @return [String, nil]
 EtaListMatch = Struct.new(
   :route,
   :service_type,
@@ -266,13 +266,13 @@ RouteStop = Struct.new(
 # Request payload for RouteStop#list.
 #
 # @!attribute [rw] direction
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] route
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] service_type
-#   @return [String]
+#   @return [String, nil]
 RouteStopListMatch = Struct.new(
   :direction,
   :route,

@@ -187,7 +187,7 @@ const results = await client.Eta().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Eta().load()
+const result = await client.Eta().load({ stop_id: 'stop_id' })
 ```
 
 ### Common Methods

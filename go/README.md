@@ -60,7 +60,7 @@ func main() {
     }
 
     // Load a single eta — the value is the loaded record.
-    eta, err := client.Eta(nil).Load(nil, nil)
+    eta, err := client.Eta(nil).Load(map[string]any{"stop_id": "example_stop_id"}, nil)
     if err != nil {
         panic(err)
     }
@@ -394,7 +394,7 @@ Create an instance: `eta := client.Eta(nil)`
 #### Example: Load
 
 ```go
-eta, err := client.Eta(nil).Load(nil, nil)
+eta, err := client.Eta(nil).Load(map[string]any{"stop_id": "stop_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -464,7 +464,7 @@ fmt.Println(routes) // the array of records
 
 ### RouteStop
 
-Create an instance: `route_stop := client.RouteStop(nil)`
+Create an instance: `routeStop := client.RouteStop(nil)`
 
 #### Operations
 
@@ -485,11 +485,11 @@ Create an instance: `route_stop := client.RouteStop(nil)`
 #### Example: List
 
 ```go
-route_stops, err := client.RouteStop(nil).List(nil, nil)
+routeStops, err := client.RouteStop(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(route_stops) // the array of records
+fmt.Println(routeStops) // the array of records
 ```
 
 

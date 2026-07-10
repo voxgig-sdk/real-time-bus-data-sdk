@@ -47,7 +47,7 @@ class EtaListMatch
 {
     public string $route;
     public string $service_type;
-    public string $stop_id;
+    public ?string $stop_id = null;
 }
 
 /** Route entity data model. */
@@ -105,9 +105,9 @@ class RouteStop
 /** Request payload for RouteStop#list. */
 class RouteStopListMatch
 {
-    public string $direction;
-    public string $route;
-    public string $service_type;
+    public ?string $direction = null;
+    public ?string $route = null;
+    public ?string $service_type = null;
 }
 
 /** Stop entity data model. */

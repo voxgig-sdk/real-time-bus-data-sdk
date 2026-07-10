@@ -49,8 +49,10 @@ end
 
 ### 3. Load an eta
 
+Eta is nested under stop, so provide the `stop_id`.
+
 ```lua
-local eta, err = client:Eta():load()
+local eta, err = client:Eta():load({ stop_id = "example_stop_id" })
 if err then error(err) end
 print(eta)
 ```
@@ -366,7 +368,7 @@ Create an instance: `local eta = client:Eta(nil)`
 #### Example: Load
 
 ```lua
-local eta, err = client:Eta():load()
+local eta, err = client:Eta():load({ stop_id = "stop_id" })
 ```
 
 #### Example: List

@@ -47,10 +47,12 @@ try {
 
 ### 3. Load an eta
 
+Eta is nested under stop, so provide the `stop_id`.
+
 ```php
 try {
     // load() returns the bare Eta record (throws on error).
-    $eta = $client->Eta()->load();
+    $eta = $client->Eta()->load(["stop_id" => "example_stop_id"]);
     print_r($eta);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -385,7 +387,7 @@ Create an instance: `$eta = $client->Eta();`
 
 ```php
 // load() returns the bare Eta record (throws on error).
-$eta = $client->Eta()->load();
+$eta = $client->Eta()->load(["stop_id" => "stop_id"]);
 ```
 
 #### Example: List

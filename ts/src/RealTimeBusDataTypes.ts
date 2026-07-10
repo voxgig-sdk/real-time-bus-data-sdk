@@ -34,7 +34,7 @@ export interface EtaLoadMatch {
 export interface EtaListMatch {
   route: string
   service_type: string
-  stop_id: string
+  stop_id?: string
 }
 
 export interface Route {
@@ -82,9 +82,9 @@ export interface RouteStop {
 }
 
 export interface RouteStopListMatch {
-  direction: string
-  route: string
-  service_type: string
+  direction?: string
+  route?: string
+  service_type?: string
 }
 
 export interface Stop {

@@ -6,9 +6,6 @@
     },
     "kit": {
       "config": {
-        "auth": {
-          "prefix": "Bearer"
-        },
         "docs_order": [
           "ts",
           "py",
@@ -1013,14 +1010,17 @@
           "url": "https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb"
         },
         "description": "This API provides real-time arrival data for Kowloon Motor Bus and Long Win Bus services. It includes routes, stops, and the estimated time of arrival (ETA) for bus services based on live data updates.",
+        "meta_source": "https://www.freepublicapis.com",
         "servers": [
           {
             "description": "Production server",
             "url": "https://data.etabus.gov.hk"
           }
         ],
+        "summary": "This API provides real-time arrival data for Kowloon Motor Bus and Long Win Bus services.",
         "title": "Real Time Bus Data",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "website": "https://data.etabus.gov.hk"
       },
       "option": {},
       "target": {
@@ -1073,6 +1073,9 @@
           },
           "name": "go-cli",
           "phase": {
+            "agentguide": {
+              "active": false
+            },
             "entity": {
               "active": false
             },
@@ -1123,6 +1126,9 @@
           },
           "name": "go-mcp",
           "phase": {
+            "agentguide": {
+              "active": false
+            },
             "entity": {
               "active": false
             },
