@@ -37,7 +37,20 @@ func main() {
 	addr := flag.String("addr", ":8080", "listen address for http transport")
 	flag.Parse()
 
-	client := sdk.NewRealTimeBusDataSDK(nil)
+	// Configure from the environment: REAL_TIME_BUS_DATA_APIKEY carries the API key and
+	// REAL_TIME_BUS_DATA_BASE optionally overrides the API base URL (e.g. production).
+	// Both injectable by a secrets vault. Unset -> nil config defaults.
+	var opts map[string]any
+	if apikey := os.Getenv("REAL_TIME_BUS_DATA_APIKEY"); apikey != "" {
+		opts = map[string]any{"apikey": apikey}
+	}
+	if base := os.Getenv("REAL_TIME_BUS_DATA_BASE"); base != "" {
+		if opts == nil {
+			opts = map[string]any{}
+		}
+		opts["base"] = base
+	}
+	client := sdk.NewRealTimeBusDataSDK(opts)
 	server := mcp.NewServer(
 		&mcp.Implementation{
 			Name:    "real-time-bus-data",
