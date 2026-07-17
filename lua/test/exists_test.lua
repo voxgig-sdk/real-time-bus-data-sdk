@@ -1,4 +1,4 @@
--- ProjectName SDK exists test
+-- RealTimeBusData SDK exists test
 
 local sdk = require("real-time-bus-data_sdk")
 
