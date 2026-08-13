@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import RealTimeBusDataControl
-from core.error import RealTimeBusDataError
-from core.result import RealTimeBusDataResult
-from core.spec import RealTimeBusDataSpec
+from projectname_sdk.config import make_config
+from projectname_sdk.features import _make_feature
+from projectname_sdk.core.control import RealTimeBusDataControl
+from projectname_sdk.core.error import RealTimeBusDataError
+from projectname_sdk.core.result import RealTimeBusDataResult
+from projectname_sdk.core.spec import RealTimeBusDataSpec
 
 
 # True when this SDK was generated with the named feature.

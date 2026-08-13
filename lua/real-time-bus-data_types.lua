@@ -81,31 +81,23 @@
 ---@field service_type? string
 
 ---@class Stop
----@field data? table
----@field generated_timestamp? string
 ---@field lat? string
 ---@field long? string
 ---@field name_en? string
 ---@field name_sc? string
 ---@field name_tc? string
 ---@field stop? string
----@field type? string
----@field version? string
 
 ---@class StopLoadMatch
 ---@field id string
 
 ---@class StopListMatch
----@field data? table
----@field generated_timestamp? string
 ---@field lat? string
 ---@field long? string
 ---@field name_en? string
 ---@field name_sc? string
 ---@field name_tc? string
 ---@field stop? string
----@field type? string
----@field version? string
 
 local M = {}
 

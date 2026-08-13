@@ -88,16 +88,12 @@ export interface RouteStopListMatch {
 }
 
 export interface Stop {
-  data?: Record<string, any>
-  generated_timestamp?: string
   lat?: string
   long?: string
   name_en?: string
   name_sc?: string
   name_tc?: string
   stop?: string
-  type?: string
-  version?: string
 }
 
 export interface StopLoadMatch {
@@ -105,15 +101,11 @@ export interface StopLoadMatch {
 }
 
 export interface StopListMatch {
-  data?: Record<string, any>
-  generated_timestamp?: string
   lat?: string
   long?: string
   name_en?: string
   name_sc?: string
   name_tc?: string
   stop?: string
-  type?: string
-  version?: string
 }
 

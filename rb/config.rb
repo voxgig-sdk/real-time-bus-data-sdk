@@ -204,6 +204,7 @@ module RealTimeBusDataConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
                   "parts" => [
@@ -224,7 +225,7 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 0,
                 },
@@ -254,6 +255,7 @@ module RealTimeBusDataConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/route-eta/{route}/{service_type}",
                   "parts" => [
@@ -272,7 +274,7 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 1,
                 },
@@ -299,6 +301,7 @@ module RealTimeBusDataConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/stop-eta/{stop_id}",
                   "parts" => [
@@ -440,6 +443,7 @@ module RealTimeBusDataConfig
                 {
                   "active" => true,
                   "args" => {},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/route",
                   "parts" => [
@@ -451,7 +455,7 @@ module RealTimeBusDataConfig
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 0,
                 },
@@ -478,6 +482,7 @@ module RealTimeBusDataConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/route/{route}",
                   "parts" => [
@@ -591,6 +596,7 @@ module RealTimeBusDataConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
                   "parts" => [
@@ -611,13 +617,14 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 0,
                 },
                 {
                   "active" => true,
                   "args" => {},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/route-stop",
                   "parts" => [
@@ -629,7 +636,7 @@ module RealTimeBusDataConfig
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 1,
                 },
@@ -649,73 +656,45 @@ module RealTimeBusDataConfig
           "fields" => [
             {
               "active" => true,
-              "name" => "data",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 0,
-            },
-            {
-              "active" => true,
-              "name" => "generated_timestamp",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1,
-            },
-            {
-              "active" => true,
               "name" => "lat",
               "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
+              "index$" => 0,
             },
             {
               "active" => true,
               "name" => "long",
               "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
+              "index$" => 1,
             },
             {
               "active" => true,
               "name" => "name_en",
               "req" => false,
               "type" => "`$STRING`",
-              "index$" => 4,
+              "index$" => 2,
             },
             {
               "active" => true,
               "name" => "name_sc",
               "req" => false,
               "type" => "`$STRING`",
-              "index$" => 5,
+              "index$" => 3,
             },
             {
               "active" => true,
               "name" => "name_tc",
               "req" => false,
               "type" => "`$STRING`",
-              "index$" => 6,
+              "index$" => 4,
             },
             {
               "active" => true,
               "name" => "stop",
               "req" => false,
               "type" => "`$STRING`",
-              "index$" => 7,
-            },
-            {
-              "active" => true,
-              "name" => "type",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8,
-            },
-            {
-              "active" => true,
-              "name" => "version",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9,
+              "index$" => 5,
             },
           ],
           "name" => "stop",
@@ -727,6 +706,7 @@ module RealTimeBusDataConfig
                 {
                   "active" => true,
                   "args" => {},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/stop",
                   "parts" => [
@@ -738,7 +718,7 @@ module RealTimeBusDataConfig
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 0,
                 },
@@ -765,6 +745,7 @@ module RealTimeBusDataConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/v1/transport/kmb/stop/{stop_id}",
                   "parts" => [
@@ -786,7 +767,7 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "index$" => 0,
                 },

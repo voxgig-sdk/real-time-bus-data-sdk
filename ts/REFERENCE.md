@@ -179,7 +179,7 @@ const eta = client.Eta()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Eta().list()
+const results = await client.Eta().list({ route: "example", service_type: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -352,16 +352,12 @@ const stop = client.Stop()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Record<string, any>` | No |  |
-| `generated_timestamp` | `string` | No |  |
 | `lat` | `string` | No |  |
 | `long` | `string` | No |  |
 | `name_en` | `string` | No |  |
 | `name_sc` | `string` | No |  |
 | `name_tc` | `string` | No |  |
 | `stop` | `string` | No |  |
-| `type` | `string` | No |  |
-| `version` | `string` | No |  |
 
 ### Operations
 

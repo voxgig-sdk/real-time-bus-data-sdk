@@ -26,8 +26,8 @@ import {
 describe('RouteStopEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when REALTIMEBUSDATA_TEST_LIVE=TRUE.
-  afterEach(liveDelay('REALTIMEBUSDATA_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when REAL_TIME_BUS_DATA_TEST_LIVE=TRUE.
+  afterEach(liveDelay('REAL_TIME_BUS_DATA_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RealTimeBusDataSDK.test()
@@ -63,7 +63,7 @@ describe('RouteStopEntity', async () => {
     const route_stop_ref01_ent = client.RouteStop()
     const route_stop_ref01_match: any = {}
 
-    const route_stop_ref01_list = await route_stop_ref01_ent.list(route_stop_ref01_match)
+    const route_stop_ref01_list = (await route_stop_ref01_ent.list(route_stop_ref01_match)).map((e: any) => e.data())
 
 
   })

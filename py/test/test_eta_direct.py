@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from realtimebusdata_sdk.utility.voxgig_struct import voxgig_struct as vs
 from realtimebusdata_sdk import RealTimeBusDataSDK
-from core import helpers
+from realtimebusdata_sdk.core import helpers
 from test import runner
 
 
@@ -122,11 +122,11 @@ def _eta_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "REALTIMEBUSDATA_TEST_ETA_ENTID": {},
-        "REALTIMEBUSDATA_TEST_LIVE": "FALSE",
+        "REAL_TIME_BUS_DATA_TEST_ETA_ENTID": {},
+        "REAL_TIME_BUS_DATA_TEST_LIVE": "FALSE",
     })
 
-    live = env.get("REALTIMEBUSDATA_TEST_LIVE") == "TRUE"
+    live = env.get("REAL_TIME_BUS_DATA_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {

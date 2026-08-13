@@ -86,7 +86,7 @@ main: kit: entity: route_stop: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -100,7 +100,7 @@ main: kit: entity: route_stop: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

@@ -282,12 +282,6 @@ RouteStopListMatch = Struct.new(
 
 # Stop entity data model.
 #
-# @!attribute [rw] data
-#   @return [Hash, nil]
-#
-# @!attribute [rw] generated_timestamp
-#   @return [String, nil]
-#
 # @!attribute [rw] lat
 #   @return [String, nil]
 #
@@ -305,23 +299,13 @@ RouteStopListMatch = Struct.new(
 #
 # @!attribute [rw] stop
 #   @return [String, nil]
-#
-# @!attribute [rw] type
-#   @return [String, nil]
-#
-# @!attribute [rw] version
-#   @return [String, nil]
 Stop = Struct.new(
-  :data,
-  :generated_timestamp,
   :lat,
   :long,
   :name_en,
   :name_sc,
   :name_tc,
   :stop,
-  :type,
-  :version,
   keyword_init: true
 )
 
@@ -336,12 +320,6 @@ StopLoadMatch = Struct.new(
 
 # Request payload for Stop#list.
 #
-# @!attribute [rw] data
-#   @return [Hash, nil]
-#
-# @!attribute [rw] generated_timestamp
-#   @return [String, nil]
-#
 # @!attribute [rw] lat
 #   @return [String, nil]
 #
@@ -359,23 +337,13 @@ StopLoadMatch = Struct.new(
 #
 # @!attribute [rw] stop
 #   @return [String, nil]
-#
-# @!attribute [rw] type
-#   @return [String, nil]
-#
-# @!attribute [rw] version
-#   @return [String, nil]
 StopListMatch = Struct.new(
-  :data,
-  :generated_timestamp,
   :lat,
   :long,
   :name_en,
   :name_sc,
   :name_tc,
   :stop,
-  :type,
-  :version,
   keyword_init: true
 )
 

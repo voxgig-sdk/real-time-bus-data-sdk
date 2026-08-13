@@ -23,8 +23,8 @@ module RealTimeBusDataTestRunner
   end
 
   def self.env_override(m)
-    live = getenv("REALTIMEBUSDATA_TEST_LIVE")
-    override = getenv("REALTIMEBUSDATA_TEST_OVERRIDE")
+    live = getenv("REAL_TIME_BUS_DATA_TEST_LIVE")
+    override = getenv("REAL_TIME_BUS_DATA_TEST_OVERRIDE")
 
     if live == "TRUE" || override == "TRUE"
       m.each_key do |key|
@@ -44,8 +44,8 @@ module RealTimeBusDataTestRunner
       end
     end
 
-    explain = getenv("REALTIMEBUSDATA_TEST_EXPLAIN")
-    m["REALTIMEBUSDATA_TEST_EXPLAIN"] = explain if explain && !explain.empty?
+    explain = getenv("REAL_TIME_BUS_DATA_TEST_EXPLAIN")
+    m["REAL_TIME_BUS_DATA_TEST_EXPLAIN"] = explain if explain && !explain.empty?
 
     m
   end

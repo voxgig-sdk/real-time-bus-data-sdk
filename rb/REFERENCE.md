@@ -311,16 +311,12 @@ stop = client.Stop
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Hash` | No |  |
-| `generated_timestamp` | `String` | No |  |
 | `lat` | `String` | No |  |
 | `long` | `String` | No |  |
 | `name_en` | `String` | No |  |
 | `name_sc` | `String` | No |  |
 | `name_tc` | `String` | No |  |
 | `stop` | `String` | No |  |
-| `type` | `String` | No |  |
-| `version` | `String` | No |  |
 
 ### Operations
 

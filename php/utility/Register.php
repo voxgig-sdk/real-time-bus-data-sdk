@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ RealTimeBusDataUtility::setRegistrar(function (RealTimeBusDataUtility $u): void 
     $u->prepare_params = [RealTimeBusDataPrepareParams::class, 'call'];
     $u->prepare_path = [RealTimeBusDataPreparePath::class, 'call'];
     $u->prepare_query = [RealTimeBusDataPrepareQuery::class, 'call'];
+    $u->graphql_body = [RealTimeBusDataGraphql::class, 'body'];
+    $u->graphql_errors = [RealTimeBusDataGraphql::class, 'errors'];
     $u->result_basic = [RealTimeBusDataResultBasic::class, 'call'];
     $u->result_body = [RealTimeBusDataResultBody::class, 'call'];
     $u->result_headers = [RealTimeBusDataResultHeaders::class, 'call'];

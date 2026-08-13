@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import RealTimeBusDataSDK
-from core.error import RealTimeBusDataError
-from core.result import RealTimeBusDataResult
-from core.response import RealTimeBusDataResponse
-from core.spec import RealTimeBusDataSpec
-from feature.base_feature import RealTimeBusDataBaseFeature
+from projectname_sdk.core.error import RealTimeBusDataError
+from projectname_sdk.core.result import RealTimeBusDataResult
+from projectname_sdk.core.response import RealTimeBusDataResponse
+from projectname_sdk.core.spec import RealTimeBusDataSpec
+from projectname_sdk.feature.base_feature import RealTimeBusDataBaseFeature
 
 
 def _client():

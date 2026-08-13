@@ -51,7 +51,7 @@ Eta is nested under stop, so provide the `stop_id`.
 
 ```php
 try {
-    // load() returns the bare Eta record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Eta record (throws on error).
     $eta = $client->Eta()->load(["stop_id" => "example_stop_id"]);
     print_r($eta);
 } catch (\Throwable $err) {
@@ -67,7 +67,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $etas = $client->Eta()->list();
+    $routes = $client->Route()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -134,14 +134,18 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = RealTimeBusDataSDK::test();
+$client = RealTimeBusDataSDK::test([
+    "entity" => ["route" => ["test01" => ["id" => "test01"]]],
+]);
 
-// Entity ops return the bare mock record (throws on error).
-$eta = $client->Eta()->list();
-print_r($eta);
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
+$route = $client->Route()->list();
+print_r($route);
 ```
 
 ### Use a custom fetch function
@@ -242,7 +246,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -328,16 +332,12 @@ API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `generated_timestamp` |  |
 | `lat` |  |
 | `long` |  |
 | `name_en` |  |
 | `name_sc` |  |
 | `name_tc` |  |
 | `stop` |  |
-| `type` |  |
-| `version` |  |
 
 Operations: List, Load.
 
@@ -386,7 +386,7 @@ Create an instance: `$eta = $client->Eta();`
 #### Example: Load
 
 ```php
-// load() returns the bare Eta record (throws on error).
+// load() returns the ENTITY — call data_get() for the Eta record (throws on error).
 $eta = $client->Eta()->load(["stop_id" => "stop_id"]);
 ```
 
@@ -430,7 +430,7 @@ Create an instance: `$route = $client->Route();`
 #### Example: Load
 
 ```php
-// load() returns the bare Route record (throws on error).
+// load() returns the ENTITY — call data_get() for the Route record (throws on error).
 $route = $client->Route()->load(["id" => "route_id"]);
 ```
 
@@ -485,21 +485,17 @@ Create an instance: `$stop = $client->Stop();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `array` |  |
-| `generated_timestamp` | `string` |  |
 | `lat` | `string` |  |
 | `long` | `string` |  |
 | `name_en` | `string` |  |
 | `name_sc` | `string` |  |
 | `name_tc` | `string` |  |
 | `stop` | `string` |  |
-| `type` | `string` |  |
-| `version` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Stop record (throws on error).
+// load() returns the ENTITY — call data_get() for the Stop record (throws on error).
 $stop = $client->Stop()->load(["id" => "stop_id"]);
 ```
 
@@ -587,11 +583,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$eta = $client->Eta();
-$eta->list();
+$route = $client->Route();
+$route->list();
 
-// $eta->data_get() now returns the eta data from the last list
-// $eta->match_get() returns the last match criteria
+// $route->data_get() now returns the route data from the last list
+// $route->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

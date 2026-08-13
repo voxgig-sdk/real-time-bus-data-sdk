@@ -37,7 +37,7 @@ class RouteStopEntity extends RealTimeBusDataEntityBase<RouteStop> {
 
 
 
-  async list(this: any, reqmatch?: RouteStopListMatch, ctrl?: Control): Promise<RouteStop[]> {
+  async list(this: any, reqmatch?: RouteStopListMatch, ctrl?: Control): Promise<RouteStopEntity[]> {
 
     const utility = this._utility
 

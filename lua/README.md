@@ -64,7 +64,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local etas, err = client:Eta():list()
+local routes, err = client:Route():list()
 if err then error(err) end
 ```
 
@@ -122,7 +122,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Eta():list()
+local result, err = client:Route():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -310,16 +310,12 @@ API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `generated_timestamp` |  |
 | `lat` |  |
 | `long` |  |
 | `name_en` |  |
 | `name_sc` |  |
 | `name_tc` |  |
 | `stop` |  |
-| `type` |  |
-| `version` |  |
 
 Operations: List, Load.
 
@@ -462,16 +458,12 @@ Create an instance: `local stop = client:Stop(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `table` |  |
-| `generated_timestamp` | `string` |  |
 | `lat` | `string` |  |
 | `long` | `string` |  |
 | `name_en` | `string` |  |
 | `name_sc` | `string` |  |
 | `name_tc` | `string` |  |
 | `stop` | `string` |  |
-| `type` | `string` |  |
-| `version` | `string` |  |
 
 #### Example: Load
 
@@ -562,11 +554,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local eta = client:Eta()
-eta:list()
+local route = client:Route()
+route:list()
 
--- eta:data_get() now returns the eta data from the last list
--- eta:match_get() returns the last match criteria
+-- route:data_get() now returns the route data from the last list
+-- route:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

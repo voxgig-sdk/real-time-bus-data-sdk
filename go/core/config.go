@@ -203,6 +203,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
 								"parts": []any{
@@ -223,7 +224,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -253,6 +254,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/route-eta/{route}/{service_type}",
 								"parts": []any{
@@ -271,12 +273,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -298,6 +299,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/stop-eta/{stop_id}",
 								"parts": []any{
@@ -319,7 +321,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -439,6 +440,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/route",
 								"parts": []any{
@@ -450,12 +452,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -477,6 +478,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/route/{route}",
 								"parts": []any{
@@ -503,7 +505,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -590,6 +591,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
 								"parts": []any{
@@ -610,13 +612,14 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/route-stop",
 								"parts": []any{
@@ -628,12 +631,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -648,73 +650,45 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "data",
-						"req": false,
-						"type": "`$OBJECT`",
-						"index$": 0,
-					},
-					map[string]any{
-						"active": true,
-						"name": "generated_timestamp",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 1,
-					},
-					map[string]any{
-						"active": true,
 						"name": "lat",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 2,
+						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
 						"name": "long",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 3,
+						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
 						"name": "name_en",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 4,
+						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
 						"name": "name_sc",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 5,
+						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
 						"name": "name_tc",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 6,
+						"index$": 4,
 					},
 					map[string]any{
 						"active": true,
 						"name": "stop",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 7,
-					},
-					map[string]any{
-						"active": true,
-						"name": "type",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 8,
-					},
-					map[string]any{
-						"active": true,
-						"name": "version",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 9,
+						"index$": 5,
 					},
 				},
 				"name": "stop",
@@ -726,6 +700,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/stop",
 								"parts": []any{
@@ -737,12 +712,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -764,6 +738,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/v1/transport/kmb/stop/{stop_id}",
 								"parts": []any{
@@ -785,12 +760,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{

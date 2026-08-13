@@ -308,16 +308,12 @@ local stop = client:Stop(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | No |  |
-| `generated_timestamp` | `string` | No |  |
 | `lat` | `string` | No |  |
 | `long` | `string` | No |  |
 | `name_en` | `string` | No |  |
 | `name_sc` | `string` | No |  |
 | `name_tc` | `string` | No |  |
 | `stop` | `string` | No |  |
-| `type` | `string` | No |  |
-| `version` | `string` | No |  |
 
 ### Operations
 

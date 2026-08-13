@@ -75,12 +75,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-etas, err := client.Eta(nil).List(nil, nil)
+routes, err := client.Route(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = etas
+_ = routes
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -144,13 +144,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-eta, err := client.Eta(nil).List(
+route, err := client.Route(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(eta) // the returned mock data
+fmt.Println(route) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -336,16 +336,12 @@ API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
-| `"generated_timestamp"` |  |
 | `"lat"` |  |
 | `"long"` |  |
 | `"name_en"` |  |
 | `"name_sc"` |  |
 | `"name_tc"` |  |
 | `"stop"` |  |
-| `"type"` |  |
-| `"version"` |  |
 
 Operations: List, Load.
 
@@ -508,16 +504,12 @@ Create an instance: `stop := client.Stop(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `map[string]any` |  |
-| `generated_timestamp` | `string` |  |
 | `lat` | `string` |  |
 | `long` | `string` |  |
 | `name_en` | `string` |  |
 | `name_sc` | `string` |  |
 | `name_tc` | `string` |  |
 | `stop` | `string` |  |
-| `type` | `string` |  |
-| `version` | `string` |  |
 
 #### Example: Load
 
@@ -613,11 +605,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-eta := client.Eta(nil)
-eta.List(nil, nil)
+route := client.Route(nil)
+route.List(nil, nil)
 
-// eta.Data() now returns the eta data from the last list
-// eta.Match() returns the last match criteria
+// route.Data() now returns the route data from the last list
+// route.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

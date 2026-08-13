@@ -26,8 +26,8 @@ import {
 describe('EtaEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when REALTIMEBUSDATA_TEST_LIVE=TRUE.
-  afterEach(liveDelay('REALTIMEBUSDATA_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when REAL_TIME_BUS_DATA_TEST_LIVE=TRUE.
+  afterEach(liveDelay('REAL_TIME_BUS_DATA_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RealTimeBusDataSDK.test()
@@ -65,7 +65,7 @@ describe('EtaEntity', async () => {
     eta_ref01_match['route'] = setup.idmap['route01']
     eta_ref01_match['service_type'] = setup.idmap['service_type01']
 
-    const eta_ref01_list = await eta_ref01_ent.list(eta_ref01_match)
+    const eta_ref01_list = (await eta_ref01_ent.list(eta_ref01_match)).map((e: any) => e.data())
 
 
 

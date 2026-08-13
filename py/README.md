@@ -43,7 +43,7 @@ error — iterate it directly.
 
 ```python
 try:
-    etas = client.Eta().list()
+    etas = client.Eta().list({"route": "example", "service_type": "example"})
     for eta in etas:
         print(eta)
 except Exception as err:
@@ -53,7 +53,7 @@ except Exception as err:
 ### 3. Load an eta
 
 Eta is nested under stop, so provide the `stop_id`.
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -70,8 +70,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    etas = client.Eta().list()
-    print(etas)
+    routes = client.Route().list()
+    print(routes)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -137,9 +137,10 @@ Create a mock client for unit testing — no server required:
 ```python
 client = RealTimeBusDataSDK.test()
 
-# Entity ops return the bare record and raise on error.
-eta = client.Eta().list()
-# eta contains the mock response record
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
+route = client.Route().list()
+# route contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -237,7 +238,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -323,16 +324,12 @@ API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `generated_timestamp` |  |
 | `lat` |  |
 | `long` |  |
 | `name_en` |  |
 | `name_sc` |  |
 | `name_tc` |  |
 | `stop` |  |
-| `type` |  |
-| `version` |  |
 
 Operations: List, Load.
 
@@ -387,7 +384,7 @@ eta = client.Eta().load({"stop_id": "stop_id"})
 #### Example: List
 
 ```python
-etas = client.Eta().list()
+etas = client.Eta().list({"route": "example", "service_type": "example"})
 ```
 
 
@@ -475,16 +472,12 @@ Create an instance: `stop = client.Stop()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `dict` |  |
-| `generated_timestamp` | `str` |  |
 | `lat` | `str` |  |
 | `long` | `str` |  |
 | `name_en` | `str` |  |
 | `name_sc` | `str` |  |
 | `name_tc` | `str` |  |
 | `stop` | `str` |  |
-| `type` | `str` |  |
-| `version` | `str` |  |
 
 #### Example: Load
 
@@ -574,11 +567,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-eta = client.Eta()
-eta.list()
+route = client.Route()
+route.list()
 
-# eta.data_get() now returns the eta data from the last list
-# eta.match_get() returns the last match criteria
+# route.data_get() now returns the route data from the last list
+# route.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

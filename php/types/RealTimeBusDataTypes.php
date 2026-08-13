@@ -113,16 +113,12 @@ class RouteStopListMatch
 /** Stop entity data model. */
 class Stop
 {
-    public ?array $data = null;
-    public ?string $generated_timestamp = null;
     public ?string $lat = null;
     public ?string $long = null;
     public ?string $name_en = null;
     public ?string $name_sc = null;
     public ?string $name_tc = null;
     public ?string $stop = null;
-    public ?string $type = null;
-    public ?string $version = null;
 }
 
 /** Request payload for Stop#load. */
@@ -134,15 +130,11 @@ class StopLoadMatch
 /** Request payload for Stop#list. */
 class StopListMatch
 {
-    public ?array $data = null;
-    public ?string $generated_timestamp = null;
     public ?string $lat = null;
     public ?string $long = null;
     public ?string $name_en = null;
     public ?string $name_sc = null;
     public ?string $name_tc = null;
     public ?string $stop = null;
-    public ?string $type = null;
-    public ?string $version = null;
 }
 

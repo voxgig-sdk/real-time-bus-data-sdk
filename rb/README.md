@@ -50,7 +50,7 @@ Eta is nested under stop, so provide the `stop_id`.
 
 ```ruby
 begin
-  # load returns the bare Eta record (raises on error).
+  # load returns the ENTITY — call data_get for the Eta record (raises on error).
   eta = client.Eta.load({ "stop_id" => "example_stop_id" })
   puts eta
 rescue => err
@@ -65,7 +65,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  etas = client.Eta.list()
+  routes = client.Route.list()
 rescue => err
   warn "list failed: #{err}"
 end
@@ -128,14 +128,18 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
-client = RealTimeBusDataSDK.test
+client = RealTimeBusDataSDK.test({
+  "entity" => { "route" => { "test01" => { "id" => "test01" } } },
+})
 
-# Entity ops return the bare mock record (raises on error).
-eta = client.Eta.list()
-puts eta
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
+route = client.Route.list()
+puts route
 ```
 
 ### Use a custom fetch function
@@ -318,16 +322,12 @@ API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `generated_timestamp` |  |
 | `lat` |  |
 | `long` |  |
 | `name_en` |  |
 | `name_sc` |  |
 | `name_tc` |  |
 | `stop` |  |
-| `type` |  |
-| `version` |  |
 
 Operations: List, Load.
 
@@ -376,7 +376,7 @@ Create an instance: `eta = client.Eta`
 #### Example: Load
 
 ```ruby
-# load returns the bare Eta record (raises on error).
+# load returns the ENTITY — call data_get for the Eta record (raises on error).
 eta = client.Eta.load({ "stop_id" => "stop_id" })
 ```
 
@@ -420,7 +420,7 @@ Create an instance: `route = client.Route`
 #### Example: Load
 
 ```ruby
-# load returns the bare Route record (raises on error).
+# load returns the ENTITY — call data_get for the Route record (raises on error).
 route = client.Route.load({ "id" => "route_id" })
 ```
 
@@ -475,21 +475,17 @@ Create an instance: `stop = client.Stop`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Hash` |  |
-| `generated_timestamp` | `String` |  |
 | `lat` | `String` |  |
 | `long` | `String` |  |
 | `name_en` | `String` |  |
 | `name_sc` | `String` |  |
 | `name_tc` | `String` |  |
 | `stop` | `String` |  |
-| `type` | `String` |  |
-| `version` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Stop record (raises on error).
+# load returns the ENTITY — call data_get for the Stop record (raises on error).
 stop = client.Stop.load({ "id" => "stop_id" })
 ```
 
@@ -577,11 +573,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-eta = client.Eta
-eta.list()
+route = client.Route
+route.list()
 
-# eta.data_get now returns the eta data from the last list
-# eta.match_get returns the last match criteria
+# route.data_get now returns the route data from the last list
+# route.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

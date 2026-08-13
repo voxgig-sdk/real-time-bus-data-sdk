@@ -90,11 +90,11 @@ function route_stop_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID" => [],
-        "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
+        "REAL_TIME_BUS_DATA_TEST_ROUTE_STOP_ENTID" => [],
+        "REAL_TIME_BUS_DATA_TEST_LIVE" => "FALSE",
     ]);
 
-    $live = $env["REALTIMEBUSDATA_TEST_LIVE"] === "TRUE";
+    $live = $env["REAL_TIME_BUS_DATA_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [

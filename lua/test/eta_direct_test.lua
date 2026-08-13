@@ -137,11 +137,11 @@ function eta_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["REALTIMEBUSDATA_TEST_ETA_ENTID"] = {},
-    ["REALTIMEBUSDATA_TEST_LIVE"] = "FALSE",
+    ["REAL_TIME_BUS_DATA_TEST_ETA_ENTID"] = {},
+    ["REAL_TIME_BUS_DATA_TEST_LIVE"] = "FALSE",
   })
 
-  local live = env["REALTIMEBUSDATA_TEST_LIVE"] == "TRUE"
+  local live = env["REAL_TIME_BUS_DATA_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {

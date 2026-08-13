@@ -126,7 +126,7 @@ eta = client.Eta()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Eta().list()
+results = client.Eta().list({"route": "example", "service_type": "example"})
 for eta in results:
     print(eta)
 ```
@@ -308,16 +308,12 @@ stop = client.Stop()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `dict` | No |  |
-| `generated_timestamp` | `str` | No |  |
 | `lat` | `str` | No |  |
 | `long` | `str` | No |  |
 | `name_en` | `str` | No |  |
 | `name_sc` | `str` | No |  |
 | `name_tc` | `str` | No |  |
 | `stop` | `str` | No |  |
-| `type` | `str` | No |  |
-| `version` | `str` | No |  |
 
 ### Operations
 

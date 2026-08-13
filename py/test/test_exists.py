@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# RealTimeBusData SDK exists test
 
 import pytest
 from realtimebusdata_sdk import RealTimeBusDataSDK

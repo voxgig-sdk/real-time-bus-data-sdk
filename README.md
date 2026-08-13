@@ -23,7 +23,7 @@ support (`list`, `load`):
 
 ```ts
 const client = new RealTimeBusDataSDK()
-const items = await client.Eta().list()
+const items = await client.Eta().list({ route: "example", service_type: "example" })
 ```
 
 Thinking in entities keeps the mental model small — for people and AI agents alike —
@@ -38,18 +38,27 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = RealTimeBusDataSDK.test()
-const etas = await client.Eta().list()
-// etas is an array of bare Eta records populated with mock data
-console.log(etas)
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = RealTimeBusDataSDK.test({
+  entity: {
+    route: {
+      test01: { id: 'test01' },
+    },
+  },
+})
+const routes = await client.Route().list()
+// routes is an array of Route entities, populated with mock data
+// — call routes[0].data() for the record itself
+console.log(routes)
 ```
 
 ### Python
 
 ```python
 client = RealTimeBusDataSDK.test()
-etas = client.Eta().list()
-print(etas)
+routes = client.Route().list()
+print(routes)
 ```
 
 ### PHP
@@ -57,16 +66,16 @@ print(etas)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = RealTimeBusDataSDK::test([
-    "entity" => ["eta" => ["test01" => []]],
+    "entity" => ["route" => ["test01" => ["id" => "test01"]]],
 ]);
-$etas = $client->Eta()->list();
+$routes = $client->Route()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Eta(nil).List(
+result, err := client.Route(nil).List(
     nil, nil,
 )
 ```
@@ -76,16 +85,16 @@ result, err := client.Eta(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = RealTimeBusDataSDK.test({
-  "entity" => { "eta" => { "test01" => {} } },
+  "entity" => { "route" => { "test01" => { "id" => "test01" } } },
 })
-etas = client.Eta.list()
+routes = client.Route.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:Eta():list()
+local results, err = client:Route():list()
 ```
 
 ## Packages
@@ -110,8 +119,8 @@ import { RealTimeBusDataSDK } from '@voxgig-sdk/real-time-bus-data'
 
 const client = new RealTimeBusDataSDK()
 
-// List all etas (returns Eta[])
-const etas = await client.Eta().list()
+// List all etas (returns EtaEntity[] — .data() for the record)
+const etas = await client.Eta().list({ route: "example", service_type: "example" })
 for (const eta of etas) {
   console.log(eta)
 }
@@ -179,7 +188,7 @@ from realtimebusdata_sdk import RealTimeBusDataSDK
 client = RealTimeBusDataSDK()
 
 # List all etas (returns a list, raises on error)
-etas = client.Eta().list()
+etas = client.Eta().list({"route": "example", "service_type": "example"})
 for eta in etas:
     print(eta)
 
@@ -200,7 +209,7 @@ $client = new RealTimeBusDataSDK();
 $etas = $client->Eta()->list();
 print_r($etas);
 
-// Load a specific eta (returns the bare record; throws on error)
+// Load a specific eta (returns the ENTITY; call data_get() for the record; throws on error)
 $eta = $client->Eta()->load(["stop_id" => "example_stop_id"]);
 print_r($eta);
 ```
@@ -240,7 +249,7 @@ client = RealTimeBusDataSDK.new
 etas = client.Eta.list
 puts etas
 
-# Load a specific eta (returns the bare record; raises on error)
+# Load a specific eta (returns the ENTITY; call data_get for the record)
 eta = client.Eta.load({ "stop_id" => "example_stop_id" })
 puts eta
 ```
@@ -377,6 +386,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb](https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb)
 

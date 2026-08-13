@@ -72,7 +72,7 @@ class RouteStopEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set REAL_TIME_BUS_DATA_TEST_ROUTE_STOP_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -117,22 +117,22 @@ function route_stop_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID");
+    $entid_env_raw = getenv("REAL_TIME_BUS_DATA_TEST_ROUTE_STOP_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID" => $idmap,
-        "REALTIMEBUSDATA_TEST_LIVE" => "FALSE",
-        "REALTIMEBUSDATA_TEST_EXPLAIN" => "FALSE",
+        "REAL_TIME_BUS_DATA_TEST_ROUTE_STOP_ENTID" => $idmap,
+        "REAL_TIME_BUS_DATA_TEST_LIVE" => "FALSE",
+        "REAL_TIME_BUS_DATA_TEST_EXPLAIN" => "FALSE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["REALTIMEBUSDATA_TEST_ROUTE_STOP_ENTID"]);
+        $env["REAL_TIME_BUS_DATA_TEST_ROUTE_STOP_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["REALTIMEBUSDATA_TEST_LIVE"] === "TRUE") {
+    if ($env["REAL_TIME_BUS_DATA_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
             ],
@@ -141,13 +141,13 @@ function route_stop_basic_setup($extra)
         $client = new RealTimeBusDataSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["REALTIMEBUSDATA_TEST_LIVE"] === "TRUE";
+    $live = $env["REAL_TIME_BUS_DATA_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["REALTIMEBUSDATA_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["REAL_TIME_BUS_DATA_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

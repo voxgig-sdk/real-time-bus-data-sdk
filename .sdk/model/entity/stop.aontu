@@ -6,16 +6,6 @@ main: kit: entity: stop: {
 
   fields: [
     {
-      name: "data"
-      req: false
-      type: "`$OBJECT`"
-    }
-    {
-      name: "generated_timestamp"
-      req: false
-      type: "`$STRING`"
-    }
-    {
       name: "lat"
       req: false
       type: "`$STRING`"
@@ -45,16 +35,6 @@ main: kit: entity: stop: {
       req: false
       type: "`$STRING`"
     }
-    {
-      name: "type"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "version"
-      req: false
-      type: "`$STRING`"
-    }
   ]
 
   name: "stop"
@@ -73,7 +53,7 @@ main: kit: entity: stop: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
@@ -115,7 +95,7 @@ main: kit: entity: stop: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

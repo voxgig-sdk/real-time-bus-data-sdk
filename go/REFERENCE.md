@@ -321,16 +321,12 @@ fmt.Println(stop.GetName()) // "stop"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `map[string]any` | No |  |
-| `generated_timestamp` | `string` | No |  |
 | `lat` | `string` | No |  |
 | `long` | `string` | No |  |
 | `name_en` | `string` | No |  |
 | `name_sc` | `string` | No |  |
 | `name_tc` | `string` | No |  |
 | `stop` | `string` | No |  |
-| `type` | `string` | No |  |
-| `version` | `string` | No |  |
 
 ### Operations
 

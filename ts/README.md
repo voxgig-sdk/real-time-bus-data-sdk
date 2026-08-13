@@ -35,10 +35,12 @@ const client = new RealTimeBusDataSDK()
 
 ### 2. List eta records
 
-`list()` resolves to an array of Eta objects — iterate it directly:
+`list()` resolves to an array of Eta ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
 
 ```ts
-const etas = await client.Eta().list()
+const etas = await client.Eta().list({ route: "example", service_type: "example" })
 
 for (const eta of etas) {
   console.log(eta)
@@ -68,8 +70,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const etas = await client.Eta().list()
-  console.log(etas)
+  const routes = await client.Route().list()
+  console.log(routes)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -135,9 +137,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RealTimeBusDataSDK.test()
 
-const eta = await client.Eta().list()
-// eta is a bare entity populated with mock response data
-console.log(eta)
+const route = await client.Route().list()
+// route is the entity, populated with mock response data
+// — call route.data() for the record itself
+console.log(route)
 ```
 
 You can also use the instance method:
@@ -152,7 +155,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Eta()
+const entity = client.Route()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -369,16 +372,12 @@ API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `generated_timestamp` |  |
 | `lat` |  |
 | `long` |  |
 | `name_en` |  |
 | `name_sc` |  |
 | `name_tc` |  |
 | `stop` |  |
-| `type` |  |
-| `version` |  |
 
 Operations: list, load.
 
@@ -433,7 +432,7 @@ const eta = await client.Eta().load({ stop_id: 'stop_id' })
 #### Example: List
 
 ```ts
-const etas = await client.Eta().list()
+const etas = await client.Eta().list({ route: "example", service_type: "example" })
 ```
 
 
@@ -521,16 +520,12 @@ Create an instance: `const stop = client.Stop()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Record<string, any>` |  |
-| `generated_timestamp` | `string` |  |
 | `lat` | `string` |  |
 | `long` | `string` |  |
 | `name_en` | `string` |  |
 | `name_sc` | `string` |  |
 | `name_tc` | `string` |  |
 | `stop` | `string` |  |
-| `type` | `string` |  |
-| `version` | `string` |  |
 
 #### Example: Load
 
@@ -614,11 +609,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const eta = client.Eta()
-await eta.list()
+const route = client.Route()
+await route.list()
 
-// eta.data() now returns the eta data from the last `list`
-// eta.match() returns the last match criteria
+// route.data() now returns the route data from the last `list`
+// route.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

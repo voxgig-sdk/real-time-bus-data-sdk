@@ -2,42 +2,30 @@
   "existing": {
     "stop": {
       "STOP00": {
-        "data": {},
-        "generated_timestamp": "s65",
-        "lat": "s66",
-        "long": "s67",
-        "name_en": "s68",
-        "name_sc": "s69",
-        "name_tc": "s6a",
-        "stop": "s6b",
-        "type": "s6c",
-        "version": "s6d",
+        "lat": "s3c",
+        "long": "s3d",
+        "name_en": "s3e",
+        "name_sc": "s3f",
+        "name_tc": "s40",
+        "stop": "s41",
         "id": "STOP00"
       },
       "STOP01": {
-        "data": {},
-        "generated_timestamp": "sc9",
-        "lat": "sca",
-        "long": "scb",
-        "name_en": "scc",
-        "name_sc": "scd",
-        "name_tc": "sce",
-        "stop": "scf",
-        "type": "sd0",
-        "version": "sd1",
+        "lat": "s78",
+        "long": "s79",
+        "name_en": "s7a",
+        "name_sc": "s7b",
+        "name_tc": "s7c",
+        "stop": "s7d",
         "id": "STOP01"
       },
       "STOP02": {
-        "data": {},
-        "generated_timestamp": "s12d",
-        "lat": "s12e",
-        "long": "s12f",
-        "name_en": "s130",
-        "name_sc": "s131",
-        "name_tc": "s132",
-        "stop": "s133",
-        "type": "s134",
-        "version": "s135",
+        "lat": "sb4",
+        "long": "sb5",
+        "name_en": "sb6",
+        "name_sc": "sb7",
+        "name_tc": "sb8",
+        "stop": "sb9",
         "id": "STOP02"
       }
     }
@@ -45,16 +33,12 @@
   "new": {
     "stop": {
       "stop_ref01": {
-        "data": {},
-        "generated_timestamp": "s191",
-        "lat": "s192",
-        "long": "s193",
-        "name_en": "s194",
-        "name_sc": "s195",
-        "name_tc": "s196",
-        "stop": "s197",
-        "type": "s198",
-        "version": "s199"
+        "lat": "sf0",
+        "long": "sf1",
+        "name_en": "sf2",
+        "name_sc": "sf3",
+        "name_tc": "sf4",
+        "stop": "sf5"
       }
     }
   }
