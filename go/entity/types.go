@@ -14,23 +14,8 @@ import (
 
 // Eta is the typed data model for the eta entity.
 type Eta struct {
-	Co *string `json:"co,omitempty"`
 	Data *[]any `json:"data,omitempty"`
-	DataTimestamp *string `json:"data_timestamp,omitempty"`
-	DestEn *string `json:"dest_en,omitempty"`
-	DestSc *string `json:"dest_sc,omitempty"`
-	DestTc *string `json:"dest_tc,omitempty"`
-	Dir *string `json:"dir,omitempty"`
-	Eta *string `json:"eta,omitempty"`
-	EtaSeq *int `json:"eta_seq,omitempty"`
 	GeneratedTimestamp *string `json:"generated_timestamp,omitempty"`
-	RmkEn *string `json:"rmk_en,omitempty"`
-	RmkSc *string `json:"rmk_sc,omitempty"`
-	RmkTc *string `json:"rmk_tc,omitempty"`
-	Route *string `json:"route,omitempty"`
-	Seq *int `json:"seq,omitempty"`
-	ServiceType *int `json:"service_type,omitempty"`
-	Stop *string `json:"stop,omitempty"`
 	Type *string `json:"type,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
@@ -38,13 +23,6 @@ type Eta struct {
 // EtaLoadMatch is the typed request payload for Eta.LoadTyped.
 type EtaLoadMatch struct {
 	StopId string `json:"stop_id"`
-}
-
-// EtaListMatch is the typed request payload for Eta.ListTyped.
-type EtaListMatch struct {
-	Route string `json:"route"`
-	ServiceType string `json:"service_type"`
-	StopId *string `json:"stop_id,omitempty"`
 }
 
 // Route is the typed data model for the route entity.
@@ -89,17 +67,34 @@ type RouteListMatch struct {
 // RouteStop is the typed data model for the route_stop entity.
 type RouteStop struct {
 	Bound *string `json:"bound,omitempty"`
+	Data *[]any `json:"data,omitempty"`
+	GeneratedTimestamp *string `json:"generated_timestamp,omitempty"`
 	Route *string `json:"route,omitempty"`
 	Seq *string `json:"seq,omitempty"`
 	ServiceType *string `json:"service_type,omitempty"`
 	Stop *string `json:"stop,omitempty"`
+	Type *string `json:"type,omitempty"`
+	Version *string `json:"version,omitempty"`
+}
+
+// RouteStopLoadMatch is the typed request payload for RouteStop.LoadTyped.
+type RouteStopLoadMatch struct {
+	Direction string `json:"direction"`
+	Route string `json:"route"`
+	ServiceType string `json:"service_type"`
 }
 
 // RouteStopListMatch is the typed request payload for RouteStop.ListTyped.
 type RouteStopListMatch struct {
-	Direction *string `json:"direction,omitempty"`
+	Bound *string `json:"bound,omitempty"`
+	Data *[]any `json:"data,omitempty"`
+	GeneratedTimestamp *string `json:"generated_timestamp,omitempty"`
 	Route *string `json:"route,omitempty"`
+	Seq *string `json:"seq,omitempty"`
 	ServiceType *string `json:"service_type,omitempty"`
+	Stop *string `json:"stop,omitempty"`
+	Type *string `json:"type,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 // Stop is the typed data model for the stop entity.

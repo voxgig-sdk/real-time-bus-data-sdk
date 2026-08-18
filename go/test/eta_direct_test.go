@@ -11,113 +11,6 @@ import (
 )
 
 func TestEtaDirect(t *testing.T) {
-	t.Run("direct-list-eta", func(t *testing.T) {
-		setup := etaDirectSetup([]any{
-			map[string]any{"id": "direct01"},
-			map[string]any{"id": "direct02"},
-		})
-		_mode := "unit"
-		if setup.live {
-			_mode = "live"
-		}
-		if _shouldSkip, _reason := isControlSkipped("direct", "direct-list-eta", _mode); _shouldSkip {
-			if _reason == "" {
-				_reason = "skipped via sdk-test-control.json"
-			}
-			t.Skip(_reason)
-			return
-		}
-		if setup.live {
-			for _, _liveKey := range []string{"route01", "service_type01", "stop01"} {
-				if v := setup.idmap[_liveKey]; v == nil {
-					t.Skipf("live test needs %s via *_ENTID env var (synthetic IDs only)", _liveKey)
-					return
-				}
-			}
-		}
-		client := setup.client
-
-		params := map[string]any{}
-		if setup.live {
-			params["route"] = setup.idmap["route01"]
-		} else {
-			params["route"] = "direct01"
-		}
-		if setup.live {
-			params["service_type"] = setup.idmap["service_type01"]
-		} else {
-			params["service_type"] = "direct02"
-		}
-		if setup.live {
-			params["stop_id"] = setup.idmap["stop01"]
-		} else {
-			params["stop_id"] = "direct03"
-		}
-
-		result, err := client.Direct(map[string]any{
-			"path":   "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
-			"method": "GET",
-			"params": params,
-		})
-		if setup.live {
-			// Live-mode leniency is a model decision
-			// (main.kit.test.live.strict): synthetic IDs 4xx constantly
-			// against an arbitrary public API, so the default SKIPS here.
-			// A project that owns its test server sets strict and FAILS.
-			if err != nil {
-				t.Skipf("list call failed (likely synthetic IDs against live API): %v", err)
-			}
-			if result["ok"] != true {
-				t.Skipf("list call not ok (likely synthetic IDs against live API): %v", result)
-			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Skipf("expected 2xx status, got %v", result["status"])
-			}
-		} else {
-			if err != nil {
-				t.Fatalf("direct failed: %v", err)
-			}
-			if result["ok"] != true {
-				t.Fatalf("expected ok to be true, got %v", result["ok"])
-			}
-			if core.ToInt(result["status"]) != 200 {
-				t.Fatalf("expected status 200, got %v", result["status"])
-			}
-		}
-
-		if !setup.live {
-			if dataList, ok := result["data"].([]any); ok {
-				if len(dataList) != 2 {
-					t.Fatalf("expected 2 items, got %d", len(dataList))
-				}
-			} else {
-				t.Fatalf("expected data to be an array, got %T", result["data"])
-			}
-
-			if len(*setup.calls) != 1 {
-				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
-			}
-			call := (*setup.calls)[0]
-			if initMap, ok := call["init"].(map[string]any); ok {
-				if initMap["method"] != "GET" {
-					t.Fatalf("expected method GET, got %v", initMap["method"])
-				}
-			}
-			if url, ok := call["url"].(string); ok {
-				if !strings.Contains(url, "direct01") {
-					t.Fatalf("expected url to contain direct01, got %v", url)
-				}
-				if !strings.Contains(url, "direct02") {
-					t.Fatalf("expected url to contain direct02, got %v", url)
-				}
-				if !strings.Contains(url, "direct03") {
-					t.Fatalf("expected url to contain direct03, got %v", url)
-				}
-			}
-		}
-	})
-
 	t.Run("direct-load-eta", func(t *testing.T) {
 		setup := etaDirectSetup(map[string]any{"id": "direct01"})
 		_mode := "unit"
@@ -136,13 +29,17 @@ func TestEtaDirect(t *testing.T) {
 		params := map[string]any{}
 		query := map[string]any{}
 		if setup.live {
+			params["route"] = "1"
+			params["service_type"] = "1"
 			params["stop_id"] = "0000D01E8B5635F0"
 		} else {
-			params["stop_id"] = "direct01"
+			params["route"] = "direct01"
+			params["service_type"] = "direct02"
+			params["stop_id"] = "direct03"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "v1/transport/kmb/stop-eta/{stop_id}",
+			"path":   "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
 			"method": "GET",
 			"params": params,
 			"query":  query,
@@ -196,6 +93,12 @@ func TestEtaDirect(t *testing.T) {
 			if url, ok := call["url"].(string); ok {
 				if !strings.Contains(url, "direct01") {
 					t.Fatalf("expected url to contain direct01, got %v", url)
+				}
+				if !strings.Contains(url, "direct02") {
+					t.Fatalf("expected url to contain direct02, got %v", url)
+				}
+				if !strings.Contains(url, "direct03") {
+					t.Fatalf("expected url to contain direct03, got %v", url)
 				}
 			}
 		}

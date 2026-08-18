@@ -27,37 +27,13 @@ func TestRouteStopDirect(t *testing.T) {
 			t.Skip(_reason)
 			return
 		}
-		if setup.live {
-			for _, _liveKey := range []string{"direction01", "route01", "service_type01"} {
-				if v := setup.idmap[_liveKey]; v == nil {
-					t.Skipf("live test needs %s via *_ENTID env var (synthetic IDs only)", _liveKey)
-					return
-				}
-			}
-		}
 		client := setup.client
 
-		params := map[string]any{}
-		if setup.live {
-			params["direction"] = setup.idmap["direction01"]
-		} else {
-			params["direction"] = "direct01"
-		}
-		if setup.live {
-			params["route"] = setup.idmap["route01"]
-		} else {
-			params["route"] = "direct02"
-		}
-		if setup.live {
-			params["service_type"] = setup.idmap["service_type01"]
-		} else {
-			params["service_type"] = "direct03"
-		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+			"path":   "v1/transport/kmb/route-stop",
 			"method": "GET",
-			"params": params,
+			"params": map[string]any{},
 		})
 		if setup.live {
 			// Live-mode leniency is a model decision
@@ -93,6 +69,82 @@ func TestRouteStopDirect(t *testing.T) {
 				}
 			} else {
 				t.Fatalf("expected data to be an array, got %T", result["data"])
+			}
+
+			if len(*setup.calls) != 1 {
+				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
+			}
+		}
+	})
+
+	t.Run("direct-load-route_stop", func(t *testing.T) {
+		setup := route_stopDirectSetup(map[string]any{"id": "direct01"})
+		_mode := "unit"
+		if setup.live {
+			_mode = "live"
+		}
+		if _shouldSkip, _reason := isControlSkipped("direct", "direct-load-route_stop", _mode); _shouldSkip {
+			if _reason == "" {
+				_reason = "skipped via sdk-test-control.json"
+			}
+			t.Skip(_reason)
+			return
+		}
+		client := setup.client
+
+		params := map[string]any{}
+		query := map[string]any{}
+		if setup.live {
+			params["direction"] = "outbound"
+			params["route"] = "1"
+			params["service_type"] = "1"
+		} else {
+			params["direction"] = "direct01"
+			params["route"] = "direct02"
+			params["service_type"] = "direct03"
+		}
+
+		result, err := client.Direct(map[string]any{
+			"path":   "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+			"method": "GET",
+			"params": params,
+			"query":  query,
+		})
+		if setup.live {
+			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
+			// rather than fail when the load endpoint isn't reachable with
+			// the IDs we can construct from setup.idmap — unless the model
+			// sets main.kit.test.live.strict.
+			if err != nil {
+				t.Skipf("load call failed (likely synthetic IDs against live API): %v", err)
+			}
+			if result["ok"] != true {
+				t.Skipf("load call not ok (likely synthetic IDs against live API): %v", result)
+			}
+			status := core.ToInt(result["status"])
+			if status < 200 || status >= 300 {
+				t.Skipf("expected 2xx status, got %v", result["status"])
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("direct failed: %v", err)
+			}
+			if result["ok"] != true {
+				t.Fatalf("expected ok to be true, got %v", result["ok"])
+			}
+			if core.ToInt(result["status"]) != 200 {
+				t.Fatalf("expected status 200, got %v", result["status"])
+			}
+			if result["data"] == nil {
+				t.Fatal("expected data to be non-nil")
+			}
+		}
+
+		if !setup.live {
+			if dataMap, ok := result["data"].(map[string]any); ok {
+				if dataMap["id"] != "direct01" {
+					t.Fatalf("expected data.id to be direct01, got %v", dataMap["id"])
+				}
 			}
 
 			if len(*setup.calls) != 1 {

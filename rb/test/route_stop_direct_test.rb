@@ -16,37 +16,13 @@ class RouteStopDirectTest < Minitest::Test
       skip(_reason || "skipped via sdk-test-control.json")
       return
     end
-    if setup[:live]
-      ["direction01", "route01", "service_type01"].each do |_live_key|
-        if setup[:idmap][_live_key].nil?
-          skip "live test needs #{_live_key} via *_ENTID env var (synthetic IDs only)"
-          return
-        end
-      end
-    end
     client = setup[:client]
 
-    params = {}
-    if setup[:live]
-      params["direction"] = setup[:idmap]["direction01"]
-    else
-      params["direction"] = "direct01"
-    end
-    if setup[:live]
-      params["route"] = setup[:idmap]["route01"]
-    else
-      params["route"] = "direct01"
-    end
-    if setup[:live]
-      params["service_type"] = setup[:idmap]["service_type01"]
-    else
-      params["service_type"] = "direct01"
-    end
 
     result = client.direct({
-      "path" => "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+      "path" => "v1/transport/kmb/route-stop",
       "method" => "GET",
-      "params" => params,
+      "params" => {},
     })
     if setup[:live]
       # Live mode is lenient: synthetic IDs frequently 4xx and the list-
@@ -71,6 +47,62 @@ class RouteStopDirectTest < Minitest::Test
       assert_equal 200, Helpers.to_int(result["status"])
       assert result["data"].is_a?(Array)
       assert_equal 2, result["data"].length
+      assert_equal 1, setup[:calls].length
+    end
+  end
+
+  def test_direct_load_route_stop
+    setup = route_stop_direct_setup({ "id" => "direct01" })
+    _should_skip, _reason = Runner.is_control_skipped("direct", "direct-load-route_stop", setup[:live] ? "live" : "unit")
+    if _should_skip
+      skip(_reason || "skipped via sdk-test-control.json")
+      return
+    end
+    client = setup[:client]
+
+    params = {}
+    query = {}
+    if setup[:live]
+      params["direction"] = "outbound"
+      params["route"] = "1"
+      params["service_type"] = "1"
+    else
+      params["direction"] = "direct01"
+      params["route"] = "direct02"
+      params["service_type"] = "direct03"
+    end
+
+    result = client.direct({
+      "path" => "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+      "method" => "GET",
+      "params" => params,
+      "query" => query,
+    })
+    if setup[:live]
+      # Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
+      # than fail when the load endpoint isn't reachable with the IDs
+      # we can construct from setup.idmap.
+      if !result["err"].nil?
+        skip("load call failed (likely synthetic IDs against live API): #{result["err"]}")
+        return
+      end
+      unless result["ok"]
+        skip("load call not ok (likely synthetic IDs against live API)")
+        return
+      end
+      status = Helpers.to_int(result["status"])
+      if status < 200 || status >= 300
+        skip("expected 2xx status, got #{status}")
+        return
+      end
+    else
+      assert_nil result["err"]
+      assert result["ok"]
+      assert_equal 200, Helpers.to_int(result["status"])
+      assert !result["data"].nil?
+      if result["data"].is_a?(Hash)
+        assert_equal "direct01", result["data"]["id"]
+      end
       assert_equal 1, setup[:calls].length
     end
   end

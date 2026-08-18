@@ -6,35 +6,14 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface Eta {
-  co?: string
   data?: any[]
-  data_timestamp?: string
-  dest_en?: string
-  dest_sc?: string
-  dest_tc?: string
-  dir?: string
-  eta?: string
-  eta_seq?: number
   generated_timestamp?: string
-  rmk_en?: string
-  rmk_sc?: string
-  rmk_tc?: string
-  route?: string
-  seq?: number
-  service_type?: number
-  stop?: string
   type?: string
   version?: string
 }
 
 export interface EtaLoadMatch {
   stop_id: string
-}
-
-export interface EtaListMatch {
-  route: string
-  service_type: string
-  stop_id?: string
 }
 
 export interface Route {
@@ -75,16 +54,32 @@ export interface RouteListMatch {
 
 export interface RouteStop {
   bound?: string
+  data?: any[]
+  generated_timestamp?: string
   route?: string
   seq?: string
   service_type?: string
   stop?: string
+  type?: string
+  version?: string
+}
+
+export interface RouteStopLoadMatch {
+  direction: string
+  route: string
+  service_type: string
 }
 
 export interface RouteStopListMatch {
-  direction?: string
+  bound?: string
+  data?: any[]
+  generated_timestamp?: string
   route?: string
+  seq?: string
   service_type?: string
+  stop?: string
+  type?: string
+  version?: string
 }
 
 export interface Stop {

@@ -40,7 +40,7 @@ class RealTimeBusDataSDK
         $utility = new RealTimeBusDataUtility();
         $this->_utility = $utility;
 
-        $config = RealTimeBusDataConfig::make_config();
+        $config = RealTimeBusDataConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

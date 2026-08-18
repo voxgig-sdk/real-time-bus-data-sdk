@@ -10,76 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class EtaDirectTest extends TestCase
 {
-    public function test_direct_list_eta(): void
-    {
-        $setup = eta_direct_setup([
-            ["id" => "direct01"],
-            ["id" => "direct02"],
-        ]);
-        [$_shouldSkip, $_reason] = Runner::is_control_skipped("direct", "direct-list-eta", $setup["live"] ? "live" : "unit");
-        if ($_shouldSkip) {
-            $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
-            return;
-        }
-        if ($setup["live"]) {
-            foreach (["route01", "service_type01", "stop01"] as $_liveKey) {
-                if (!isset($setup["idmap"][$_liveKey]) || $setup["idmap"][$_liveKey] === null) {
-                    $this->markTestSkipped("live test needs $_liveKey via *_ENTID env var (synthetic IDs only)");
-                    return;
-                }
-            }
-        }
-        $client = $setup["client"];
-
-        $params = [];
-        if ($setup["live"]) {
-            $params["route"] = $setup["idmap"]["route01"];
-        } else {
-            $params["route"] = "direct01";
-        }
-        if ($setup["live"]) {
-            $params["service_type"] = $setup["idmap"]["service_type01"];
-        } else {
-            $params["service_type"] = "direct01";
-        }
-        if ($setup["live"]) {
-            $params["stop_id"] = $setup["idmap"]["stop01"];
-        } else {
-            $params["stop_id"] = "direct01";
-        }
-
-        $result = $client->direct([
-            "path" => "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
-            "method" => "GET",
-            "params" => $params,
-        ]);
-        if ($setup["live"]) {
-            // Live mode is lenient: synthetic IDs frequently 4xx and the
-            // list-response shape varies wildly across public APIs. Skip
-            // rather than fail when the call doesn't return a usable list.
-            if (!empty($result["err"])) {
-                $this->markTestSkipped("list call failed (likely synthetic IDs against live API): " . (string)$result["err"]);
-                return;
-            }
-            if (empty($result["ok"])) {
-                $this->markTestSkipped("list call not ok (likely synthetic IDs against live API)");
-                return;
-            }
-            $status = Helpers::to_int($result["status"]);
-            if ($status < 200 || $status >= 300) {
-                $this->markTestSkipped("expected 2xx status, got " . $status);
-                return;
-            }
-        } else {
-            $this->assertArrayNotHasKey("err", $result);
-            $this->assertTrue($result["ok"]);
-            $this->assertEquals(200, Helpers::to_int($result["status"]));
-            $this->assertIsArray($result["data"]);
-            $this->assertCount(2, $result["data"]);
-            $this->assertCount(1, $setup["calls"]);
-        }
-    }
-
     public function test_direct_load_eta(): void
     {
         $setup = eta_direct_setup(["id" => "direct01"]);
@@ -93,13 +23,17 @@ class EtaDirectTest extends TestCase
         $params = [];
         $query = [];
         if ($setup["live"]) {
+            $params["route"] = "1";
+            $params["service_type"] = "1";
             $params["stop_id"] = "0000D01E8B5635F0";
         } else {
-            $params["stop_id"] = "direct01";
+            $params["route"] = "direct01";
+            $params["service_type"] = "direct02";
+            $params["stop_id"] = "direct03";
         }
 
         $result = $client->direct([
-            "path" => "v1/transport/kmb/stop-eta/{stop_id}",
+            "path" => "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
             "method" => "GET",
             "params" => $params,
             "query" => $query,

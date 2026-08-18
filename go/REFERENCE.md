@@ -110,39 +110,12 @@ fmt.Println(eta.GetName()) // "eta"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | `string` | No |  |
 | `data` | `[]any` | No |  |
-| `data_timestamp` | `string` | No |  |
-| `dest_en` | `string` | No |  |
-| `dest_sc` | `string` | No |  |
-| `dest_tc` | `string` | No |  |
-| `dir` | `string` | No |  |
-| `eta` | `string` | No |  |
-| `eta_seq` | `int` | No |  |
 | `generated_timestamp` | `string` | No |  |
-| `rmk_en` | `string` | No |  |
-| `rmk_sc` | `string` | No |  |
-| `rmk_tc` | `string` | No |  |
-| `route` | `string` | No |  |
-| `seq` | `int` | No |  |
-| `service_type` | `int` | No |  |
-| `stop` | `string` | No |  |
 | `type` | `string` | No |  |
 | `version` | `string` | No |  |
 
 ### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.Eta(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
@@ -267,10 +240,14 @@ fmt.Println(routeStop.GetName()) // "route_stop"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bound` | `string` | No |  |
+| `data` | `[]any` | No |  |
+| `generated_timestamp` | `string` | No |  |
 | `route` | `string` | No |  |
 | `seq` | `string` | No |  |
 | `service_type` | `string` | No |  |
 | `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
@@ -284,6 +261,18 @@ if err != nil {
     panic(err)
 }
 fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.RouteStop(nil).Load(map[string]any{"direction": "direction", "route": "route", "service_type": "service_type"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods

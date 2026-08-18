@@ -50,15 +50,6 @@ import (
 func main() {
     client := sdk.New()
 
-    // List eta records — the value is the array of records itself.
-    etas, err := client.Eta(nil).List(nil, nil)
-    if err != nil {
-        panic(err)
-    }
-    for _, item := range etas.([]any) {
-        fmt.Println(item)
-    }
-
     // Load a single eta — the value is the loaded record.
     eta, err := client.Eta(nil).Load(map[string]any{"stop_id": "example_stop_id"}, nil)
     if err != nil {
@@ -75,12 +66,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-routes, err := client.Route(nil).List(nil, nil)
+stops, err := client.Stop(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = routes
+_ = stops
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -144,13 +135,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-route, err := client.Route(nil).List(
+stop, err := client.Stop(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(route) // the returned mock data
+fmt.Println(stop) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -259,7 +250,7 @@ Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    eta, err := client.Eta(nil).List(map[string]any{/* fields */}, nil)
+    eta, err := client.Eta(nil).Load(nil, nil)
     if err != nil { /* handle */ }
     // eta is the returned record
 
@@ -272,27 +263,12 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"co"` |  |
 | `"data"` |  |
-| `"data_timestamp"` |  |
-| `"dest_en"` |  |
-| `"dest_sc"` |  |
-| `"dest_tc"` |  |
-| `"dir"` |  |
-| `"eta"` |  |
-| `"eta_seq"` |  |
 | `"generated_timestamp"` |  |
-| `"rmk_en"` |  |
-| `"rmk_sc"` |  |
-| `"rmk_tc"` |  |
-| `"route"` |  |
-| `"seq"` |  |
-| `"service_type"` |  |
-| `"stop"` |  |
 | `"type"` |  |
 | `"version"` |  |
 
-Operations: List, Load.
+Operations: Load.
 
 API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
@@ -323,14 +299,18 @@ API path: `/v1/transport/kmb/route`
 | Field | Description |
 | --- | --- |
 | `"bound"` |  |
+| `"data"` |  |
+| `"generated_timestamp"` |  |
 | `"route"` |  |
 | `"seq"` |  |
 | `"service_type"` |  |
 | `"stop"` |  |
+| `"type"` |  |
+| `"version"` |  |
 
-Operations: List.
+Operations: List, Load.
 
-API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
+API path: `/v1/transport/kmb/route-stop`
 
 #### Stop
 
@@ -360,30 +340,14 @@ Create an instance: `eta := client.Eta(nil)`
 
 | Method | Description |
 | --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | `string` |  |
 | `data` | `[]any` |  |
-| `data_timestamp` | `string` |  |
-| `dest_en` | `string` |  |
-| `dest_sc` | `string` |  |
-| `dest_tc` | `string` |  |
-| `dir` | `string` |  |
-| `eta` | `string` |  |
-| `eta_seq` | `int` |  |
 | `generated_timestamp` | `string` |  |
-| `rmk_en` | `string` |  |
-| `rmk_sc` | `string` |  |
-| `rmk_tc` | `string` |  |
-| `route` | `string` |  |
-| `seq` | `int` |  |
-| `service_type` | `int` |  |
-| `stop` | `string` |  |
 | `type` | `string` |  |
 | `version` | `string` |  |
 
@@ -395,16 +359,6 @@ if err != nil {
     panic(err)
 }
 fmt.Println(eta) // the loaded record
-```
-
-#### Example: List
-
-```go
-etas, err := client.Eta(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(etas) // the array of records
 ```
 
 
@@ -467,16 +421,31 @@ Create an instance: `routeStop := client.RouteStop(nil)`
 | Method | Description |
 | --- | --- |
 | `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bound` | `string` |  |
+| `data` | `[]any` |  |
+| `generated_timestamp` | `string` |  |
 | `route` | `string` |  |
 | `seq` | `string` |  |
 | `service_type` | `string` |  |
 | `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
+
+#### Example: Load
+
+```go
+routeStop, err := client.RouteStop(nil).Load(map[string]any{"direction": "direction", "route": "route", "service_type": "service_type"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(routeStop) // the loaded record
+```
 
 #### Example: List
 
@@ -605,11 +574,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-route := client.Route(nil)
-route.List(nil, nil)
+stop := client.Stop(nil)
+stop.List(nil, nil)
 
-// route.Data() now returns the route data from the last list
-// route.Match() returns the last match criteria
+// stop.Data() now returns the stop data from the last list
+// stop.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

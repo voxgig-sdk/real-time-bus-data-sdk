@@ -105,35 +105,12 @@ eta = client.Eta
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | `String` | No |  |
 | `data` | `Array` | No |  |
-| `data_timestamp` | `String` | No |  |
-| `dest_en` | `String` | No |  |
-| `dest_sc` | `String` | No |  |
-| `dest_tc` | `String` | No |  |
-| `dir` | `String` | No |  |
-| `eta` | `String` | No |  |
-| `eta_seq` | `Integer` | No |  |
 | `generated_timestamp` | `String` | No |  |
-| `rmk_en` | `String` | No |  |
-| `rmk_sc` | `String` | No |  |
-| `rmk_tc` | `String` | No |  |
-| `route` | `String` | No |  |
-| `seq` | `Integer` | No |  |
-| `service_type` | `Integer` | No |  |
-| `stop` | `String` | No |  |
 | `type` | `String` | No |  |
 | `version` | `String` | No |  |
 
 ### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.Eta.list
-```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
@@ -256,10 +233,14 @@ route_stop = client.RouteStop
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bound` | `String` | No |  |
+| `data` | `Array` | No |  |
+| `generated_timestamp` | `String` | No |  |
 | `route` | `String` | No |  |
 | `seq` | `String` | No |  |
 | `service_type` | `String` | No |  |
 | `stop` | `String` | No |  |
+| `type` | `String` | No |  |
+| `version` | `String` | No |  |
 
 ### Operations
 
@@ -269,6 +250,14 @@ List entities matching the given criteria (call with no argument to list all). R
 
 ```ruby
 results = client.RouteStop.list
+```
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Raises on error.
+
+```ruby
+result = client.RouteStop.load({ "direction" => "direction", "route" => "route", "service_type" => "service_type" })
 ```
 
 ### Common Methods

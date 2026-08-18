@@ -7,33 +7,13 @@
 -- edit by hand.
 
 ---@class Eta
----@field co? string
 ---@field data? table
----@field data_timestamp? string
----@field dest_en? string
----@field dest_sc? string
----@field dest_tc? string
----@field dir? string
----@field eta? string
----@field eta_seq? number
 ---@field generated_timestamp? string
----@field rmk_en? string
----@field rmk_sc? string
----@field rmk_tc? string
----@field route? string
----@field seq? number
----@field service_type? number
----@field stop? string
 ---@field type? string
 ---@field version? string
 
 ---@class EtaLoadMatch
 ---@field stop_id string
-
----@class EtaListMatch
----@field route string
----@field service_type string
----@field stop_id? string
 
 ---@class Route
 ---@field bound? string
@@ -70,15 +50,30 @@
 
 ---@class RouteStop
 ---@field bound? string
+---@field data? table
+---@field generated_timestamp? string
 ---@field route? string
 ---@field seq? string
 ---@field service_type? string
 ---@field stop? string
+---@field type? string
+---@field version? string
+
+---@class RouteStopLoadMatch
+---@field direction string
+---@field route string
+---@field service_type string
 
 ---@class RouteStopListMatch
----@field direction? string
+---@field bound? string
+---@field data? table
+---@field generated_timestamp? string
 ---@field route? string
+---@field seq? string
 ---@field service_type? string
+---@field stop? string
+---@field type? string
+---@field version? string
 
 ---@class Stop
 ---@field lat? string

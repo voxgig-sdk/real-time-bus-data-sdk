@@ -171,6 +171,34 @@ class RouteStopEntity
   end
 
   
+  # Load a single RouteStop.
+  #
+  # @param reqmatch [RouteStopLoadMatch, Hash, nil] match criteria (id/query fields);
+  #   optional — an entity with no id-like key loads with no match (nil is treated
+  #   as an empty match, so client.RouteStop.load works with no args).
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [RouteStop, Hash] the loaded RouteStop; raises RealTimeBusDataError on failure
+  def load(reqmatch = nil, ctrl = nil)
+    utility = @_utility
+    ctx = utility.make_context.call({
+      "opname" => "load",
+      "ctrl" => ctrl,
+      "match" => @_match,
+      "data" => @_data,
+      "reqmatch" => reqmatch,
+    }, @_entctx)
+
+    _run_op(ctx) do
+      if ctx.result
+        @_match = ctx.result.resmatch if ctx.result.resmatch
+        if ctx.result.resdata
+          @_data = RealTimeBusDataHelpers.to_map(VoxgigStruct.clone(ctx.result.resdata)) || {}
+        end
+      end
+    end
+  end
+
+
 
   
   # List RouteStop items matching the given filter.

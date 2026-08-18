@@ -21,37 +21,13 @@ class RouteStopDirectTest extends TestCase
             $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
             return;
         }
-        if ($setup["live"]) {
-            foreach (["direction01", "route01", "service_type01"] as $_liveKey) {
-                if (!isset($setup["idmap"][$_liveKey]) || $setup["idmap"][$_liveKey] === null) {
-                    $this->markTestSkipped("live test needs $_liveKey via *_ENTID env var (synthetic IDs only)");
-                    return;
-                }
-            }
-        }
         $client = $setup["client"];
 
-        $params = [];
-        if ($setup["live"]) {
-            $params["direction"] = $setup["idmap"]["direction01"];
-        } else {
-            $params["direction"] = "direct01";
-        }
-        if ($setup["live"]) {
-            $params["route"] = $setup["idmap"]["route01"];
-        } else {
-            $params["route"] = "direct01";
-        }
-        if ($setup["live"]) {
-            $params["service_type"] = $setup["idmap"]["service_type01"];
-        } else {
-            $params["service_type"] = "direct01";
-        }
 
         $result = $client->direct([
-            "path" => "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+            "path" => "v1/transport/kmb/route-stop",
             "method" => "GET",
-            "params" => $params,
+            "params" => [],
         ]);
         if ($setup["live"]) {
             // Live mode is lenient: synthetic IDs frequently 4xx and the
@@ -76,6 +52,63 @@ class RouteStopDirectTest extends TestCase
             $this->assertEquals(200, Helpers::to_int($result["status"]));
             $this->assertIsArray($result["data"]);
             $this->assertCount(2, $result["data"]);
+            $this->assertCount(1, $setup["calls"]);
+        }
+    }
+
+    public function test_direct_load_route_stop(): void
+    {
+        $setup = route_stop_direct_setup(["id" => "direct01"]);
+        [$_shouldSkip, $_reason] = Runner::is_control_skipped("direct", "direct-load-route_stop", $setup["live"] ? "live" : "unit");
+        if ($_shouldSkip) {
+            $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
+            return;
+        }
+        $client = $setup["client"];
+
+        $params = [];
+        $query = [];
+        if ($setup["live"]) {
+            $params["direction"] = "outbound";
+            $params["route"] = "1";
+            $params["service_type"] = "1";
+        } else {
+            $params["direction"] = "direct01";
+            $params["route"] = "direct02";
+            $params["service_type"] = "direct03";
+        }
+
+        $result = $client->direct([
+            "path" => "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+            "method" => "GET",
+            "params" => $params,
+            "query" => $query,
+        ]);
+        if ($setup["live"]) {
+            // Live mode is lenient: synthetic IDs frequently 4xx. Skip
+            // rather than fail when the load endpoint isn't reachable
+            // with the IDs we can construct from setup.idmap.
+            if (!empty($result["err"])) {
+                $this->markTestSkipped("load call failed (likely synthetic IDs against live API): " . (string)$result["err"]);
+                return;
+            }
+            if (empty($result["ok"])) {
+                $this->markTestSkipped("load call not ok (likely synthetic IDs against live API)");
+                return;
+            }
+            $status = Helpers::to_int($result["status"]);
+            if ($status < 200 || $status >= 300) {
+                $this->markTestSkipped("expected 2xx status, got " . $status);
+                return;
+            }
+        } else {
+            $this->assertArrayNotHasKey("err", $result);
+            $this->assertTrue($result["ok"]);
+            $this->assertEquals(200, Helpers::to_int($result["status"]));
+            $this->assertNotNull($result["data"]);
+            if (is_array($result["data"]) && isset($result["data"]["id"])) {
+                $this->assertEquals("direct01", $result["data"]["id"]);
+            }
             $this->assertCount(1, $setup["calls"]);
         }
     }

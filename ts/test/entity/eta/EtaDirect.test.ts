@@ -43,13 +43,17 @@ describe('EtaDirect', async () => {
     const params: any = {}
     const query: any = {}
     if (setup.live) {
+      params.route = "1"
+      params.service_type = "1"
       params.stop_id = "0000D01E8B5635F0"
     } else {
-      params.stop_id = 'direct01'
+      params.route = 'direct01'
+      params.service_type = 'direct02'
+      params.stop_id = 'direct03'
     }
 
     const result: any = await client.direct({
-      path: 'v1/transport/kmb/stop-eta/{stop_id}',
+      path: 'v1/transport/kmb/eta/{stop_id}/{route}/{service_type}',
       method: 'GET',
       params,
       query,
@@ -67,55 +71,6 @@ describe('EtaDirect', async () => {
       assert(result.status === 200)
       assert(null != result.data)
       assert(result.data.id === 'direct01')
-      assert(calls.length === 1)
-      assert(calls[0].init.method === 'GET')
-      assert(calls[0].url.includes('direct01'))
-    }
-  })
-
-  test('direct-list-eta', async (t: any) => {
-    const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
-    if (maybeSkipControl(t, 'direct', 'direct-list-eta', setup.live)) return
-    if (skipIfMissingIds(t, setup, ["route01","service_type01","stop01"])) return
-    const { client, calls } = setup
-
-    const params: any = {}
-    const query: any = {}
-    if (setup.live) {
-      params.route = setup.idmap['route01']
-      params.service_type = setup.idmap['service_type01']
-      params.stop_id = setup.idmap['stop01']
-    } else {
-      params.route = 'direct01'
-      params.service_type = 'direct02'
-      params.stop_id = 'direct03'
-    }
-
-    const result: any = await client.direct({
-      path: 'v1/transport/kmb/eta/{stop_id}/{route}/{service_type}',
-      method: 'GET',
-      params,
-      query,
-    })
-
-    if (setup.live) {
-      // Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      // response shape varies wildly across public APIs. Skip rather than
-      // fail when the call doesn't return a usable list.
-      if (!result.ok || result.status < 200 || result.status >= 300) {
-        return
-      }
-      const listArr = unwrapListData(result.data)
-      if (!Array.isArray(listArr)) {
-        return
-      }
-    } else {
-      assert(result.ok === true)
-      assert(result.status === 200)
-      assert(null != result.data)
-      const listArr = unwrapListData(result.data)
-      assert(Array.isArray(listArr))
-      assert(listArr!.length === 2)
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
       assert(calls[0].url.includes('direct01'))

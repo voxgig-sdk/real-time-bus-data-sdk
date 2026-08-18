@@ -39,7 +39,7 @@ describe("RouteStopEntity", function()
     assert.are.equal(3, #seen)
 
     -- Inbound: streaming active -> yields each item from the feature.
-    local config = require("config")()
+    local config = require("config_shared")()
     if type(config.feature) == "table" and config.feature.streaming ~= nil then
       local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
       local got = {}
@@ -60,7 +60,7 @@ describe("RouteStopEntity", function()
     local setup = route_stop_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"list"}) do
+    for _, _op in ipairs({"list", "load"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "route_stop." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -91,6 +91,12 @@ describe("RouteStopEntity", function()
     assert.is_nil(err)
     assert.is_table(route_stop_ref01_list_result)
 
+    -- LOAD
+    local route_stop_ref01_match_dt0 = {}
+    local route_stop_ref01_data_dt0_loaded, err = route_stop_ref01_ent:load(route_stop_ref01_match_dt0, nil)
+    assert.is_nil(err)
+    assert.is_not_nil(route_stop_ref01_data_dt0_loaded)
+
   end)
 end)
 
@@ -114,7 +120,7 @@ function route_stop_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "route_stop01", "route_stop02", "route_stop03" },
+    { "route_stop01", "route_stop02", "route_stop03", "direction01", "route01" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

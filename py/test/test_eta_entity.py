@@ -21,47 +21,13 @@ class TestEtaEntity:
         ent = testsdk.Eta(None)
         assert ent is not None
 
-    def test_should_stream(self):
-        # Feature #4: the entity stream(action, ...) method runs the op
-        # pipeline and yields result items. With the streaming feature active
-        # it yields the feature's incremental output; otherwise it falls back
-        # to the materialised list so stream always yields.
-        seed = {
-            "entity": {
-                "eta": {
-                    "s1": {"id": "s1"},
-                    "s2": {"id": "s2"},
-                    "s3": {"id": "s3"},
-                }
-            }
-        }
-
-        # Fallback: streaming inactive -> yields the materialised list items.
-        base = RealTimeBusDataSDK.test(seed, None)
-        seen = list(base.Eta(None).stream("list", None, None))
-        assert len(seen) == 3
-
-        # Inbound: streaming active -> yields each item from the feature.
-        from realtimebusdata_sdk.config import make_config
-        cfg = make_config()
-        if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
-            sdk = RealTimeBusDataSDK.test(
-                seed, {"feature": {"streaming": {"active": True}}})
-            got = []
-            for item in sdk.Eta(None).stream("list", None, None):
-                if isinstance(item, list):
-                    got.extend(item)
-                else:
-                    got.append(item)
-            assert len(got) == 3
-
     def test_should_run_basic_flow(self):
         setup = _eta_basic_setup(None)
         # Per-op sdk-test-control.json skip — basic test exercises a flow with
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["list", "load"]:
+        for _op in ["load"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "eta." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -80,17 +46,8 @@ class TestEtaEntity:
         if len(eta_ref01_data_raw) > 0:
             eta_ref01_data = helpers.to_map(eta_ref01_data_raw[0][1])
 
-        # LIST
-        eta_ref01_ent = client.Eta(None)
-        eta_ref01_match = {
-            "route": setup["idmap"]["route01"],
-            "service_type": setup["idmap"]["service_type01"],
-        }
-
-        eta_ref01_list_result = eta_ref01_ent.list(eta_ref01_match, None)
-        assert isinstance(eta_ref01_list_result, list)
-
         # LOAD
+        eta_ref01_ent = client.Eta(None)
         eta_ref01_match_dt0 = {}
         eta_ref01_data_dt0_loaded = eta_ref01_ent.load(eta_ref01_match_dt0, None)
         assert eta_ref01_data_dt0_loaded is not None
@@ -113,7 +70,7 @@ def _eta_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03", "route01", "service_type01"],
+        ["eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

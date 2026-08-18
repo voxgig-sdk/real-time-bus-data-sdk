@@ -33,20 +33,6 @@ local sdk = require("real-time-bus-data_sdk")
 local client = sdk.new()
 ```
 
-### 2. List eta records
-
-Entity operations return `(value, err)`. For `list`, `value` is the
-array of records itself — iterate it directly (there is no wrapper).
-
-```lua
-local etas, err = client:Eta():list()
-if err then error(err) end
-
-for _, item in ipairs(etas) do
-  print(item["co"])
-end
-```
-
 ### 3. Load an eta
 
 Eta is nested under stop, so provide the `stop_id`.
@@ -64,7 +50,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local routes, err = client:Route():list()
+local stops, err = client:Stop():list()
 if err then error(err) end
 ```
 
@@ -122,7 +108,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Route():list()
+local result, err = client:Stop():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -246,27 +232,12 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `co` |  |
 | `data` |  |
-| `data_timestamp` |  |
-| `dest_en` |  |
-| `dest_sc` |  |
-| `dest_tc` |  |
-| `dir` |  |
-| `eta` |  |
-| `eta_seq` |  |
 | `generated_timestamp` |  |
-| `rmk_en` |  |
-| `rmk_sc` |  |
-| `rmk_tc` |  |
-| `route` |  |
-| `seq` |  |
-| `service_type` |  |
-| `stop` |  |
 | `type` |  |
 | `version` |  |
 
-Operations: List, Load.
+Operations: Load.
 
 API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
@@ -297,14 +268,18 @@ API path: `/v1/transport/kmb/route`
 | Field | Description |
 | --- | --- |
 | `bound` |  |
+| `data` |  |
+| `generated_timestamp` |  |
 | `route` |  |
 | `seq` |  |
 | `service_type` |  |
 | `stop` |  |
+| `type` |  |
+| `version` |  |
 
-Operations: List.
+Operations: List, Load.
 
-API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
+API path: `/v1/transport/kmb/route-stop`
 
 #### Stop
 
@@ -334,30 +309,14 @@ Create an instance: `local eta = client:Eta(nil)`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | `string` |  |
 | `data` | `table` |  |
-| `data_timestamp` | `string` |  |
-| `dest_en` | `string` |  |
-| `dest_sc` | `string` |  |
-| `dest_tc` | `string` |  |
-| `dir` | `string` |  |
-| `eta` | `string` |  |
-| `eta_seq` | `number` |  |
 | `generated_timestamp` | `string` |  |
-| `rmk_en` | `string` |  |
-| `rmk_sc` | `string` |  |
-| `rmk_tc` | `string` |  |
-| `route` | `string` |  |
-| `seq` | `number` |  |
-| `service_type` | `number` |  |
-| `stop` | `string` |  |
 | `type` | `string` |  |
 | `version` | `string` |  |
 
@@ -365,12 +324,6 @@ Create an instance: `local eta = client:Eta(nil)`
 
 ```lua
 local eta, err = client:Eta():load({ stop_id = "stop_id" })
-```
-
-#### Example: List
-
-```lua
-local etas, err = client:Eta():list()
 ```
 
 
@@ -425,16 +378,27 @@ Create an instance: `local route_stop = client:RouteStop(nil)`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bound` | `string` |  |
+| `data` | `table` |  |
+| `generated_timestamp` | `string` |  |
 | `route` | `string` |  |
 | `seq` | `string` |  |
 | `service_type` | `string` |  |
 | `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
+
+#### Example: Load
+
+```lua
+local route_stop, err = client:RouteStop():load({ direction = "direction", route = "route", service_type = "service_type" })
+```
 
 #### Example: List
 
@@ -554,11 +518,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local route = client:Route()
-route:list()
+local stop = client:Stop()
+stop:list()
 
--- route:data_get() now returns the route data from the last list
--- route:match_get() returns the last match criteria
+-- stop:data_get() now returns the stop data from the last list
+-- stop:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

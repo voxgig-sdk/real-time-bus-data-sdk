@@ -21,33 +21,13 @@ class TestRouteStopDirect:
             # pytest already imported at module scope
             pytest.skip(_reason or "skipped via sdk-test-control.json")
             return
-        if setup["live"]:
-            for _live_key in ["direction01", "route01", "service_type01"]:
-                if setup["idmap"].get(_live_key) is None:
-                    # pytest already imported at module scope
-                    pytest.skip(f"live test needs {_live_key} via *_ENTID env var (synthetic IDs only)")
-                    return
-
         client = setup["client"]
 
-        params = {}
-        if setup["live"]:
-            params["direction"] = setup["idmap"]["direction01"]
-        else:
-            params["direction"] = "direct01"
-        if setup["live"]:
-            params["route"] = setup["idmap"]["route01"]
-        else:
-            params["route"] = "direct01"
-        if setup["live"]:
-            params["service_type"] = setup["idmap"]["service_type01"]
-        else:
-            params["service_type"] = "direct01"
 
         result = client.direct({
-            "path": "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+            "path": "v1/transport/kmb/route-stop",
             "method": "GET",
-            "params": params,
+            "params": {},
         })
         if setup["live"]:
             # Live mode is lenient: synthetic IDs frequently 4xx and the
@@ -68,6 +48,54 @@ class TestRouteStopDirect:
             assert helpers.to_int(result["status"]) == 200
             assert isinstance(result["data"], list)
             assert len(result["data"]) == 2
+            assert len(setup["calls"]) == 1
+
+    def test_should_direct_load_route_stop(self):
+        setup = _route_stop_direct_setup({"id": "direct01"})
+        _skip, _reason = runner.is_control_skipped("direct", "direct-load-route_stop", "live" if setup["live"] else "unit")
+        if _skip:
+            # pytest already imported at module scope
+            pytest.skip(_reason or "skipped via sdk-test-control.json")
+            return
+        client = setup["client"]
+
+        params = {}
+        query = {}
+        if setup["live"]:
+            params["direction"] = "outbound"
+            params["route"] = "1"
+            params["service_type"] = "1"
+        else:
+            params["direction"] = "direct01"
+            params["route"] = "direct02"
+            params["service_type"] = "direct03"
+
+        result = client.direct({
+            "path": "v1/transport/kmb/route-stop/{route}/{direction}/{service_type}",
+            "method": "GET",
+            "params": params,
+            "query": query,
+        })
+        if setup["live"]:
+            # Live mode is lenient: synthetic IDs frequently 4xx. Skip
+            # rather than fail when the load endpoint isn't reachable
+            # with the IDs we can construct from setup.idmap.
+            if result.get("err") is not None:
+                pytest.skip(f"load call failed (likely synthetic IDs against live API): {result.get('err')}")
+                return
+            if not result.get("ok"):
+                pytest.skip("load call not ok (likely synthetic IDs against live API)")
+                return
+            status = helpers.to_int(result["status"])
+            if status < 200 or status >= 300:
+                pytest.skip(f"expected 2xx status, got {status}")
+                return
+        else:
+            assert result["ok"] is True
+            assert helpers.to_int(result["status"]) == 200
+            assert result["data"] is not None
+            if isinstance(result["data"], dict):
+                assert result["data"]["id"] == "direct01"
             assert len(setup["calls"]) == 1
 
 

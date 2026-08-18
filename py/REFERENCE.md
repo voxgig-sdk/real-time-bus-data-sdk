@@ -99,37 +99,12 @@ eta = client.Eta()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | `str` | No |  |
 | `data` | `list` | No |  |
-| `data_timestamp` | `str` | No |  |
-| `dest_en` | `str` | No |  |
-| `dest_sc` | `str` | No |  |
-| `dest_tc` | `str` | No |  |
-| `dir` | `str` | No |  |
-| `eta` | `str` | No |  |
-| `eta_seq` | `int` | No |  |
 | `generated_timestamp` | `str` | No |  |
-| `rmk_en` | `str` | No |  |
-| `rmk_sc` | `str` | No |  |
-| `rmk_tc` | `str` | No |  |
-| `route` | `str` | No |  |
-| `seq` | `int` | No |  |
-| `service_type` | `int` | No |  |
-| `stop` | `str` | No |  |
 | `type` | `str` | No |  |
 | `version` | `str` | No |  |
 
 ### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.Eta().list({"route": "example", "service_type": "example"})
-for eta in results:
-    print(eta)
-```
 
 #### `load(reqmatch, ctrl=None) -> dict`
 
@@ -252,10 +227,14 @@ route_stop = client.RouteStop()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bound` | `str` | No |  |
+| `data` | `list` | No |  |
+| `generated_timestamp` | `str` | No |  |
 | `route` | `str` | No |  |
 | `seq` | `str` | No |  |
 | `service_type` | `str` | No |  |
 | `stop` | `str` | No |  |
+| `type` | `str` | No |  |
+| `version` | `str` | No |  |
 
 ### Operations
 
@@ -267,6 +246,14 @@ List entities matching the given criteria. The match is optional — call `list(
 results = client.RouteStop().list()
 for route_stop in results:
     print(route_stop)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.RouteStop().load({"direction": "direction", "route": "route", "service_type": "service_type"})
 ```
 
 ### Common Methods

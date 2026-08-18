@@ -7,75 +7,6 @@ local helpers = require("core.helpers")
 local runner = require("test.runner")
 
 describe("EtaDirect", function()
-  it("should direct-list-eta", function()
-    local setup = eta_direct_setup({
-      { id = "direct01" },
-      { id = "direct02" },
-    })
-    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-list-eta", setup.live and "live" or "unit")
-    if _should_skip then
-      pending(_reason or "skipped via sdk-test-control.json")
-      return
-    end
-    if setup.live then
-      for _, _live_key in ipairs({"route01", "service_type01", "stop01"}) do
-        if setup.idmap[_live_key] == nil then
-          pending("live test needs " .. _live_key .. " via *_ENTID env var (synthetic IDs only)")
-          return
-        end
-      end
-    end
-    local client = setup.client
-
-    local params = {}
-    if setup.live then
-      params["route"] = setup.idmap["route01"]
-    else
-      params["route"] = "direct01"
-    end
-    if setup.live then
-      params["service_type"] = setup.idmap["service_type01"]
-    else
-      params["service_type"] = "direct01"
-    end
-    if setup.live then
-      params["stop_id"] = setup.idmap["stop01"]
-    else
-      params["stop_id"] = "direct01"
-    end
-
-    local result, err = client:direct({
-      path = "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
-      method = "GET",
-      params = params,
-    })
-    if setup.live then
-      -- Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      -- response shape varies wildly across public APIs. Skip rather than
-      -- fail when the call doesn't return a usable list.
-      if err ~= nil then
-        pending("list call failed (likely synthetic IDs against live API): " .. tostring(err))
-        return
-      end
-      if not result["ok"] then
-        pending("list call not ok (likely synthetic IDs against live API)")
-        return
-      end
-      local status = helpers.to_int(result["status"])
-      if status < 200 or status >= 300 then
-        pending("expected 2xx status, got " .. tostring(status))
-        return
-      end
-    else
-      assert.is_nil(err)
-      assert.is_true(result["ok"])
-      assert.are.equal(200, helpers.to_int(result["status"]))
-      assert.is_table(result["data"])
-      assert.are.equal(2, #result["data"])
-      assert.are.equal(1, #setup.calls)
-    end
-  end)
-
   it("should direct-load-eta", function()
     local setup = eta_direct_setup({ id = "direct01" })
     local _should_skip, _reason = runner.is_control_skipped("direct", "direct-load-eta", setup.live and "live" or "unit")
@@ -88,13 +19,17 @@ describe("EtaDirect", function()
     local params = {}
     local query = {}
     if setup.live then
+      params["route"] = "1"
+      params["service_type"] = "1"
       params["stop_id"] = "0000D01E8B5635F0"
     else
-      params["stop_id"] = "direct01"
+      params["route"] = "direct01"
+      params["service_type"] = "direct02"
+      params["stop_id"] = "direct03"
     end
 
     local result, err = client:direct({
-      path = "v1/transport/kmb/stop-eta/{stop_id}",
+      path = "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
       method = "GET",
       params = params,
       query = query,

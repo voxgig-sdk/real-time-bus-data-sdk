@@ -33,7 +33,7 @@ class RouteStopEntityTest < Minitest::Test
     assert_equal 3, seen.length
 
     # Inbound: streaming active -> yields each item from the feature.
-    cfg = RealTimeBusDataConfig.make_config
+    cfg = RealTimeBusDataConfig.shared_config
     if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("streaming")
       sdk = RealTimeBusDataSDK.test(seed, { "feature" => { "streaming" => { "active" => true } } })
       got = []
@@ -52,7 +52,7 @@ class RouteStopEntityTest < Minitest::Test
     setup = route_stop_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    ["list"].each do |_op|
+    ["list", "load"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "route_stop." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
@@ -82,6 +82,11 @@ class RouteStopEntityTest < Minitest::Test
     route_stop_ref01_list_result = route_stop_ref01_ent.list(route_stop_ref01_match, nil)
     assert route_stop_ref01_list_result.is_a?(Array)
 
+    # LOAD
+    route_stop_ref01_match_dt0 = {}
+    route_stop_ref01_data_dt0_loaded = route_stop_ref01_ent.load(route_stop_ref01_match_dt0, nil)
+    assert !route_stop_ref01_data_dt0_loaded.nil?
+
   end
 end
 
@@ -99,7 +104,7 @@ def route_stop_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["route_stop01", "route_stop02", "route_stop03"],
+    ["route_stop01", "route_stop02", "route_stop03", "direction01", "route01"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

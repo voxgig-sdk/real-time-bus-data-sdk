@@ -7,12 +7,10 @@ guide: {
 
   entity: eta: {
     path: "/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}": {
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
+      op: load: method: *GET
     }
     path: "/v1/transport/kmb/route-eta/{route}/{service_type}": {
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
+      op: load: method: *GET
     }
     path: "/v1/transport/kmb/stop-eta/{stop_id}": {
       op: load: method: *GET
@@ -36,8 +34,7 @@ guide: {
       op: list: transform: res: *("`body.data`")|top
     }
     path: "/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}": {
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
+      op: load: method: *GET
     }
   }
 

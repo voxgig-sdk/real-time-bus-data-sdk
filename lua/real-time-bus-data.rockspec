@@ -23,6 +23,7 @@ build = {
   modules = {
     ["real-time-bus-data_sdk"] = "real-time-bus-data_sdk.lua",
     ["config"] = "config.lua",
+    ["config_shared"] = "config_shared.lua",
     ["features"] = "features.lua",
   }
 }

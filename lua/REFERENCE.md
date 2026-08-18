@@ -102,35 +102,12 @@ local eta = client:Eta(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | `string` | No |  |
 | `data` | `table` | No |  |
-| `data_timestamp` | `string` | No |  |
-| `dest_en` | `string` | No |  |
-| `dest_sc` | `string` | No |  |
-| `dest_tc` | `string` | No |  |
-| `dir` | `string` | No |  |
-| `eta` | `string` | No |  |
-| `eta_seq` | `number` | No |  |
 | `generated_timestamp` | `string` | No |  |
-| `rmk_en` | `string` | No |  |
-| `rmk_sc` | `string` | No |  |
-| `rmk_tc` | `string` | No |  |
-| `route` | `string` | No |  |
-| `seq` | `number` | No |  |
-| `service_type` | `number` | No |  |
-| `stop` | `string` | No |  |
 | `type` | `string` | No |  |
 | `version` | `string` | No |  |
 
 ### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:Eta():list()
-```
 
 #### `load(reqmatch, ctrl) -> any, err`
 
@@ -253,10 +230,14 @@ local route_stop = client:RouteStop(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bound` | `string` | No |  |
+| `data` | `table` | No |  |
+| `generated_timestamp` | `string` | No |  |
 | `route` | `string` | No |  |
 | `seq` | `string` | No |  |
 | `service_type` | `string` | No |  |
 | `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
@@ -266,6 +247,14 @@ List entities matching the given criteria. Returns an array.
 
 ```lua
 local results, err = client:RouteStop():list()
+```
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria.
+
+```lua
+local result, err = client:RouteStop():load({ direction = "direction", route = "route", service_type = "service_type" })
 ```
 
 ### Common Methods

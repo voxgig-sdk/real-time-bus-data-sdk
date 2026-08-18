@@ -19,17 +19,15 @@ make build
 export REAL_TIME_BUS_DATA_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
-./real-time-bus-data-cli list eta
 ./real-time-bus-data-cli load 1 eta            # {id:1} shorthand
 ./real-time-bus-data-cli load '{id:1}' eta       # explicit match map
-./real-time-bus-data-cli list route
 
 # 5. Override the API base URL for a single call
-REAL_TIME_BUS_DATA_BASE=https://api.example.com ./real-time-bus-data-cli list eta
+REAL_TIME_BUS_DATA_BASE=https://api.example.com ./real-time-bus-data-cli load 1 eta
 
 # 6. No arguments -> interactive REPL
 ./real-time-bus-data-cli
-real-time-bus-data> list eta
+real-time-bus-data> load 1 eta
 real-time-bus-data> /quit
 ```
 
@@ -55,7 +53,7 @@ real-time-bus-data> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/real-time-bus-data-cli list eta
+   ./dist/*/real-time-bus-data-cli load 1 eta
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -64,15 +62,6 @@ real-time-bus-data> /quit
 That is the whole loop: *build → set key → evaluate boru expressions*.
 
 ## How-to guides
-
-### List the records of an entity
-
-```sh
-./real-time-bus-data-cli list eta
-```
-
-`list <entity>` returns the first page of records. `<entity>` is a bareword —
-it is auto-quoted as an boru atom, so no quotes are needed.
 
 ### Load a single record
 
@@ -91,7 +80,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export REAL_TIME_BUS_DATA_APIKEY=sk_live_xxx            # API key
 export REAL_TIME_BUS_DATA_BASE=https://api.example.com  # optional: override the API base URL
-./real-time-bus-data-cli list eta
+./real-time-bus-data-cli load 1 eta
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -103,7 +92,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./real-time-bus-data-cli
-real-time-bus-data> list eta
+real-time-bus-data> load 1 eta
 real-time-bus-data> /help
 real-time-bus-data> /quit
 ```

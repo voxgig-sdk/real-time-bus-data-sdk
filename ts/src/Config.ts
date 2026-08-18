@@ -36,7 +36,7 @@ class Config {
 
 
   options = {
-    base: 'https://data.etabus.gov.hk',
+    base: "https://data.etabus.gov.hk",
 
     headers: {
       "content-type": "application/json"
@@ -64,178 +64,54 @@ class Config {
     "eta": {
       "fields": [
         {
-          "active": true,
-          "name": "co",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
-        },
-        {
-          "active": true,
           "name": "data",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 1
+          "type": "`$ARRAY`"
         },
         {
-          "active": true,
-          "name": "data_timestamp",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
-        },
-        {
-          "active": true,
-          "name": "dest_en",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
-        },
-        {
-          "active": true,
-          "name": "dest_sc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
-        },
-        {
-          "active": true,
-          "name": "dest_tc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 5
-        },
-        {
-          "active": true,
-          "name": "dir",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 6
-        },
-        {
-          "active": true,
-          "name": "eta",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 7
-        },
-        {
-          "active": true,
-          "name": "eta_seq",
-          "req": false,
-          "type": "`$INTEGER`",
-          "index$": 8
-        },
-        {
-          "active": true,
           "name": "generated_timestamp",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 9
+          "type": "`$STRING`"
         },
         {
-          "active": true,
-          "name": "rmk_en",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 10
-        },
-        {
-          "active": true,
-          "name": "rmk_sc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 11
-        },
-        {
-          "active": true,
-          "name": "rmk_tc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 12
-        },
-        {
-          "active": true,
-          "name": "route",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 13
-        },
-        {
-          "active": true,
-          "name": "seq",
-          "req": false,
-          "type": "`$INTEGER`",
-          "index$": 14
-        },
-        {
-          "active": true,
-          "name": "service_type",
-          "req": false,
-          "type": "`$INTEGER`",
-          "index$": 15
-        },
-        {
-          "active": true,
-          "name": "stop",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 16
-        },
-        {
-          "active": true,
           "name": "type",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 17
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "version",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 18
+          "type": "`$STRING`"
         }
       ],
       "name": "eta",
       "op": {
-        "list": {
+        "load": {
           "input": "data",
-          "name": "list",
+          "name": "load",
           "points": [
             {
-              "active": true,
               "args": {
                 "params": [
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "route",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "service_type",
                     "orig": "service_type",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "example": "0000D01E8B5635F0",
                     "kind": "param",
                     "name": "stop_id",
                     "orig": "stop_id",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 2
+                    "type": "`$STRING`"
                   }
                 ]
               },
@@ -260,33 +136,27 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "index$": 0
+                "res": "`body`"
+              }
             },
             {
-              "active": true,
               "args": {
                 "params": [
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "route",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "service_type",
                     "orig": "service_type",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "type": "`$STRING`"
                   }
                 ]
               },
@@ -309,30 +179,19 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "index$": 1
-            }
-          ],
-          "key$": "list"
-        },
-        "load": {
-          "input": "data",
-          "name": "load",
-          "points": [
+                "res": "`body`"
+              }
+            },
             {
-              "active": true,
               "args": {
                 "params": [
                   {
-                    "active": true,
                     "example": "0000D01E8B5635F0",
                     "kind": "param",
                     "name": "stop_id",
                     "orig": "stop_id",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                   }
                 ]
               },
@@ -354,11 +213,9 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "load"
+          ]
         }
       },
       "relations": {
@@ -378,95 +235,56 @@ class Config {
     "route": {
       "fields": [
         {
-          "active": true,
           "name": "bound",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "data",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 1
+          "type": "`$ARRAY`"
         },
         {
-          "active": true,
           "name": "dest_en",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "dest_sc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "dest_tc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "generated_timestamp",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 5
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "orig_en",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 6
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "orig_sc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 7
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "orig_tc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 8
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "route",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 9
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "service_type",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 10
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "type",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 11
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "version",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 12
+          "type": "`$STRING`"
         }
       ],
       "name": "route",
@@ -476,7 +294,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "GET",
@@ -491,29 +308,24 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "list"
+          ]
         },
         "load": {
           "input": "data",
           "name": "load",
           "points": [
             {
-              "active": true,
               "args": {
                 "params": [
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "id",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                   }
                 ]
               },
@@ -540,11 +352,9 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "load"
+          ]
         }
       },
       "relations": {
@@ -554,39 +364,40 @@ class Config {
     "route_stop": {
       "fields": [
         {
-          "active": true,
           "name": "bound",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
+          "type": "`$STRING`"
         },
         {
-          "active": true,
+          "name": "data",
+          "type": "`$ARRAY`"
+        },
+        {
+          "name": "generated_timestamp",
+          "type": "`$STRING`"
+        },
+        {
           "name": "route",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "seq",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "service_type",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "stop",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
+          "type": "`$STRING`"
+        },
+        {
+          "name": "type",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "version",
+          "type": "`$STRING`"
         }
       ],
       "name": "route_stop",
@@ -596,38 +407,54 @@ class Config {
           "name": "list",
           "points": [
             {
-              "active": true,
+              "args": {},
+              "kind": "http",
+              "method": "GET",
+              "orig": "/v1/transport/kmb/route-stop",
+              "parts": [
+                "v1",
+                "transport",
+                "kmb",
+                "route-stop"
+              ],
+              "select": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              }
+            }
+          ]
+        },
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
               "args": {
                 "params": [
                   {
-                    "active": true,
                     "example": "outbound",
                     "kind": "param",
                     "name": "direction",
                     "orig": "direction",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "route",
                     "orig": "route",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "example": "1",
                     "kind": "param",
                     "name": "service_type",
                     "orig": "service_type",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 2
+                    "type": "`$STRING`"
                   }
                 ]
               },
@@ -652,31 +479,10 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "index$": 0
-            },
-            {
-              "active": true,
-              "args": {},
-              "kind": "http",
-              "method": "GET",
-              "orig": "/v1/transport/kmb/route-stop",
-              "parts": [
-                "v1",
-                "transport",
-                "kmb",
-                "route-stop"
-              ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "index$": 1
+                "res": "`body`"
+              }
             }
-          ],
-          "key$": "list"
+          ]
         }
       },
       "relations": {
@@ -690,46 +496,28 @@ class Config {
     "stop": {
       "fields": [
         {
-          "active": true,
           "name": "lat",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "long",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "name_en",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "name_sc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "name_tc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "stop",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 5
+          "type": "`$STRING`"
         }
       ],
       "name": "stop",
@@ -739,7 +527,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "GET",
@@ -754,29 +541,24 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "list"
+          ]
         },
         "load": {
           "input": "data",
           "name": "load",
           "points": [
             {
-              "active": true,
               "args": {
                 "params": [
                   {
-                    "active": true,
                     "example": "0000D01E8B5635F0",
                     "kind": "param",
                     "name": "id",
                     "orig": "stop_id",
                     "reqd": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                   }
                 ]
               },
@@ -803,11 +585,9 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "load"
+          ]
         }
       },
       "relations": {

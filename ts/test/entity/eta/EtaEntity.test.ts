@@ -39,7 +39,7 @@ describe('EtaEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.REAL_TIME_BUS_DATA_TEST_LIVE
-    for (const op of ['list', 'load']) {
+    for (const op of ['load']) {
       if (maybeSkipControl(t, 'entityOp', 'eta.' + op, live)) return
     }
 
@@ -59,14 +59,9 @@ describe('EtaEntity', async () => {
 
     let eta_ref01_data = Object.values(setup.data.existing.eta)[0] as any
 
-    // LIST
+    // LOAD: skipped — no entity id field and load requires path params.
+    // Entity-var is declared here so later flow steps still compile.
     const eta_ref01_ent = client.Eta()
-    const eta_ref01_match: any = {}
-    eta_ref01_match['route'] = setup.idmap['route01']
-    eta_ref01_match['service_type'] = setup.idmap['service_type01']
-
-    const eta_ref01_list = (await eta_ref01_ent.list(eta_ref01_match)).map((e: any) => e.data())
-
 
 
   })

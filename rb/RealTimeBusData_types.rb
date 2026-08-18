@@ -10,55 +10,10 @@
 
 # Eta entity data model.
 #
-# @!attribute [rw] co
-#   @return [String, nil]
-#
 # @!attribute [rw] data
 #   @return [Array, nil]
 #
-# @!attribute [rw] data_timestamp
-#   @return [String, nil]
-#
-# @!attribute [rw] dest_en
-#   @return [String, nil]
-#
-# @!attribute [rw] dest_sc
-#   @return [String, nil]
-#
-# @!attribute [rw] dest_tc
-#   @return [String, nil]
-#
-# @!attribute [rw] dir
-#   @return [String, nil]
-#
-# @!attribute [rw] eta
-#   @return [String, nil]
-#
-# @!attribute [rw] eta_seq
-#   @return [Integer, nil]
-#
 # @!attribute [rw] generated_timestamp
-#   @return [String, nil]
-#
-# @!attribute [rw] rmk_en
-#   @return [String, nil]
-#
-# @!attribute [rw] rmk_sc
-#   @return [String, nil]
-#
-# @!attribute [rw] rmk_tc
-#   @return [String, nil]
-#
-# @!attribute [rw] route
-#   @return [String, nil]
-#
-# @!attribute [rw] seq
-#   @return [Integer, nil]
-#
-# @!attribute [rw] service_type
-#   @return [Integer, nil]
-#
-# @!attribute [rw] stop
 #   @return [String, nil]
 #
 # @!attribute [rw] type
@@ -67,23 +22,8 @@
 # @!attribute [rw] version
 #   @return [String, nil]
 Eta = Struct.new(
-  :co,
   :data,
-  :data_timestamp,
-  :dest_en,
-  :dest_sc,
-  :dest_tc,
-  :dir,
-  :eta,
-  :eta_seq,
   :generated_timestamp,
-  :rmk_en,
-  :rmk_sc,
-  :rmk_tc,
-  :route,
-  :seq,
-  :service_type,
-  :stop,
   :type,
   :version,
   keyword_init: true
@@ -94,23 +34,6 @@ Eta = Struct.new(
 # @!attribute [rw] stop_id
 #   @return [String]
 EtaLoadMatch = Struct.new(
-  :stop_id,
-  keyword_init: true
-)
-
-# Request payload for Eta#list.
-#
-# @!attribute [rw] route
-#   @return [String]
-#
-# @!attribute [rw] service_type
-#   @return [String]
-#
-# @!attribute [rw] stop_id
-#   @return [String, nil]
-EtaListMatch = Struct.new(
-  :route,
-  :service_type,
   :stop_id,
   keyword_init: true
 )
@@ -243,6 +166,12 @@ RouteListMatch = Struct.new(
 # @!attribute [rw] bound
 #   @return [String, nil]
 #
+# @!attribute [rw] data
+#   @return [Array, nil]
+#
+# @!attribute [rw] generated_timestamp
+#   @return [String, nil]
+#
 # @!attribute [rw] route
 #   @return [String, nil]
 #
@@ -254,29 +183,80 @@ RouteListMatch = Struct.new(
 #
 # @!attribute [rw] stop
 #   @return [String, nil]
+#
+# @!attribute [rw] type
+#   @return [String, nil]
+#
+# @!attribute [rw] version
+#   @return [String, nil]
 RouteStop = Struct.new(
   :bound,
+  :data,
+  :generated_timestamp,
   :route,
   :seq,
   :service_type,
   :stop,
+  :type,
+  :version,
+  keyword_init: true
+)
+
+# Request payload for RouteStop#load.
+#
+# @!attribute [rw] direction
+#   @return [String]
+#
+# @!attribute [rw] route
+#   @return [String]
+#
+# @!attribute [rw] service_type
+#   @return [String]
+RouteStopLoadMatch = Struct.new(
+  :direction,
+  :route,
+  :service_type,
   keyword_init: true
 )
 
 # Request payload for RouteStop#list.
 #
-# @!attribute [rw] direction
+# @!attribute [rw] bound
+#   @return [String, nil]
+#
+# @!attribute [rw] data
+#   @return [Array, nil]
+#
+# @!attribute [rw] generated_timestamp
 #   @return [String, nil]
 #
 # @!attribute [rw] route
 #   @return [String, nil]
 #
+# @!attribute [rw] seq
+#   @return [String, nil]
+#
 # @!attribute [rw] service_type
 #   @return [String, nil]
+#
+# @!attribute [rw] stop
+#   @return [String, nil]
+#
+# @!attribute [rw] type
+#   @return [String, nil]
+#
+# @!attribute [rw] version
+#   @return [String, nil]
 RouteStopListMatch = Struct.new(
-  :direction,
+  :bound,
+  :data,
+  :generated_timestamp,
   :route,
+  :seq,
   :service_type,
+  :stop,
+  :type,
+  :version,
   keyword_init: true
 )
 

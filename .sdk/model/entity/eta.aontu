@@ -6,87 +6,12 @@ main: kit: entity: eta: {
 
   fields: [
     {
-      name: "co"
-      req: false
-      type: "`$STRING`"
-    }
-    {
       name: "data"
       req: false
       type: "`$ARRAY`"
     }
     {
-      name: "data_timestamp"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "dest_en"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "dest_sc"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "dest_tc"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "dir"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "eta"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "eta_seq"
-      req: false
-      type: "`$INTEGER`"
-    }
-    {
       name: "generated_timestamp"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "rmk_en"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "rmk_sc"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "rmk_tc"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "route"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "seq"
-      req: false
-      type: "`$INTEGER`"
-    }
-    {
-      name: "service_type"
-      req: false
-      type: "`$INTEGER`"
-    }
-    {
-      name: "stop"
       req: false
       type: "`$STRING`"
     }
@@ -104,8 +29,8 @@ main: kit: entity: eta: {
 
   name: "eta"
   op: {
-    list: {
-      name: "list"
+    load: {
+      name: "load"
       points: [
         {
           args: {
@@ -156,7 +81,7 @@ main: kit: entity: eta: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body.data`"
+            res: "`body`"
           }
         }
         {
@@ -198,14 +123,9 @@ main: kit: entity: eta: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body.data`"
+            res: "`body`"
           }
         }
-      ]
-    }
-    load: {
-      name: "load"
-      points: [
         {
           args: {
             params: [

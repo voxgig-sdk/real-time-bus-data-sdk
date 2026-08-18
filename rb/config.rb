@@ -1,6 +1,20 @@
 # RealTimeBusData SDK configuration
 
 module RealTimeBusDataConfig
+  # Return the process-wide config, built once on first use. The SDK reads
+  # the config on every request and never writes to it, so one instance is
+  # shared by every client rather than rebuilt per client.
+  #
+  # The returned hash is shared: treat it as read-only. Callers that need to
+  # mutate should use make_config, which always returns a fresh copy.
+  def self.shared_config
+    @shared_config ||= make_config
+  end
+
+
+  # Build a fresh, fully materialised config hash. Every call rebuilds the
+  # whole structure, so prefer shared_config unless you need a private copy
+  # you intend to mutate.
   def self.make_config
     {
       "main" => {
@@ -29,178 +43,54 @@ module RealTimeBusDataConfig
         "eta" => {
           "fields" => [
             {
-              "active" => true,
-              "name" => "co",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0,
-            },
-            {
-              "active" => true,
               "name" => "data",
-              "req" => false,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
-              "name" => "data_timestamp",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2,
-            },
-            {
-              "active" => true,
-              "name" => "dest_en",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3,
-            },
-            {
-              "active" => true,
-              "name" => "dest_sc",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4,
-            },
-            {
-              "active" => true,
-              "name" => "dest_tc",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5,
-            },
-            {
-              "active" => true,
-              "name" => "dir",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6,
-            },
-            {
-              "active" => true,
-              "name" => "eta",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7,
-            },
-            {
-              "active" => true,
-              "name" => "eta_seq",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 8,
-            },
-            {
-              "active" => true,
               "name" => "generated_timestamp",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 9,
             },
             {
-              "active" => true,
-              "name" => "rmk_en",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10,
-            },
-            {
-              "active" => true,
-              "name" => "rmk_sc",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11,
-            },
-            {
-              "active" => true,
-              "name" => "rmk_tc",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 12,
-            },
-            {
-              "active" => true,
-              "name" => "route",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 13,
-            },
-            {
-              "active" => true,
-              "name" => "seq",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 14,
-            },
-            {
-              "active" => true,
-              "name" => "service_type",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 15,
-            },
-            {
-              "active" => true,
-              "name" => "stop",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 16,
-            },
-            {
-              "active" => true,
               "name" => "type",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 17,
             },
             {
-              "active" => true,
               "name" => "version",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 18,
             },
           ],
           "name" => "eta",
           "op" => {
-            "list" => {
+            "load" => {
               "input" => "data",
-              "name" => "list",
+              "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "route",
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "service_type",
                         "orig" => "service_type",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                       {
-                        "active" => true,
                         "example" => "0000D01E8B5635F0",
                         "kind" => "param",
                         "name" => "stop_id",
                         "orig" => "stop_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 2,
                       },
                     ],
                   },
@@ -225,33 +115,27 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.data`",
+                    "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "route",
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "service_type",
                         "orig" => "service_type",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -274,30 +158,19 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.data`",
+                    "res" => "`body`",
                   },
-                  "index$" => 1,
                 },
-              ],
-              "key$" => "list",
-            },
-            "load" => {
-              "input" => "data",
-              "name" => "load",
-              "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "example" => "0000D01E8B5635F0",
                         "kind" => "param",
                         "name" => "stop_id",
                         "orig" => "stop_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -320,10 +193,8 @@ module RealTimeBusDataConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -343,95 +214,56 @@ module RealTimeBusDataConfig
         "route" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "bound",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "data",
-              "req" => false,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "dest_en",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "dest_sc",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "dest_tc",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "generated_timestamp",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 5,
             },
             {
-              "active" => true,
               "name" => "orig_en",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 6,
             },
             {
-              "active" => true,
               "name" => "orig_sc",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 7,
             },
             {
-              "active" => true,
               "name" => "orig_tc",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 8,
             },
             {
-              "active" => true,
               "name" => "route",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 9,
             },
             {
-              "active" => true,
               "name" => "service_type",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 10,
             },
             {
-              "active" => true,
               "name" => "type",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 11,
             },
             {
-              "active" => true,
               "name" => "version",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 12,
             },
           ],
           "name" => "route",
@@ -441,7 +273,6 @@ module RealTimeBusDataConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -457,28 +288,23 @@ module RealTimeBusDataConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -506,10 +332,8 @@ module RealTimeBusDataConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -519,39 +343,40 @@ module RealTimeBusDataConfig
         "route_stop" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "bound",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
+              "name" => "data",
+              "type" => "`$ARRAY`",
+            },
+            {
+              "name" => "generated_timestamp",
+              "type" => "`$STRING`",
+            },
+            {
               "name" => "route",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "seq",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "service_type",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "stop",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 4,
+            },
+            {
+              "name" => "type",
+              "type" => "`$STRING`",
+            },
+            {
+              "name" => "version",
+              "type" => "`$STRING`",
             },
           ],
           "name" => "route_stop",
@@ -561,38 +386,54 @@ module RealTimeBusDataConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
+                  "args" => {},
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/v1/transport/kmb/route-stop",
+                  "parts" => [
+                    "v1",
+                    "transport",
+                    "kmb",
+                    "route-stop",
+                  ],
+                  "select" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.data`",
+                  },
+                },
+              ],
+            },
+            "load" => {
+              "input" => "data",
+              "name" => "load",
+              "points" => [
+                {
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "example" => "outbound",
                         "kind" => "param",
                         "name" => "direction",
                         "orig" => "direction",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "route",
                         "orig" => "route",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                       {
-                        "active" => true,
                         "example" => "1",
                         "kind" => "param",
                         "name" => "service_type",
                         "orig" => "service_type",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 2,
                       },
                     ],
                   },
@@ -617,31 +458,10 @@ module RealTimeBusDataConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.data`",
+                    "res" => "`body`",
                   },
-                  "index$" => 0,
-                },
-                {
-                  "active" => true,
-                  "args" => {},
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/v1/transport/kmb/route-stop",
-                  "parts" => [
-                    "v1",
-                    "transport",
-                    "kmb",
-                    "route-stop",
-                  ],
-                  "select" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.data`",
-                  },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -655,46 +475,28 @@ module RealTimeBusDataConfig
         "stop" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "lat",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "long",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "name_en",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "name_sc",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "name_tc",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "stop",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 5,
             },
           ],
           "name" => "stop",
@@ -704,7 +506,6 @@ module RealTimeBusDataConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -720,28 +521,23 @@ module RealTimeBusDataConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "example" => "0000D01E8B5635F0",
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "stop_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -769,10 +565,8 @@ module RealTimeBusDataConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {

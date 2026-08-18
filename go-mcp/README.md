@@ -27,8 +27,8 @@ Tool-call arguments (what an agent sends):
 
 ```jsonc
 // real-time-bus-data_list: first page of records
-{ "entity": "eta" }
-{ "entity": "eta", "query": { } }
+{ "entity": "route" }
+{ "entity": "route", "query": { } }
 
 // real-time-bus-data_load: one record by id
 { "entity": "eta", "query": { "id": 1 } }
@@ -60,8 +60,8 @@ Tool-call arguments (what an agent sends):
    ```
 
 4. **Restart Claude Code.** The `real-time-bus-data_list` and `real-time-bus-data_load` tools now appear
-   in new sessions. Ask the agent to *"list eta using real-time-bus-data"*
-   and it calls `real-time-bus-data_list` with `{"entity":"eta"}`.
+   in new sessions. Ask the agent to *"list route using real-time-bus-data"*
+   and it calls `real-time-bus-data_list` with `{"entity":"route"}`.
 
 ## How-to guides
 
@@ -92,7 +92,7 @@ Args: `entity` (required), `query` (optional filter map). Returns the first
 page of records as JSON:
 
 ```jsonc
-{ "entity": "eta" }
+{ "entity": "route" }
 ```
 
 ### Call the `real-time-bus-data_load` tool

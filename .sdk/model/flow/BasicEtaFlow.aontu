@@ -7,23 +7,6 @@ main: kit: flow: BasicEtaFlow:
   name: "BasicEtaFlow",
   step: [
     {
-      match: {
-        route: "route01",
-        service_type: "service_type01"
-      }
-
-      op: "list",
-      valid: [
-        {
-          apply: "ItemExists",
-          def: {
-            ref: "eta_ref01"
-          }
-        }
-      ]
-    }
-
-    {
       input: {
         ref: "eta_ref01",
         srcdatavar: "eta_ref01_data",

@@ -39,7 +39,7 @@ describe('RouteStopEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.REAL_TIME_BUS_DATA_TEST_LIVE
-    for (const op of ['list']) {
+    for (const op of ['list', 'load']) {
       if (maybeSkipControl(t, 'entityOp', 'route_stop.' + op, live)) return
     }
 
@@ -64,6 +64,7 @@ describe('RouteStopEntity', async () => {
     const route_stop_ref01_match: any = {}
 
     const route_stop_ref01_list = (await route_stop_ref01_ent.list(route_stop_ref01_match)).map((e: any) => e.data())
+
 
 
   })

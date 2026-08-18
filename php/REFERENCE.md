@@ -104,35 +104,12 @@ $eta = $client->Eta();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | `string` | No |  |
 | `data` | `array` | No |  |
-| `data_timestamp` | `string` | No |  |
-| `dest_en` | `string` | No |  |
-| `dest_sc` | `string` | No |  |
-| `dest_tc` | `string` | No |  |
-| `dir` | `string` | No |  |
-| `eta` | `string` | No |  |
-| `eta_seq` | `int` | No |  |
 | `generated_timestamp` | `string` | No |  |
-| `rmk_en` | `string` | No |  |
-| `rmk_sc` | `string` | No |  |
-| `rmk_tc` | `string` | No |  |
-| `route` | `string` | No |  |
-| `seq` | `int` | No |  |
-| `service_type` | `int` | No |  |
-| `stop` | `string` | No |  |
 | `type` | `string` | No |  |
 | `version` | `string` | No |  |
 
 ### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->Eta()->list();
-```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
@@ -255,10 +232,14 @@ $route_stop = $client->RouteStop();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bound` | `string` | No |  |
+| `data` | `array` | No |  |
+| `generated_timestamp` | `string` | No |  |
 | `route` | `string` | No |  |
 | `seq` | `string` | No |  |
 | `service_type` | `string` | No |  |
 | `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
@@ -268,6 +249,14 @@ List entities matching the given criteria (call with no argument to list all). R
 
 ```php
 $results = $client->RouteStop()->list();
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->RouteStop()->load(["direction" => "direction", "route" => "route", "service_type" => "service_type"]);
 ```
 
 ### Common Methods

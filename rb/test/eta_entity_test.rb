@@ -12,47 +12,11 @@ class EtaEntityTest < Minitest::Test
     assert !ent.nil?
   end
 
-  # Feature #4: the entity stream(action, ...) method runs the op pipeline and
-  # returns an Enumerator over result items. With the streaming feature active
-  # it yields the feature's incremental output; otherwise it falls back to the
-  # materialised list so stream always yields.
-  def test_stream
-    seed = {
-      "entity" => {
-        "eta" => {
-          "s1" => { "id" => "s1" },
-          "s2" => { "id" => "s2" },
-          "s3" => { "id" => "s3" },
-        },
-      },
-    }
-
-    # Fallback: streaming inactive -> yields the materialised list items.
-    base = RealTimeBusDataSDK.test(seed, nil)
-    seen = base.Eta(nil).stream("list", nil, nil).to_a
-    assert_equal 3, seen.length
-
-    # Inbound: streaming active -> yields each item from the feature.
-    cfg = RealTimeBusDataConfig.make_config
-    if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("streaming")
-      sdk = RealTimeBusDataSDK.test(seed, { "feature" => { "streaming" => { "active" => true } } })
-      got = []
-      sdk.Eta(nil).stream("list", nil, nil).each do |item|
-        if item.is_a?(Array)
-          got.concat(item)
-        else
-          got << item
-        end
-      end
-      assert_equal 3, got.length
-    end
-  end
-
   def test_basic_flow
     setup = eta_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    ["list", "load"].each do |_op|
+    ["load"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "eta." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
@@ -75,17 +39,8 @@ class EtaEntityTest < Minitest::Test
       eta_ref01_data = Helpers.to_map(eta_ref01_data_raw[0][1])
     end
 
-    # LIST
-    eta_ref01_ent = client.Eta(nil)
-    eta_ref01_match = {
-      "route" => setup[:idmap]["route01"],
-      "service_type" => setup[:idmap]["service_type01"],
-    }
-
-    eta_ref01_list_result = eta_ref01_ent.list(eta_ref01_match, nil)
-    assert eta_ref01_list_result.is_a?(Array)
-
     # LOAD
+    eta_ref01_ent = client.Eta(nil)
     eta_ref01_match_dt0 = {}
     eta_ref01_data_dt0_loaded = eta_ref01_ent.load(eta_ref01_match_dt0, nil)
     assert !eta_ref01_data_dt0_loaded.nil?
@@ -107,7 +62,7 @@ def eta_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03", "route01", "service_type01"],
+    ["eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

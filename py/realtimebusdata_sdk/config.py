@@ -1,7 +1,30 @@
 # RealTimeBusData SDK configuration
 
 
+_shared_config = None
+
+
+def shared_config():
+    """Return the process-wide config, built once on first use.
+
+    The SDK reads the config on every request and never writes to it, so one
+    instance is shared by every client rather than rebuilt per client.
+
+    The returned dict is shared: treat it as read-only. Callers that need to
+    mutate should use make_config, which always returns a fresh copy.
+    """
+    global _shared_config
+    if _shared_config is None:
+        _shared_config = make_config()
+    return _shared_config
+
+
 def make_config():
+    """Build a fresh, fully materialised config dict.
+
+    Every call rebuilds the whole structure, so prefer shared_config unless
+    you need a private copy you intend to mutate.
+    """
     return {
         "main": {
             "name": "RealTimeBusData",
@@ -29,178 +52,54 @@ def make_config():
       "eta": {
         "fields": [
           {
-            "active": True,
-            "name": "co",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 0,
-          },
-          {
-            "active": True,
             "name": "data",
-            "req": False,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
-            "name": "data_timestamp",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 2,
-          },
-          {
-            "active": True,
-            "name": "dest_en",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 3,
-          },
-          {
-            "active": True,
-            "name": "dest_sc",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 4,
-          },
-          {
-            "active": True,
-            "name": "dest_tc",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 5,
-          },
-          {
-            "active": True,
-            "name": "dir",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 6,
-          },
-          {
-            "active": True,
-            "name": "eta",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 7,
-          },
-          {
-            "active": True,
-            "name": "eta_seq",
-            "req": False,
-            "type": "`$INTEGER`",
-            "index$": 8,
-          },
-          {
-            "active": True,
             "name": "generated_timestamp",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 9,
           },
           {
-            "active": True,
-            "name": "rmk_en",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 10,
-          },
-          {
-            "active": True,
-            "name": "rmk_sc",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 11,
-          },
-          {
-            "active": True,
-            "name": "rmk_tc",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 12,
-          },
-          {
-            "active": True,
-            "name": "route",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 13,
-          },
-          {
-            "active": True,
-            "name": "seq",
-            "req": False,
-            "type": "`$INTEGER`",
-            "index$": 14,
-          },
-          {
-            "active": True,
-            "name": "service_type",
-            "req": False,
-            "type": "`$INTEGER`",
-            "index$": 15,
-          },
-          {
-            "active": True,
-            "name": "stop",
-            "req": False,
-            "type": "`$STRING`",
-            "index$": 16,
-          },
-          {
-            "active": True,
             "name": "type",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 17,
           },
           {
-            "active": True,
             "name": "version",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 18,
           },
         ],
         "name": "eta",
         "op": {
-          "list": {
+          "load": {
             "input": "data",
-            "name": "list",
+            "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "route",
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "service_type",
                       "orig": "service_type",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 1,
                     },
                     {
-                      "active": True,
                       "example": "0000D01E8B5635F0",
                       "kind": "param",
                       "name": "stop_id",
                       "orig": "stop_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 2,
                     },
                   ],
                 },
@@ -225,33 +124,27 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body.data`",
+                  "res": "`body`",
                 },
-                "index$": 0,
               },
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "route",
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "service_type",
                       "orig": "service_type",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 1,
                     },
                   ],
                 },
@@ -274,30 +167,19 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body.data`",
+                  "res": "`body`",
                 },
-                "index$": 1,
               },
-            ],
-            "key$": "list",
-          },
-          "load": {
-            "input": "data",
-            "name": "load",
-            "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "0000D01E8B5635F0",
                       "kind": "param",
                       "name": "stop_id",
                       "orig": "stop_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -320,10 +202,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -343,95 +223,56 @@ def make_config():
       "route": {
         "fields": [
           {
-            "active": True,
             "name": "bound",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "data",
-            "req": False,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "dest_en",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "dest_sc",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "dest_tc",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "generated_timestamp",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 5,
           },
           {
-            "active": True,
             "name": "orig_en",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 6,
           },
           {
-            "active": True,
             "name": "orig_sc",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 7,
           },
           {
-            "active": True,
             "name": "orig_tc",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 8,
           },
           {
-            "active": True,
             "name": "route",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 9,
           },
           {
-            "active": True,
             "name": "service_type",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 10,
           },
           {
-            "active": True,
             "name": "type",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 11,
           },
           {
-            "active": True,
             "name": "version",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 12,
           },
         ],
         "name": "route",
@@ -441,7 +282,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "GET",
@@ -457,28 +297,23 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.data`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
           "load": {
             "input": "data",
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "id",
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -506,10 +341,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -519,39 +352,40 @@ def make_config():
       "route_stop": {
         "fields": [
           {
-            "active": True,
             "name": "bound",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
+            "name": "data",
+            "type": "`$ARRAY`",
+          },
+          {
+            "name": "generated_timestamp",
+            "type": "`$STRING`",
+          },
+          {
             "name": "route",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "seq",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "service_type",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "stop",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 4,
+          },
+          {
+            "name": "type",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "version",
+            "type": "`$STRING`",
           },
         ],
         "name": "route_stop",
@@ -561,38 +395,54 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
+                "args": {},
+                "kind": "http",
+                "method": "GET",
+                "orig": "/v1/transport/kmb/route-stop",
+                "parts": [
+                  "v1",
+                  "transport",
+                  "kmb",
+                  "route-stop",
+                ],
+                "select": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body.data`",
+                },
+              },
+            ],
+          },
+          "load": {
+            "input": "data",
+            "name": "load",
+            "points": [
+              {
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "outbound",
                       "kind": "param",
                       "name": "direction",
                       "orig": "direction",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "route",
                       "orig": "route",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 1,
                     },
                     {
-                      "active": True,
                       "example": "1",
                       "kind": "param",
                       "name": "service_type",
                       "orig": "service_type",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 2,
                     },
                   ],
                 },
@@ -617,31 +467,10 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body.data`",
+                  "res": "`body`",
                 },
-                "index$": 0,
-              },
-              {
-                "active": True,
-                "args": {},
-                "kind": "http",
-                "method": "GET",
-                "orig": "/v1/transport/kmb/route-stop",
-                "parts": [
-                  "v1",
-                  "transport",
-                  "kmb",
-                  "route-stop",
-                ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body.data`",
-                },
-                "index$": 1,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -655,46 +484,28 @@ def make_config():
       "stop": {
         "fields": [
           {
-            "active": True,
             "name": "lat",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "long",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "name_en",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "name_sc",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "name_tc",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "stop",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 5,
           },
         ],
         "name": "stop",
@@ -704,7 +515,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "GET",
@@ -720,28 +530,23 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.data`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
           "load": {
             "input": "data",
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "0000D01E8B5635F0",
                       "kind": "param",
                       "name": "id",
                       "orig": "stop_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -769,10 +574,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.data`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {

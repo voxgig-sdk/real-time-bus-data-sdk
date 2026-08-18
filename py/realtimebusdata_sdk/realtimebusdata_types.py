@@ -17,37 +17,13 @@ from typing import TypedDict, Any
 
 
 class Eta(TypedDict, total=False):
-    co: str
     data: list
-    data_timestamp: str
-    dest_en: str
-    dest_sc: str
-    dest_tc: str
-    dir: str
-    eta: str
-    eta_seq: int
     generated_timestamp: str
-    rmk_en: str
-    rmk_sc: str
-    rmk_tc: str
-    route: str
-    seq: int
-    service_type: int
-    stop: str
     type: str
     version: str
 
 
 class EtaLoadMatch(TypedDict):
-    stop_id: str
-
-
-class EtaListMatchRequired(TypedDict):
-    route: str
-    service_type: str
-
-
-class EtaListMatch(EtaListMatchRequired, total=False):
     stop_id: str
 
 
@@ -89,16 +65,32 @@ class RouteListMatch(TypedDict, total=False):
 
 class RouteStop(TypedDict, total=False):
     bound: str
+    data: list
+    generated_timestamp: str
     route: str
     seq: str
     service_type: str
     stop: str
+    type: str
+    version: str
 
 
-class RouteStopListMatch(TypedDict, total=False):
+class RouteStopLoadMatch(TypedDict):
     direction: str
     route: str
     service_type: str
+
+
+class RouteStopListMatch(TypedDict, total=False):
+    bound: str
+    data: list
+    generated_timestamp: str
+    route: str
+    seq: str
+    service_type: str
+    stop: str
+    type: str
+    version: str
 
 
 class Stop(TypedDict, total=False):

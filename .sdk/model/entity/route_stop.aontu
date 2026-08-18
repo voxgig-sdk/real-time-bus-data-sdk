@@ -11,6 +11,16 @@ main: kit: entity: route_stop: {
       type: "`$STRING`"
     }
     {
+      name: "data"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "generated_timestamp"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "route"
       req: false
       type: "`$STRING`"
@@ -30,12 +40,41 @@ main: kit: entity: route_stop: {
       req: false
       type: "`$STRING`"
     }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$STRING`"
+    }
   ]
 
   name: "route_stop"
   op: {
     list: {
       name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/v1/transport/kmb/route-stop"
+          parts: [
+            "v1"
+            "transport"
+            "kmb"
+            "route-stop"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
       points: [
         {
           args: {
@@ -86,21 +125,7 @@ main: kit: entity: route_stop: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body.data`"
-          }
-        }
-        {
-          method: "GET"
-          orig: "/v1/transport/kmb/route-stop"
-          parts: [
-            "v1"
-            "transport"
-            "kmb"
-            "route-stop"
-          ]
-          transform: {
-            req: "`reqdata`"
-            res: "`body.data`"
+            res: "`body`"
           }
         }
       ]

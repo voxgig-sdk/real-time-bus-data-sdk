@@ -40,7 +40,7 @@ class RouteStopEntityTest extends TestCase
         $this->assertCount(3, $seen);
 
         // Inbound: streaming active -> yields each item from the feature.
-        $cfg = RealTimeBusDataConfig::make_config();
+        $cfg = RealTimeBusDataConfig::shared_config();
         if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
             $sdk = RealTimeBusDataSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
             $got = [];
@@ -62,7 +62,7 @@ class RouteStopEntityTest extends TestCase
         $setup = route_stop_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["list"] as $_op) {
+        foreach (["list", "load"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "route_stop." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -92,6 +92,11 @@ class RouteStopEntityTest extends TestCase
         $route_stop_ref01_list_result = $route_stop_ref01_ent->list($route_stop_ref01_match, null);
         $this->assertIsArray($route_stop_ref01_list_result);
 
+        // LOAD
+        $route_stop_ref01_match_dt0 = [];
+        $route_stop_ref01_data_dt0_loaded = $route_stop_ref01_ent->load($route_stop_ref01_match_dt0, null);
+        $this->assertNotNull($route_stop_ref01_data_dt0_loaded);
+
     }
 }
 
@@ -110,7 +115,7 @@ function route_stop_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["route_stop01", "route_stop02", "route_stop03"] as $k) {
+    foreach (["route_stop01", "route_stop02", "route_stop03", "direction01", "route01"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

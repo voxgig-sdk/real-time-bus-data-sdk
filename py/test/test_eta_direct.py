@@ -11,65 +11,6 @@ from test import runner
 
 class TestEtaDirect:
 
-    def test_should_direct_list_eta(self):
-        setup = _eta_direct_setup([
-            {"id": "direct01"},
-            {"id": "direct02"},
-        ])
-        _skip, _reason = runner.is_control_skipped("direct", "direct-list-eta", "live" if setup["live"] else "unit")
-        if _skip:
-            # pytest already imported at module scope
-            pytest.skip(_reason or "skipped via sdk-test-control.json")
-            return
-        if setup["live"]:
-            for _live_key in ["route01", "service_type01", "stop01"]:
-                if setup["idmap"].get(_live_key) is None:
-                    # pytest already imported at module scope
-                    pytest.skip(f"live test needs {_live_key} via *_ENTID env var (synthetic IDs only)")
-                    return
-
-        client = setup["client"]
-
-        params = {}
-        if setup["live"]:
-            params["route"] = setup["idmap"]["route01"]
-        else:
-            params["route"] = "direct01"
-        if setup["live"]:
-            params["service_type"] = setup["idmap"]["service_type01"]
-        else:
-            params["service_type"] = "direct01"
-        if setup["live"]:
-            params["stop_id"] = setup["idmap"]["stop01"]
-        else:
-            params["stop_id"] = "direct01"
-
-        result = client.direct({
-            "path": "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
-            "method": "GET",
-            "params": params,
-        })
-        if setup["live"]:
-            # Live mode is lenient: synthetic IDs frequently 4xx and the
-            # list-response shape varies wildly across public APIs. Skip
-            # rather than fail when the call doesn't return a usable list.
-            if result.get("err") is not None:
-                pytest.skip(f"list call failed (likely synthetic IDs against live API): {result.get('err')}")
-                return
-            if not result.get("ok"):
-                pytest.skip("list call not ok (likely synthetic IDs against live API)")
-                return
-            status = helpers.to_int(result["status"])
-            if status < 200 or status >= 300:
-                pytest.skip(f"expected 2xx status, got {status}")
-                return
-        else:
-            assert result["ok"] is True
-            assert helpers.to_int(result["status"]) == 200
-            assert isinstance(result["data"], list)
-            assert len(result["data"]) == 2
-            assert len(setup["calls"]) == 1
-
     def test_should_direct_load_eta(self):
         setup = _eta_direct_setup({"id": "direct01"})
         _skip, _reason = runner.is_control_skipped("direct", "direct-load-eta", "live" if setup["live"] else "unit")
@@ -82,12 +23,16 @@ class TestEtaDirect:
         params = {}
         query = {}
         if setup["live"]:
+            params["route"] = "1"
+            params["service_type"] = "1"
             params["stop_id"] = "0000D01E8B5635F0"
         else:
-            params["stop_id"] = "direct01"
+            params["route"] = "direct01"
+            params["service_type"] = "direct02"
+            params["stop_id"] = "direct03"
 
         result = client.direct({
-            "path": "v1/transport/kmb/stop-eta/{stop_id}",
+            "path": "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
             "method": "GET",
             "params": params,
             "query": query,

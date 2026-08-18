@@ -152,35 +152,12 @@ const eta = client.Eta()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `co` | `string` | No |  |
 | `data` | `any[]` | No |  |
-| `data_timestamp` | `string` | No |  |
-| `dest_en` | `string` | No |  |
-| `dest_sc` | `string` | No |  |
-| `dest_tc` | `string` | No |  |
-| `dir` | `string` | No |  |
-| `eta` | `string` | No |  |
-| `eta_seq` | `number` | No |  |
 | `generated_timestamp` | `string` | No |  |
-| `rmk_en` | `string` | No |  |
-| `rmk_sc` | `string` | No |  |
-| `rmk_tc` | `string` | No |  |
-| `route` | `string` | No |  |
-| `seq` | `number` | No |  |
-| `service_type` | `number` | No |  |
-| `stop` | `string` | No |  |
 | `type` | `string` | No |  |
 | `version` | `string` | No |  |
 
 ### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.Eta().list({ route: "example", service_type: "example" })
-```
 
 #### `load(match: object, ctrl?: object)`
 
@@ -299,10 +276,14 @@ const route_stop = client.RouteStop()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bound` | `string` | No |  |
+| `data` | `any[]` | No |  |
+| `generated_timestamp` | `string` | No |  |
 | `route` | `string` | No |  |
 | `seq` | `string` | No |  |
 | `service_type` | `string` | No |  |
 | `stop` | `string` | No |  |
+| `type` | `string` | No |  |
+| `version` | `string` | No |  |
 
 ### Operations
 
@@ -312,6 +293,14 @@ List entities matching the given criteria. Returns an array.
 
 ```ts
 const results = await client.RouteStop().list()
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.RouteStop().load({ direction: 'direction', route: 'route', service_type: 'service_type' })
 ```
 
 ### Common Methods

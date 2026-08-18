@@ -15,52 +15,11 @@ describe("EtaEntity", function()
     assert.is_not_nil(ent)
   end)
 
-  -- Feature #4: the entity stream(action, ...) method runs the op pipeline and
-  -- returns an iterator over result items. With the streaming feature active it
-  -- yields the feature's incremental output; otherwise it falls back to the
-  -- materialised list so stream always yields.
-  it("should stream", function()
-    local seed = {
-      entity = {
-        ["eta"] = {
-          s1 = { id = "s1" },
-          s2 = { id = "s2" },
-          s3 = { id = "s3" },
-        },
-      },
-    }
-
-    -- Fallback: streaming inactive -> yields the materialised list items.
-    local base = sdk.test(seed, nil)
-    local seen = {}
-    for item in base:Eta(nil):stream("list", nil, nil) do
-      table.insert(seen, item)
-    end
-    assert.are.equal(3, #seen)
-
-    -- Inbound: streaming active -> yields each item from the feature.
-    local config = require("config")()
-    if type(config.feature) == "table" and config.feature.streaming ~= nil then
-      local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
-      local got = {}
-      for item in streamsdk:Eta(nil):stream("list", nil, nil) do
-        if vs.islist(item) then
-          for _, sub in ipairs(item) do
-            table.insert(got, sub)
-          end
-        else
-          table.insert(got, item)
-        end
-      end
-      assert.are.equal(3, #got)
-    end
-  end)
-
   it("should run basic flow", function()
     local setup = eta_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"list", "load"}) do
+    for _, _op in ipairs({"load"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "eta." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -83,18 +42,8 @@ describe("EtaEntity", function()
       eta_ref01_data = helpers.to_map(eta_ref01_data_raw[1][2])
     end
 
-    -- LIST
-    local eta_ref01_ent = client:Eta(nil)
-    local eta_ref01_match = {
-      ["route"] = setup.idmap["route01"],
-      ["service_type"] = setup.idmap["service_type01"],
-    }
-
-    local eta_ref01_list_result, err = eta_ref01_ent:list(eta_ref01_match, nil)
-    assert.is_nil(err)
-    assert.is_table(eta_ref01_list_result)
-
     -- LOAD
+    local eta_ref01_ent = client:Eta(nil)
     local eta_ref01_match_dt0 = {}
     local eta_ref01_data_dt0_loaded, err = eta_ref01_ent:load(eta_ref01_match_dt0, nil)
     assert.is_nil(err)
@@ -123,7 +72,7 @@ function eta_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03", "route01", "service_type01" },
+    { "eta01", "eta02", "eta03", "route_eta01", "route_eta02", "route_eta03", "stop_eta01", "stop_eta02", "stop_eta03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

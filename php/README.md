@@ -31,20 +31,6 @@ require_once 'realtimebusdata_sdk.php';
 $client = new RealTimeBusDataSDK();
 ```
 
-### 2. List eta records
-
-```php
-try {
-    // list() returns an array of Eta records — iterate directly.
-    $etas = $client->Eta()->list();
-    foreach ($etas as $item) {
-        echo $item["co"] . "\n";
-    }
-} catch (\Throwable $err) {
-    echo "Error: " . $err->getMessage();
-}
-```
-
 ### 3. Load an eta
 
 Eta is nested under stop, so provide the `stop_id`.
@@ -67,7 +53,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $routes = $client->Route()->list();
+    $stops = $client->Stop()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -139,13 +125,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = RealTimeBusDataSDK::test([
-    "entity" => ["route" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["stop" => ["test01" => ["id" => "test01"]]],
 ]);
 
 // Entity ops return the ENTITY (throws on error);
 // call data_get() for the mock record.
-$route = $client->Route()->list();
-print_r($route);
+$stop = $client->Stop()->list();
+print_r($stop);
 ```
 
 ### Use a custom fetch function
@@ -268,27 +254,12 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `co` |  |
 | `data` |  |
-| `data_timestamp` |  |
-| `dest_en` |  |
-| `dest_sc` |  |
-| `dest_tc` |  |
-| `dir` |  |
-| `eta` |  |
-| `eta_seq` |  |
 | `generated_timestamp` |  |
-| `rmk_en` |  |
-| `rmk_sc` |  |
-| `rmk_tc` |  |
-| `route` |  |
-| `seq` |  |
-| `service_type` |  |
-| `stop` |  |
 | `type` |  |
 | `version` |  |
 
-Operations: List, Load.
+Operations: Load.
 
 API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
@@ -319,14 +290,18 @@ API path: `/v1/transport/kmb/route`
 | Field | Description |
 | --- | --- |
 | `bound` |  |
+| `data` |  |
+| `generated_timestamp` |  |
 | `route` |  |
 | `seq` |  |
 | `service_type` |  |
 | `stop` |  |
+| `type` |  |
+| `version` |  |
 
-Operations: List.
+Operations: List, Load.
 
-API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
+API path: `/v1/transport/kmb/route-stop`
 
 #### Stop
 
@@ -356,30 +331,14 @@ Create an instance: `$eta = $client->Eta();`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | `string` |  |
 | `data` | `array` |  |
-| `data_timestamp` | `string` |  |
-| `dest_en` | `string` |  |
-| `dest_sc` | `string` |  |
-| `dest_tc` | `string` |  |
-| `dir` | `string` |  |
-| `eta` | `string` |  |
-| `eta_seq` | `int` |  |
 | `generated_timestamp` | `string` |  |
-| `rmk_en` | `string` |  |
-| `rmk_sc` | `string` |  |
-| `rmk_tc` | `string` |  |
-| `route` | `string` |  |
-| `seq` | `int` |  |
-| `service_type` | `int` |  |
-| `stop` | `string` |  |
 | `type` | `string` |  |
 | `version` | `string` |  |
 
@@ -388,13 +347,6 @@ Create an instance: `$eta = $client->Eta();`
 ```php
 // load() returns the ENTITY — call data_get() for the Eta record (throws on error).
 $eta = $client->Eta()->load(["stop_id" => "stop_id"]);
-```
-
-#### Example: List
-
-```php
-// list() returns an array of Eta records (throws on error).
-$etas = $client->Eta()->list();
 ```
 
 
@@ -451,16 +403,28 @@ Create an instance: `$route_stop = $client->RouteStop();`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bound` | `string` |  |
+| `data` | `array` |  |
+| `generated_timestamp` | `string` |  |
 | `route` | `string` |  |
 | `seq` | `string` |  |
 | `service_type` | `string` |  |
 | `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the RouteStop record (throws on error).
+$route_stop = $client->RouteStop()->load(["direction" => "direction", "route" => "route", "service_type" => "service_type"]);
+```
 
 #### Example: List
 
@@ -583,11 +547,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$route = $client->Route();
-$route->list();
+$stop = $client->Stop();
+$stop->list();
 
-// $route->data_get() now returns the route data from the last list
-// $route->match_get() returns the last match criteria
+// $stop->data_get() now returns the stop data from the last list
+// $stop->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

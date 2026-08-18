@@ -20,9 +20,11 @@
         ],
         "headers": {
           "content-type": "application/json"
-        }
+        },
+        "repr": "auto"
       },
       "contributor": {},
+      "docs": {},
       "entity": {
         "eta": {
           "active": true,
@@ -32,103 +34,13 @@
           "fields": [
             {
               "active": true,
-              "name": "co",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
               "name": "data",
               "req": false,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "data_timestamp",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "dest_en",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "dest_sc",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "dest_tc",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "dir",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "eta",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "eta_seq",
-              "req": false,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
               "name": "generated_timestamp",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "rmk_en",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "rmk_sc",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "rmk_tc",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "route",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "seq",
-              "req": false,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "service_type",
-              "req": false,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "stop",
               "req": false,
               "type": "`$STRING`"
             },
@@ -147,9 +59,9 @@
           ],
           "name": "eta",
           "op": {
-            "list": {
+            "load": {
               "input": "data",
-              "name": "list",
+              "name": "load",
               "points": [
                 {
                   "active": true,
@@ -205,7 +117,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body.data`"
+                    "res": "`body`"
                   }
                 },
                 {
@@ -251,15 +163,9 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body.data`"
+                    "res": "`body`"
                   }
-                }
-              ]
-            },
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
+                },
                 {
                   "active": true,
                   "args": {
@@ -488,6 +394,18 @@
             },
             {
               "active": true,
+              "name": "data",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "generated_timestamp",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "route",
               "req": false,
               "type": "`$STRING`"
@@ -509,6 +427,18 @@
               "name": "stop",
               "req": false,
               "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$STRING`"
             }
           ],
           "name": "route_stop",
@@ -516,6 +446,30 @@
             "list": {
               "input": "data",
               "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/v1/transport/kmb/route-stop",
+                  "parts": [
+                    "v1",
+                    "transport",
+                    "kmb",
+                    "route-stop"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
               "points": [
                 {
                   "active": true,
@@ -571,25 +525,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                },
-                {
-                  "active": true,
-                  "args": {},
-                  "kind": "http",
-                  "method": "GET",
-                  "orig": "/v1/transport/kmb/route-stop",
-                  "parts": [
-                    "v1",
-                    "transport",
-                    "kmb",
-                    "route-stop"
-                  ],
-                  "select": {},
-                  "transform": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
+                    "res": "`body`"
                   }
                 }
               ]
@@ -727,6 +663,7 @@
       "feature": {
         "test": {
           "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "config": {
             "options": {
               "active": false
@@ -787,6 +724,8 @@
             }
           },
           "name": "test",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
           "target": {
             "go": {
               "deps": {}
@@ -826,25 +765,6 @@
           "name": "BasicEtaFlow",
           "param": {},
           "step": [
-            {
-              "active": true,
-              "data": {},
-              "input": {},
-              "match": {
-                "route": "route01",
-                "service_type": "service_type01"
-              },
-              "op": "list",
-              "spec": [],
-              "valid": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "eta_ref01"
-                  }
-                }
-              ]
-            },
             {
               "active": true,
               "data": {},
@@ -940,6 +860,30 @@
                   }
                 }
               ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "route_stop_ref01",
+                "srcdatavar": "route_stop_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "direction": "direction01",
+                "id": "route_stop01",
+                "route": "route01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-route_stop_ref01"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -1024,6 +968,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1042,12 +987,14 @@
             "path": ""
           },
           "name": "go",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1081,6 +1028,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1097,12 +1045,14 @@
             "path": ""
           },
           "name": "go-cli",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -1152,6 +1102,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1168,12 +1119,14 @@
             "path": ""
           },
           "name": "go-mcp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -1223,6 +1176,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "--"
           },
@@ -1245,12 +1199,14 @@
             "path": ""
           },
           "name": "lua",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1284,6 +1240,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1300,12 +1257,14 @@
             "path": ""
           },
           "name": "php",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1339,6 +1298,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -1361,12 +1321,14 @@
             "path": ""
           },
           "name": "py",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1400,6 +1362,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -1427,12 +1390,14 @@
             "path": ""
           },
           "name": "rb",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1499,12 +1464,14 @@
             "path": ""
           },
           "name": "ts",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,

@@ -51,7 +51,7 @@ func TestRouteStopEntity(t *testing.T) {
 
 		// Inbound: streaming active -> yields each item from the feature iterator.
 		hasStreaming := false
-		if fm, ok := core.MakeConfig()["feature"].(map[string]any); ok {
+		if fm, ok := core.SharedConfig()["feature"].(map[string]any); ok {
 			_, hasStreaming = fm["streaming"]
 		}
 		if hasStreaming {
@@ -80,7 +80,7 @@ func TestRouteStopEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"list"} {
+		for _, _op := range []string{"list", "load"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "route_stop." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -120,6 +120,16 @@ func TestRouteStopEntity(t *testing.T) {
 			t.Fatalf("expected list result to be an array, got %T", routeStopRef01ListResult)
 		}
 
+		// LOAD
+		routeStopRef01MatchDt0 := map[string]any{}
+		routeStopRef01DataDt0Loaded, err := routeStopRef01Ent.Load(routeStopRef01MatchDt0, nil)
+		if err != nil {
+			t.Fatalf("load failed: %v", err)
+		}
+		if routeStopRef01DataDt0Loaded == nil {
+			t.Fatal("expected load result to be non-nil")
+		}
+
 	})
 }
 
@@ -148,7 +158,7 @@ func route_stopBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap := vs.Transform(
-		[]any{"route_stop01", "route_stop02", "route_stop03"},
+		[]any{"route_stop01", "route_stop02", "route_stop03", "direction01", "route01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

@@ -6,75 +6,6 @@ require_relative "../RealTimeBusData_sdk"
 require_relative "runner"
 
 class EtaDirectTest < Minitest::Test
-  def test_direct_list_eta
-    setup = eta_direct_setup([
-      { "id" => "direct01" },
-      { "id" => "direct02" },
-    ])
-    _should_skip, _reason = Runner.is_control_skipped("direct", "direct-list-eta", setup[:live] ? "live" : "unit")
-    if _should_skip
-      skip(_reason || "skipped via sdk-test-control.json")
-      return
-    end
-    if setup[:live]
-      ["route01", "service_type01", "stop01"].each do |_live_key|
-        if setup[:idmap][_live_key].nil?
-          skip "live test needs #{_live_key} via *_ENTID env var (synthetic IDs only)"
-          return
-        end
-      end
-    end
-    client = setup[:client]
-
-    params = {}
-    if setup[:live]
-      params["route"] = setup[:idmap]["route01"]
-    else
-      params["route"] = "direct01"
-    end
-    if setup[:live]
-      params["service_type"] = setup[:idmap]["service_type01"]
-    else
-      params["service_type"] = "direct01"
-    end
-    if setup[:live]
-      params["stop_id"] = setup[:idmap]["stop01"]
-    else
-      params["stop_id"] = "direct01"
-    end
-
-    result = client.direct({
-      "path" => "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
-      "method" => "GET",
-      "params" => params,
-    })
-    if setup[:live]
-      # Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      # response shape varies wildly across public APIs. Skip rather than
-      # fail when the call doesn't return a usable list.
-      if !result["err"].nil?
-        skip("list call failed (likely synthetic IDs against live API): #{result["err"]}")
-        return
-      end
-      unless result["ok"]
-        skip("list call not ok (likely synthetic IDs against live API)")
-        return
-      end
-      status = Helpers.to_int(result["status"])
-      if status < 200 || status >= 300
-        skip("expected 2xx status, got #{status}")
-        return
-      end
-    else
-      assert_nil result["err"]
-      assert result["ok"]
-      assert_equal 200, Helpers.to_int(result["status"])
-      assert result["data"].is_a?(Array)
-      assert_equal 2, result["data"].length
-      assert_equal 1, setup[:calls].length
-    end
-  end
-
   def test_direct_load_eta
     setup = eta_direct_setup({ "id" => "direct01" })
     _should_skip, _reason = Runner.is_control_skipped("direct", "direct-load-eta", setup[:live] ? "live" : "unit")
@@ -87,13 +18,17 @@ class EtaDirectTest < Minitest::Test
     params = {}
     query = {}
     if setup[:live]
+      params["route"] = "1"
+      params["service_type"] = "1"
       params["stop_id"] = "0000D01E8B5635F0"
     else
-      params["stop_id"] = "direct01"
+      params["route"] = "direct01"
+      params["service_type"] = "direct02"
+      params["stop_id"] = "direct03"
     end
 
     result = client.direct({
-      "path" => "v1/transport/kmb/stop-eta/{stop_id}",
+      "path" => "v1/transport/kmb/eta/{stop_id}/{route}/{service_type}",
       "method" => "GET",
       "params" => params,
       "query" => query,

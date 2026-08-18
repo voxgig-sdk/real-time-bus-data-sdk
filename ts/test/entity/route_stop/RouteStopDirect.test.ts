@@ -35,18 +35,17 @@ describe('RouteStopDirect', async () => {
   })
 
 
-  test('direct-list-route_stop', async (t: any) => {
-    const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
-    if (maybeSkipControl(t, 'direct', 'direct-list-route_stop', setup.live)) return
-    if (skipIfMissingIds(t, setup, ["direction01","route01","service_type01"])) return
+  test('direct-load-route_stop', async (t: any) => {
+    const setup = directSetup({ id: 'direct01' })
+    if (maybeSkipControl(t, 'direct', 'direct-load-route_stop', setup.live)) return
     const { client, calls } = setup
 
     const params: any = {}
     const query: any = {}
     if (setup.live) {
-      params.direction = setup.idmap['direction01']
-      params.route = setup.idmap['route01']
-      params.service_type = setup.idmap['service_type01']
+      params.direction = "outbound"
+      params.route = "1"
+      params.service_type = "1"
     } else {
       params.direction = 'direct01'
       params.route = 'direct02'
@@ -55,6 +54,41 @@ describe('RouteStopDirect', async () => {
 
     const result: any = await client.direct({
       path: 'v1/transport/kmb/route-stop/{route}/{direction}/{service_type}',
+      method: 'GET',
+      params,
+      query,
+    })
+
+    if (setup.live) {
+      // Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
+      // than fail when the load endpoint isn't reachable with the IDs we
+      // can construct from setup.idmap.
+      if (!result.ok || result.status < 200 || result.status >= 300) {
+        return
+      }
+    } else {
+      assert(result.ok === true)
+      assert(result.status === 200)
+      assert(null != result.data)
+      assert(result.data.id === 'direct01')
+      assert(calls.length === 1)
+      assert(calls[0].init.method === 'GET')
+      assert(calls[0].url.includes('direct01'))
+      assert(calls[0].url.includes('direct02'))
+      assert(calls[0].url.includes('direct03'))
+    }
+  })
+
+  test('direct-list-route_stop', async (t: any) => {
+    const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
+    if (maybeSkipControl(t, 'direct', 'direct-list-route_stop', setup.live)) return
+    const { client, calls } = setup
+
+    const params: any = {}
+    const query: any = {}
+
+    const result: any = await client.direct({
+      path: 'v1/transport/kmb/route-stop',
       method: 'GET',
       params,
       query,
@@ -80,9 +114,6 @@ describe('RouteStopDirect', async () => {
       assert(listArr!.length === 2)
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
-      assert(calls[0].url.includes('direct01'))
-      assert(calls[0].url.includes('direct02'))
-      assert(calls[0].url.includes('direct03'))
     }
   })
 

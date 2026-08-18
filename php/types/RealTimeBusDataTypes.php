@@ -15,23 +15,8 @@ declare(strict_types=1);
 /** Eta entity data model. */
 class Eta
 {
-    public ?string $co = null;
     public ?array $data = null;
-    public ?string $data_timestamp = null;
-    public ?string $dest_en = null;
-    public ?string $dest_sc = null;
-    public ?string $dest_tc = null;
-    public ?string $dir = null;
-    public ?string $eta = null;
-    public ?int $eta_seq = null;
     public ?string $generated_timestamp = null;
-    public ?string $rmk_en = null;
-    public ?string $rmk_sc = null;
-    public ?string $rmk_tc = null;
-    public ?string $route = null;
-    public ?int $seq = null;
-    public ?int $service_type = null;
-    public ?string $stop = null;
     public ?string $type = null;
     public ?string $version = null;
 }
@@ -40,14 +25,6 @@ class Eta
 class EtaLoadMatch
 {
     public string $stop_id;
-}
-
-/** Request payload for Eta#list. */
-class EtaListMatch
-{
-    public string $route;
-    public string $service_type;
-    public ?string $stop_id = null;
 }
 
 /** Route entity data model. */
@@ -96,18 +73,36 @@ class RouteListMatch
 class RouteStop
 {
     public ?string $bound = null;
+    public ?array $data = null;
+    public ?string $generated_timestamp = null;
     public ?string $route = null;
     public ?string $seq = null;
     public ?string $service_type = null;
     public ?string $stop = null;
+    public ?string $type = null;
+    public ?string $version = null;
+}
+
+/** Request payload for RouteStop#load. */
+class RouteStopLoadMatch
+{
+    public string $direction;
+    public string $route;
+    public string $service_type;
 }
 
 /** Request payload for RouteStop#list. */
 class RouteStopListMatch
 {
-    public ?string $direction = null;
+    public ?string $bound = null;
+    public ?array $data = null;
+    public ?string $generated_timestamp = null;
     public ?string $route = null;
+    public ?string $seq = null;
     public ?string $service_type = null;
+    public ?string $stop = null;
+    public ?string $type = null;
+    public ?string $version = null;
 }
 
 /** Stop entity data model. */

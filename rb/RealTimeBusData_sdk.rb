@@ -28,7 +28,7 @@ class RealTimeBusDataSDK
     utility = RealTimeBusDataUtility.new
     @_utility = utility
 
-    config = RealTimeBusDataConfig.make_config
+    config = RealTimeBusDataConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

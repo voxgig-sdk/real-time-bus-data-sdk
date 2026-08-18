@@ -33,20 +33,6 @@ import { RealTimeBusDataSDK } from '@voxgig-sdk/real-time-bus-data'
 const client = new RealTimeBusDataSDK()
 ```
 
-### 2. List eta records
-
-`list()` resolves to an array of Eta ENTITIES — every operation
-resolves to entities, not raw records. Iterate them directly, and call
-`.data()` on one for the record it holds:
-
-```ts
-const etas = await client.Eta().list({ route: "example", service_type: "example" })
-
-for (const eta of etas) {
-  console.log(eta)
-}
-```
-
 ### 3. Load an eta
 
 Eta is nested under stop, so provide the `stop_id`.
@@ -70,8 +56,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const routes = await client.Route().list()
-  console.log(routes)
+  const stops = await client.Stop().list()
+  console.log(stops)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -137,10 +123,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RealTimeBusDataSDK.test()
 
-const route = await client.Route().list()
-// route is the entity, populated with mock response data
-// — call route.data() for the record itself
-console.log(route)
+const stop = await client.Stop().list()
+// stop is the entity, populated with mock response data
+// — call stop.data() for the record itself
+console.log(stop)
 ```
 
 You can also use the instance method:
@@ -155,7 +141,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Route()
+const entity = client.Stop()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -308,27 +294,12 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `co` |  |
 | `data` |  |
-| `data_timestamp` |  |
-| `dest_en` |  |
-| `dest_sc` |  |
-| `dest_tc` |  |
-| `dir` |  |
-| `eta` |  |
-| `eta_seq` |  |
 | `generated_timestamp` |  |
-| `rmk_en` |  |
-| `rmk_sc` |  |
-| `rmk_tc` |  |
-| `route` |  |
-| `seq` |  |
-| `service_type` |  |
-| `stop` |  |
 | `type` |  |
 | `version` |  |
 
-Operations: list, load.
+Operations: load.
 
 API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
@@ -359,14 +330,18 @@ API path: `/v1/transport/kmb/route`
 | Field | Description |
 | --- | --- |
 | `bound` |  |
+| `data` |  |
+| `generated_timestamp` |  |
 | `route` |  |
 | `seq` |  |
 | `service_type` |  |
 | `stop` |  |
+| `type` |  |
+| `version` |  |
 
-Operations: list.
+Operations: list, load.
 
-API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
+API path: `/v1/transport/kmb/route-stop`
 
 #### Stop
 
@@ -396,30 +371,14 @@ Create an instance: `const eta = client.Eta()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | `string` |  |
 | `data` | `any[]` |  |
-| `data_timestamp` | `string` |  |
-| `dest_en` | `string` |  |
-| `dest_sc` | `string` |  |
-| `dest_tc` | `string` |  |
-| `dir` | `string` |  |
-| `eta` | `string` |  |
-| `eta_seq` | `number` |  |
 | `generated_timestamp` | `string` |  |
-| `rmk_en` | `string` |  |
-| `rmk_sc` | `string` |  |
-| `rmk_tc` | `string` |  |
-| `route` | `string` |  |
-| `seq` | `number` |  |
-| `service_type` | `number` |  |
-| `stop` | `string` |  |
 | `type` | `string` |  |
 | `version` | `string` |  |
 
@@ -427,12 +386,6 @@ Create an instance: `const eta = client.Eta()`
 
 ```ts
 const eta = await client.Eta().load({ stop_id: 'stop_id' })
-```
-
-#### Example: List
-
-```ts
-const etas = await client.Eta().list({ route: "example", service_type: "example" })
 ```
 
 
@@ -487,16 +440,27 @@ Create an instance: `const route_stop = client.RouteStop()`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bound` | `string` |  |
+| `data` | `any[]` |  |
+| `generated_timestamp` | `string` |  |
 | `route` | `string` |  |
 | `seq` | `string` |  |
 | `service_type` | `string` |  |
 | `stop` | `string` |  |
+| `type` | `string` |  |
+| `version` | `string` |  |
+
+#### Example: Load
+
+```ts
+const route_stop = await client.RouteStop().load({ direction: 'direction', route: 'route', service_type: 'service_type' })
+```
 
 #### Example: List
 
@@ -609,11 +573,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const route = client.Route()
-await route.list()
+const stop = client.Stop()
+await stop.list()
 
-// route.data() now returns the route data from the last `list`
-// route.match() returns the last match criteria
+// stop.data() now returns the stop data from the last `list`
+// stop.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

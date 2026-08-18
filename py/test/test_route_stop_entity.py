@@ -42,8 +42,8 @@ class TestRouteStopEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from realtimebusdata_sdk.config import make_config
-        cfg = make_config()
+        from realtimebusdata_sdk.config import shared_config
+        cfg = shared_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = RealTimeBusDataSDK.test(
                 seed, {"feature": {"streaming": {"active": True}}})
@@ -61,7 +61,7 @@ class TestRouteStopEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["list"]:
+        for _op in ["list", "load"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "route_stop." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -87,6 +87,11 @@ class TestRouteStopEntity:
         route_stop_ref01_list_result = route_stop_ref01_ent.list(route_stop_ref01_match, None)
         assert isinstance(route_stop_ref01_list_result, list)
 
+        # LOAD
+        route_stop_ref01_match_dt0 = {}
+        route_stop_ref01_data_dt0_loaded = route_stop_ref01_ent.load(route_stop_ref01_match_dt0, None)
+        assert route_stop_ref01_data_dt0_loaded is not None
+
 
 
 def _route_stop_basic_setup(extra):
@@ -105,7 +110,7 @@ def _route_stop_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["route_stop01", "route_stop02", "route_stop03"],
+        ["route_stop01", "route_stop02", "route_stop03", "direction01", "route01"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

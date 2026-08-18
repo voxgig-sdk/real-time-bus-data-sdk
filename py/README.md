@@ -36,20 +36,6 @@ from realtimebusdata_sdk import RealTimeBusDataSDK
 client = RealTimeBusDataSDK()
 ```
 
-### 2. List eta records
-
-`list()` returns a `list` of records (each a `dict`) and raises on
-error — iterate it directly.
-
-```python
-try:
-    etas = client.Eta().list({"route": "example", "service_type": "example"})
-    for eta in etas:
-        print(eta)
-except Exception as err:
-    print(f"list failed: {err}")
-```
-
 ### 3. Load an eta
 
 Eta is nested under stop, so provide the `stop_id`.
@@ -70,8 +56,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    routes = client.Route().list()
-    print(routes)
+    stops = client.Stop().list()
+    print(stops)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -139,8 +125,8 @@ client = RealTimeBusDataSDK.test()
 
 # Entity ops return the ENTITY and raises on error;
 # call data_get() for the record.
-route = client.Route().list()
-# route contains the mock response record
+stop = client.Stop().list()
+# stop contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -260,27 +246,12 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `co` |  |
 | `data` |  |
-| `data_timestamp` |  |
-| `dest_en` |  |
-| `dest_sc` |  |
-| `dest_tc` |  |
-| `dir` |  |
-| `eta` |  |
-| `eta_seq` |  |
 | `generated_timestamp` |  |
-| `rmk_en` |  |
-| `rmk_sc` |  |
-| `rmk_tc` |  |
-| `route` |  |
-| `seq` |  |
-| `service_type` |  |
-| `stop` |  |
 | `type` |  |
 | `version` |  |
 
-Operations: List, Load.
+Operations: Load.
 
 API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
@@ -311,14 +282,18 @@ API path: `/v1/transport/kmb/route`
 | Field | Description |
 | --- | --- |
 | `bound` |  |
+| `data` |  |
+| `generated_timestamp` |  |
 | `route` |  |
 | `seq` |  |
 | `service_type` |  |
 | `stop` |  |
+| `type` |  |
+| `version` |  |
 
-Operations: List.
+Operations: List, Load.
 
-API path: `/v1/transport/kmb/route-stop/{route}/{direction}/{service_type}`
+API path: `/v1/transport/kmb/route-stop`
 
 #### Stop
 
@@ -348,30 +323,14 @@ Create an instance: `eta = client.Eta()`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `co` | `str` |  |
 | `data` | `list` |  |
-| `data_timestamp` | `str` |  |
-| `dest_en` | `str` |  |
-| `dest_sc` | `str` |  |
-| `dest_tc` | `str` |  |
-| `dir` | `str` |  |
-| `eta` | `str` |  |
-| `eta_seq` | `int` |  |
 | `generated_timestamp` | `str` |  |
-| `rmk_en` | `str` |  |
-| `rmk_sc` | `str` |  |
-| `rmk_tc` | `str` |  |
-| `route` | `str` |  |
-| `seq` | `int` |  |
-| `service_type` | `int` |  |
-| `stop` | `str` |  |
 | `type` | `str` |  |
 | `version` | `str` |  |
 
@@ -379,12 +338,6 @@ Create an instance: `eta = client.Eta()`
 
 ```python
 eta = client.Eta().load({"stop_id": "stop_id"})
-```
-
-#### Example: List
-
-```python
-etas = client.Eta().list({"route": "example", "service_type": "example"})
 ```
 
 
@@ -439,16 +392,27 @@ Create an instance: `route_stop = client.RouteStop()`
 | Method | Description |
 | --- | --- |
 | `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bound` | `str` |  |
+| `data` | `list` |  |
+| `generated_timestamp` | `str` |  |
 | `route` | `str` |  |
 | `seq` | `str` |  |
 | `service_type` | `str` |  |
 | `stop` | `str` |  |
+| `type` | `str` |  |
+| `version` | `str` |  |
+
+#### Example: Load
+
+```python
+route_stop = client.RouteStop().load({"direction": "direction", "route": "route", "service_type": "service_type"})
+```
 
 #### Example: List
 
@@ -567,11 +531,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-route = client.Route()
-route.list()
+stop = client.Stop()
+stop.list()
 
-# route.data_get() now returns the route data from the last list
-# route.match_get() returns the last match criteria
+# stop.data_get() now returns the stop data from the last list
+# stop.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -2,39 +2,58 @@
   "existing": {
     "route_stop": {
       "ROUTE_STOP00": {
-        "bound": "s32",
-        "route": "s33",
-        "seq": "s34",
-        "service_type": "s35",
-        "stop": "s36",
-        "direction": "DIRECTION01"
+        "bound": "s5a",
+        "data": [],
+        "generated_timestamp": "s5c",
+        "route": "s5d",
+        "seq": "s5e",
+        "service_type": "s5f",
+        "stop": "s60",
+        "type": "s61",
+        "version": "s62",
+        "direction": "DIRECTION01",
+        "id": "ROUTE_STOP00"
       },
       "ROUTE_STOP01": {
-        "bound": "s64",
-        "route": "s65",
-        "seq": "s66",
-        "service_type": "s67",
-        "stop": "s68",
-        "direction": "DIRECTION01"
+        "bound": "sb4",
+        "data": [],
+        "generated_timestamp": "sb6",
+        "route": "sb7",
+        "seq": "sb8",
+        "service_type": "sb9",
+        "stop": "sba",
+        "type": "sbb",
+        "version": "sbc",
+        "direction": "DIRECTION01",
+        "id": "ROUTE_STOP01"
       },
       "ROUTE_STOP02": {
-        "bound": "s96",
-        "route": "s97",
-        "seq": "s98",
-        "service_type": "s99",
-        "stop": "s9a",
-        "direction": "DIRECTION01"
+        "bound": "s10e",
+        "data": [],
+        "generated_timestamp": "s110",
+        "route": "s111",
+        "seq": "s112",
+        "service_type": "s113",
+        "stop": "s114",
+        "type": "s115",
+        "version": "s116",
+        "direction": "DIRECTION01",
+        "id": "ROUTE_STOP02"
       }
     }
   },
   "new": {
     "route_stop": {
       "route_stop_ref01": {
-        "bound": "sc8",
-        "route": "sc9",
-        "seq": "sca",
-        "service_type": "scb",
-        "stop": "scc"
+        "bound": "s168",
+        "data": [],
+        "generated_timestamp": "s16a",
+        "route": "s16b",
+        "seq": "s16c",
+        "service_type": "s16d",
+        "stop": "s16e",
+        "type": "s16f",
+        "version": "s170"
       }
     }
   }
