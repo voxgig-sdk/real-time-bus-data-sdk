@@ -8,6 +8,7 @@ main: kit: entity: route_stop: {
     {
       name: "bound"
       req: false
+      short: "Direction of the route"
       type: "`$STRING`"
     }
     {
@@ -23,21 +24,25 @@ main: kit: entity: route_stop: {
     {
       name: "route"
       req: false
+      short: "Route number"
       type: "`$STRING`"
     }
     {
       name: "seq"
       req: false
+      short: "Stop sequence number on the route"
       type: "`$STRING`"
     }
     {
       name: "service_type"
       req: false
+      short: "Service type identifier"
       type: "`$STRING`"
     }
     {
       name: "stop"
       req: false
+      short: "Stop identifier"
       type: "`$STRING`"
     }
     {

@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "RealTimeBusData",
+			"slug": "real-time-bus-data",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -207,6 +210,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "bound",
+						"short": "Direction of the route",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -215,14 +219,17 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "dest_en",
+						"short": "Destination stop name in English",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "dest_sc",
+						"short": "Destination stop name in Simplified Chinese",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "dest_tc",
+						"short": "Destination stop name in Traditional Chinese",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -231,22 +238,27 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "orig_en",
+						"short": "Origin stop name in English",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "orig_sc",
+						"short": "Origin stop name in Simplified Chinese",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "orig_tc",
+						"short": "Origin stop name in Traditional Chinese",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "route",
+						"short": "Route number",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "service_type",
+						"short": "Service type identifier",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -336,6 +348,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "bound",
+						"short": "Direction of the route",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -348,18 +361,22 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "route",
+						"short": "Route number",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "seq",
+						"short": "Stop sequence number on the route",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "service_type",
+						"short": "Service type identifier",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "stop",
+						"short": "Stop identifier",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -468,26 +485,32 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "lat",
+						"short": "Latitude coordinate",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "long",
+						"short": "Longitude coordinate",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name_en",
+						"short": "Stop name in English",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name_sc",
+						"short": "Stop name in Simplified Chinese",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name_tc",
+						"short": "Stop name in Traditional Chinese",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "stop",
+						"short": "Stop identifier",
 						"type": "`$STRING`",
 					},
 				},

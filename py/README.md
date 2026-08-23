@@ -259,17 +259,17 @@ API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `bound` |  |
+| `bound` | Direction of the route |
 | `data` |  |
-| `dest_en` |  |
-| `dest_sc` |  |
-| `dest_tc` |  |
+| `dest_en` | Destination stop name in English |
+| `dest_sc` | Destination stop name in Simplified Chinese |
+| `dest_tc` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` |  |
-| `orig_en` |  |
-| `orig_sc` |  |
-| `orig_tc` |  |
-| `route` |  |
-| `service_type` |  |
+| `orig_en` | Origin stop name in English |
+| `orig_sc` | Origin stop name in Simplified Chinese |
+| `orig_tc` | Origin stop name in Traditional Chinese |
+| `route` | Route number |
+| `service_type` | Service type identifier |
 | `type` |  |
 | `version` |  |
 
@@ -281,13 +281,13 @@ API path: `/v1/transport/kmb/route`
 
 | Field | Description |
 | --- | --- |
-| `bound` |  |
+| `bound` | Direction of the route |
 | `data` |  |
 | `generated_timestamp` |  |
-| `route` |  |
-| `seq` |  |
-| `service_type` |  |
-| `stop` |  |
+| `route` | Route number |
+| `seq` | Stop sequence number on the route |
+| `service_type` | Service type identifier |
+| `stop` | Stop identifier |
 | `type` |  |
 | `version` |  |
 
@@ -299,12 +299,12 @@ API path: `/v1/transport/kmb/route-stop`
 
 | Field | Description |
 | --- | --- |
-| `lat` |  |
-| `long` |  |
-| `name_en` |  |
-| `name_sc` |  |
-| `name_tc` |  |
-| `stop` |  |
+| `lat` | Latitude coordinate |
+| `long` | Longitude coordinate |
+| `name_en` | Stop name in English |
+| `name_sc` | Stop name in Simplified Chinese |
+| `name_tc` | Stop name in Traditional Chinese |
+| `stop` | Stop identifier |
 
 Operations: List, Load.
 
@@ -356,17 +356,17 @@ Create an instance: `route = client.Route()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | `str` |  |
+| `bound` | `str` | Direction of the route |
 | `data` | `list` |  |
-| `dest_en` | `str` |  |
-| `dest_sc` | `str` |  |
-| `dest_tc` | `str` |  |
+| `dest_en` | `str` | Destination stop name in English |
+| `dest_sc` | `str` | Destination stop name in Simplified Chinese |
+| `dest_tc` | `str` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `str` |  |
-| `orig_en` | `str` |  |
-| `orig_sc` | `str` |  |
-| `orig_tc` | `str` |  |
-| `route` | `str` |  |
-| `service_type` | `str` |  |
+| `orig_en` | `str` | Origin stop name in English |
+| `orig_sc` | `str` | Origin stop name in Simplified Chinese |
+| `orig_tc` | `str` | Origin stop name in Traditional Chinese |
+| `route` | `str` | Route number |
+| `service_type` | `str` | Service type identifier |
 | `type` | `str` |  |
 | `version` | `str` |  |
 
@@ -398,13 +398,13 @@ Create an instance: `route_stop = client.RouteStop()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | `str` |  |
+| `bound` | `str` | Direction of the route |
 | `data` | `list` |  |
 | `generated_timestamp` | `str` |  |
-| `route` | `str` |  |
-| `seq` | `str` |  |
-| `service_type` | `str` |  |
-| `stop` | `str` |  |
+| `route` | `str` | Route number |
+| `seq` | `str` | Stop sequence number on the route |
+| `service_type` | `str` | Service type identifier |
+| `stop` | `str` | Stop identifier |
 | `type` | `str` |  |
 | `version` | `str` |  |
 
@@ -436,12 +436,12 @@ Create an instance: `stop = client.Stop()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `lat` | `str` |  |
-| `long` | `str` |  |
-| `name_en` | `str` |  |
-| `name_sc` | `str` |  |
-| `name_tc` | `str` |  |
-| `stop` | `str` |  |
+| `lat` | `str` | Latitude coordinate |
+| `long` | `str` | Longitude coordinate |
+| `name_en` | `str` | Stop name in English |
+| `name_sc` | `str` | Stop name in Simplified Chinese |
+| `name_tc` | `str` | Stop name in Traditional Chinese |
+| `stop` | `str` | Stop identifier |
 
 #### Example: Load
 

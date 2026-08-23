@@ -159,17 +159,17 @@ $route = $client->Route();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | `string` | No |  |
+| `bound` | `string` | No | Direction of the route |
 | `data` | `array` | No |  |
-| `dest_en` | `string` | No |  |
-| `dest_sc` | `string` | No |  |
-| `dest_tc` | `string` | No |  |
+| `dest_en` | `string` | No | Destination stop name in English |
+| `dest_sc` | `string` | No | Destination stop name in Simplified Chinese |
+| `dest_tc` | `string` | No | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `string` | No |  |
-| `orig_en` | `string` | No |  |
-| `orig_sc` | `string` | No |  |
-| `orig_tc` | `string` | No |  |
-| `route` | `string` | No |  |
-| `service_type` | `string` | No |  |
+| `orig_en` | `string` | No | Origin stop name in English |
+| `orig_sc` | `string` | No | Origin stop name in Simplified Chinese |
+| `orig_tc` | `string` | No | Origin stop name in Traditional Chinese |
+| `route` | `string` | No | Route number |
+| `service_type` | `string` | No | Service type identifier |
 | `type` | `string` | No |  |
 | `version` | `string` | No |  |
 
@@ -231,13 +231,13 @@ $route_stop = $client->RouteStop();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | `string` | No |  |
+| `bound` | `string` | No | Direction of the route |
 | `data` | `array` | No |  |
 | `generated_timestamp` | `string` | No |  |
-| `route` | `string` | No |  |
-| `seq` | `string` | No |  |
-| `service_type` | `string` | No |  |
-| `stop` | `string` | No |  |
+| `route` | `string` | No | Route number |
+| `seq` | `string` | No | Stop sequence number on the route |
+| `service_type` | `string` | No | Service type identifier |
+| `stop` | `string` | No | Stop identifier |
 | `type` | `string` | No |  |
 | `version` | `string` | No |  |
 
@@ -299,12 +299,12 @@ $stop = $client->Stop();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `lat` | `string` | No |  |
-| `long` | `string` | No |  |
-| `name_en` | `string` | No |  |
-| `name_sc` | `string` | No |  |
-| `name_tc` | `string` | No |  |
-| `stop` | `string` | No |  |
+| `lat` | `string` | No | Latitude coordinate |
+| `long` | `string` | No | Longitude coordinate |
+| `name_en` | `string` | No | Stop name in English |
+| `name_sc` | `string` | No | Stop name in Simplified Chinese |
+| `name_tc` | `string` | No | Stop name in Traditional Chinese |
+| `stop` | `string` | No | Stop identifier |
 
 ### Operations
 

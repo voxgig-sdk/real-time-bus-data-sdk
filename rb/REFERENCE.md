@@ -160,17 +160,17 @@ route = client.Route
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | `String` | No |  |
+| `bound` | `String` | No | Direction of the route |
 | `data` | `Array` | No |  |
-| `dest_en` | `String` | No |  |
-| `dest_sc` | `String` | No |  |
-| `dest_tc` | `String` | No |  |
+| `dest_en` | `String` | No | Destination stop name in English |
+| `dest_sc` | `String` | No | Destination stop name in Simplified Chinese |
+| `dest_tc` | `String` | No | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `String` | No |  |
-| `orig_en` | `String` | No |  |
-| `orig_sc` | `String` | No |  |
-| `orig_tc` | `String` | No |  |
-| `route` | `String` | No |  |
-| `service_type` | `String` | No |  |
+| `orig_en` | `String` | No | Origin stop name in English |
+| `orig_sc` | `String` | No | Origin stop name in Simplified Chinese |
+| `orig_tc` | `String` | No | Origin stop name in Traditional Chinese |
+| `route` | `String` | No | Route number |
+| `service_type` | `String` | No | Service type identifier |
 | `type` | `String` | No |  |
 | `version` | `String` | No |  |
 
@@ -232,13 +232,13 @@ route_stop = client.RouteStop
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | `String` | No |  |
+| `bound` | `String` | No | Direction of the route |
 | `data` | `Array` | No |  |
 | `generated_timestamp` | `String` | No |  |
-| `route` | `String` | No |  |
-| `seq` | `String` | No |  |
-| `service_type` | `String` | No |  |
-| `stop` | `String` | No |  |
+| `route` | `String` | No | Route number |
+| `seq` | `String` | No | Stop sequence number on the route |
+| `service_type` | `String` | No | Service type identifier |
+| `stop` | `String` | No | Stop identifier |
 | `type` | `String` | No |  |
 | `version` | `String` | No |  |
 
@@ -300,12 +300,12 @@ stop = client.Stop
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `lat` | `String` | No |  |
-| `long` | `String` | No |  |
-| `name_en` | `String` | No |  |
-| `name_sc` | `String` | No |  |
-| `name_tc` | `String` | No |  |
-| `stop` | `String` | No |  |
+| `lat` | `String` | No | Latitude coordinate |
+| `long` | `String` | No | Longitude coordinate |
+| `name_en` | `String` | No | Stop name in English |
+| `name_sc` | `String` | No | Stop name in Simplified Chinese |
+| `name_tc` | `String` | No | Stop name in Traditional Chinese |
+| `stop` | `String` | No | Stop identifier |
 
 ### Operations
 

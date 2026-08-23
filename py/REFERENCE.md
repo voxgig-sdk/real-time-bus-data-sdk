@@ -153,17 +153,17 @@ route = client.Route()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | `str` | No |  |
+| `bound` | `str` | No | Direction of the route |
 | `data` | `list` | No |  |
-| `dest_en` | `str` | No |  |
-| `dest_sc` | `str` | No |  |
-| `dest_tc` | `str` | No |  |
+| `dest_en` | `str` | No | Destination stop name in English |
+| `dest_sc` | `str` | No | Destination stop name in Simplified Chinese |
+| `dest_tc` | `str` | No | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `str` | No |  |
-| `orig_en` | `str` | No |  |
-| `orig_sc` | `str` | No |  |
-| `orig_tc` | `str` | No |  |
-| `route` | `str` | No |  |
-| `service_type` | `str` | No |  |
+| `orig_en` | `str` | No | Origin stop name in English |
+| `orig_sc` | `str` | No | Origin stop name in Simplified Chinese |
+| `orig_tc` | `str` | No | Origin stop name in Traditional Chinese |
+| `route` | `str` | No | Route number |
+| `service_type` | `str` | No | Service type identifier |
 | `type` | `str` | No |  |
 | `version` | `str` | No |  |
 
@@ -226,13 +226,13 @@ route_stop = client.RouteStop()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bound` | `str` | No |  |
+| `bound` | `str` | No | Direction of the route |
 | `data` | `list` | No |  |
 | `generated_timestamp` | `str` | No |  |
-| `route` | `str` | No |  |
-| `seq` | `str` | No |  |
-| `service_type` | `str` | No |  |
-| `stop` | `str` | No |  |
+| `route` | `str` | No | Route number |
+| `seq` | `str` | No | Stop sequence number on the route |
+| `service_type` | `str` | No | Service type identifier |
+| `stop` | `str` | No | Stop identifier |
 | `type` | `str` | No |  |
 | `version` | `str` | No |  |
 
@@ -295,12 +295,12 @@ stop = client.Stop()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `lat` | `str` | No |  |
-| `long` | `str` | No |  |
-| `name_en` | `str` | No |  |
-| `name_sc` | `str` | No |  |
-| `name_tc` | `str` | No |  |
-| `stop` | `str` | No |  |
+| `lat` | `str` | No | Latitude coordinate |
+| `long` | `str` | No | Longitude coordinate |
+| `name_en` | `str` | No | Stop name in English |
+| `name_sc` | `str` | No | Stop name in Simplified Chinese |
+| `name_tc` | `str` | No | Stop name in Traditional Chinese |
+| `stop` | `str` | No | Stop identifier |
 
 ### Operations
 

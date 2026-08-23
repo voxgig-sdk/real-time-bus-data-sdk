@@ -228,6 +228,7 @@
               "active": true,
               "name": "bound",
               "req": false,
+              "short": "Direction of the route",
               "type": "`$STRING`"
             },
             {
@@ -240,18 +241,21 @@
               "active": true,
               "name": "dest_en",
               "req": false,
+              "short": "Destination stop name in English",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "dest_sc",
               "req": false,
+              "short": "Destination stop name in Simplified Chinese",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "dest_tc",
               "req": false,
+              "short": "Destination stop name in Traditional Chinese",
               "type": "`$STRING`"
             },
             {
@@ -264,30 +268,35 @@
               "active": true,
               "name": "orig_en",
               "req": false,
+              "short": "Origin stop name in English",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "orig_sc",
               "req": false,
+              "short": "Origin stop name in Simplified Chinese",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "orig_tc",
               "req": false,
+              "short": "Origin stop name in Traditional Chinese",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "route",
               "req": false,
+              "short": "Route number",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "service_type",
               "req": false,
+              "short": "Service type identifier",
               "type": "`$STRING`"
             },
             {
@@ -390,6 +399,7 @@
               "active": true,
               "name": "bound",
               "req": false,
+              "short": "Direction of the route",
               "type": "`$STRING`"
             },
             {
@@ -408,24 +418,28 @@
               "active": true,
               "name": "route",
               "req": false,
+              "short": "Route number",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "seq",
               "req": false,
+              "short": "Stop sequence number on the route",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "service_type",
               "req": false,
+              "short": "Service type identifier",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "stop",
               "req": false,
+              "short": "Stop identifier",
               "type": "`$STRING`"
             },
             {
@@ -549,36 +563,42 @@
               "active": true,
               "name": "lat",
               "req": false,
+              "short": "Latitude coordinate",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "long",
               "req": false,
+              "short": "Longitude coordinate",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name_en",
               "req": false,
+              "short": "Stop name in English",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name_sc",
               "req": false,
+              "short": "Stop name in Simplified Chinese",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name_tc",
               "req": false,
+              "short": "Stop name in Traditional Chinese",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "stop",
               "req": false,
+              "short": "Stop identifier",
               "type": "`$STRING`"
             }
           ],

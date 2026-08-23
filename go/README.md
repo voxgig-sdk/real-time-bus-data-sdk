@@ -6,7 +6,7 @@ The Golang SDK for the RealTimeBusData API — an entity-oriented client using s
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Eta(nil)` — each with the same small set of operations (`List`, `Load`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb`, `ts` — see
 > the [top-level README](../README.md).
 
 
@@ -276,17 +276,17 @@ API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 
 | Field | Description |
 | --- | --- |
-| `"bound"` |  |
+| `"bound"` | Direction of the route |
 | `"data"` |  |
-| `"dest_en"` |  |
-| `"dest_sc"` |  |
-| `"dest_tc"` |  |
+| `"dest_en"` | Destination stop name in English |
+| `"dest_sc"` | Destination stop name in Simplified Chinese |
+| `"dest_tc"` | Destination stop name in Traditional Chinese |
 | `"generated_timestamp"` |  |
-| `"orig_en"` |  |
-| `"orig_sc"` |  |
-| `"orig_tc"` |  |
-| `"route"` |  |
-| `"service_type"` |  |
+| `"orig_en"` | Origin stop name in English |
+| `"orig_sc"` | Origin stop name in Simplified Chinese |
+| `"orig_tc"` | Origin stop name in Traditional Chinese |
+| `"route"` | Route number |
+| `"service_type"` | Service type identifier |
 | `"type"` |  |
 | `"version"` |  |
 
@@ -298,13 +298,13 @@ API path: `/v1/transport/kmb/route`
 
 | Field | Description |
 | --- | --- |
-| `"bound"` |  |
+| `"bound"` | Direction of the route |
 | `"data"` |  |
 | `"generated_timestamp"` |  |
-| `"route"` |  |
-| `"seq"` |  |
-| `"service_type"` |  |
-| `"stop"` |  |
+| `"route"` | Route number |
+| `"seq"` | Stop sequence number on the route |
+| `"service_type"` | Service type identifier |
+| `"stop"` | Stop identifier |
 | `"type"` |  |
 | `"version"` |  |
 
@@ -316,12 +316,12 @@ API path: `/v1/transport/kmb/route-stop`
 
 | Field | Description |
 | --- | --- |
-| `"lat"` |  |
-| `"long"` |  |
-| `"name_en"` |  |
-| `"name_sc"` |  |
-| `"name_tc"` |  |
-| `"stop"` |  |
+| `"lat"` | Latitude coordinate |
+| `"long"` | Longitude coordinate |
+| `"name_en"` | Stop name in English |
+| `"name_sc"` | Stop name in Simplified Chinese |
+| `"name_tc"` | Stop name in Traditional Chinese |
+| `"stop"` | Stop identifier |
 
 Operations: List, Load.
 
@@ -377,17 +377,17 @@ Create an instance: `route := client.Route(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | `string` |  |
+| `bound` | `string` | Direction of the route |
 | `data` | `[]any` |  |
-| `dest_en` | `string` |  |
-| `dest_sc` | `string` |  |
-| `dest_tc` | `string` |  |
+| `dest_en` | `string` | Destination stop name in English |
+| `dest_sc` | `string` | Destination stop name in Simplified Chinese |
+| `dest_tc` | `string` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `string` |  |
-| `orig_en` | `string` |  |
-| `orig_sc` | `string` |  |
-| `orig_tc` | `string` |  |
-| `route` | `string` |  |
-| `service_type` | `string` |  |
+| `orig_en` | `string` | Origin stop name in English |
+| `orig_sc` | `string` | Origin stop name in Simplified Chinese |
+| `orig_tc` | `string` | Origin stop name in Traditional Chinese |
+| `route` | `string` | Route number |
+| `service_type` | `string` | Service type identifier |
 | `type` | `string` |  |
 | `version` | `string` |  |
 
@@ -427,13 +427,13 @@ Create an instance: `routeStop := client.RouteStop(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bound` | `string` |  |
+| `bound` | `string` | Direction of the route |
 | `data` | `[]any` |  |
 | `generated_timestamp` | `string` |  |
-| `route` | `string` |  |
-| `seq` | `string` |  |
-| `service_type` | `string` |  |
-| `stop` | `string` |  |
+| `route` | `string` | Route number |
+| `seq` | `string` | Stop sequence number on the route |
+| `service_type` | `string` | Service type identifier |
+| `stop` | `string` | Stop identifier |
 | `type` | `string` |  |
 | `version` | `string` |  |
 
@@ -473,12 +473,12 @@ Create an instance: `stop := client.Stop(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `lat` | `string` |  |
-| `long` | `string` |  |
-| `name_en` | `string` |  |
-| `name_sc` | `string` |  |
-| `name_tc` | `string` |  |
-| `stop` | `string` |  |
+| `lat` | `string` | Latitude coordinate |
+| `long` | `string` | Longitude coordinate |
+| `name_en` | `string` | Stop name in English |
+| `name_sc` | `string` | Stop name in Simplified Chinese |
+| `name_tc` | `string` | Stop name in Traditional Chinese |
+| `stop` | `string` | Stop identifier |
 
 #### Example: Load
 

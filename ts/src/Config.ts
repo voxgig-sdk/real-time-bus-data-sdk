@@ -19,9 +19,20 @@ class Config {
     return fi
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  hasFeature(this: any, fn: string) {
+    return null != FEATURE_CLASS[fn]
+  }
+
 
   main = {
     name: 'RealTimeBusData',
+        slug: "real-time-bus-data",
+    version: "0.0.1",
+    target: "ts",
+
   }
 
 
@@ -236,6 +247,7 @@ class Config {
       "fields": [
         {
           "name": "bound",
+          "short": "Direction of the route",
           "type": "`$STRING`"
         },
         {
@@ -244,14 +256,17 @@ class Config {
         },
         {
           "name": "dest_en",
+          "short": "Destination stop name in English",
           "type": "`$STRING`"
         },
         {
           "name": "dest_sc",
+          "short": "Destination stop name in Simplified Chinese",
           "type": "`$STRING`"
         },
         {
           "name": "dest_tc",
+          "short": "Destination stop name in Traditional Chinese",
           "type": "`$STRING`"
         },
         {
@@ -260,22 +275,27 @@ class Config {
         },
         {
           "name": "orig_en",
+          "short": "Origin stop name in English",
           "type": "`$STRING`"
         },
         {
           "name": "orig_sc",
+          "short": "Origin stop name in Simplified Chinese",
           "type": "`$STRING`"
         },
         {
           "name": "orig_tc",
+          "short": "Origin stop name in Traditional Chinese",
           "type": "`$STRING`"
         },
         {
           "name": "route",
+          "short": "Route number",
           "type": "`$STRING`"
         },
         {
           "name": "service_type",
+          "short": "Service type identifier",
           "type": "`$STRING`"
         },
         {
@@ -365,6 +385,7 @@ class Config {
       "fields": [
         {
           "name": "bound",
+          "short": "Direction of the route",
           "type": "`$STRING`"
         },
         {
@@ -377,18 +398,22 @@ class Config {
         },
         {
           "name": "route",
+          "short": "Route number",
           "type": "`$STRING`"
         },
         {
           "name": "seq",
+          "short": "Stop sequence number on the route",
           "type": "`$STRING`"
         },
         {
           "name": "service_type",
+          "short": "Service type identifier",
           "type": "`$STRING`"
         },
         {
           "name": "stop",
+          "short": "Stop identifier",
           "type": "`$STRING`"
         },
         {
@@ -497,26 +522,32 @@ class Config {
       "fields": [
         {
           "name": "lat",
+          "short": "Latitude coordinate",
           "type": "`$STRING`"
         },
         {
           "name": "long",
+          "short": "Longitude coordinate",
           "type": "`$STRING`"
         },
         {
           "name": "name_en",
+          "short": "Stop name in English",
           "type": "`$STRING`"
         },
         {
           "name": "name_sc",
+          "short": "Stop name in Simplified Chinese",
           "type": "`$STRING`"
         },
         {
           "name": "name_tc",
+          "short": "Stop name in Traditional Chinese",
           "type": "`$STRING`"
         },
         {
           "name": "stop",
+          "short": "Stop identifier",
           "type": "`$STRING`"
         }
       ],

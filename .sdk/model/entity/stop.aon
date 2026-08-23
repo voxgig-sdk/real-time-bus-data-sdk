@@ -1,90 +1,61 @@
-# Entity: route
+# Entity: stop
 
-main: kit: entity: route: {
+main: kit: entity: stop: {
 
   alias: field: {}
 
   fields: [
     {
-      name: "bound"
+      name: "lat"
       req: false
+      short: "Latitude coordinate"
       type: "`$STRING`"
     }
     {
-      name: "data"
+      name: "long"
       req: false
-      type: "`$ARRAY`"
-    }
-    {
-      name: "dest_en"
-      req: false
+      short: "Longitude coordinate"
       type: "`$STRING`"
     }
     {
-      name: "dest_sc"
+      name: "name_en"
       req: false
+      short: "Stop name in English"
       type: "`$STRING`"
     }
     {
-      name: "dest_tc"
+      name: "name_sc"
       req: false
+      short: "Stop name in Simplified Chinese"
       type: "`$STRING`"
     }
     {
-      name: "generated_timestamp"
+      name: "name_tc"
       req: false
+      short: "Stop name in Traditional Chinese"
       type: "`$STRING`"
     }
     {
-      name: "orig_en"
+      name: "stop"
       req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "orig_sc"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "orig_tc"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "route"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "service_type"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "type"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "version"
-      req: false
+      short: "Stop identifier"
       type: "`$STRING`"
     }
   ]
 
-  name: "route"
+  name: "stop"
   op: {
     list: {
       name: "list"
       points: [
         {
           method: "GET"
-          orig: "/v1/transport/kmb/route"
+          orig: "/v1/transport/kmb/stop"
           parts: [
             "v1"
             "transport"
             "kmb"
-            "route"
+            "stop"
           ]
           transform: {
             req: "`reqdata`"
@@ -100,27 +71,27 @@ main: kit: entity: route: {
           args: {
             params: [
               {
-                example: "1"
+                example: "0000D01E8B5635F0"
                 kind: "param"
                 name: "id"
-                orig: "route"
+                orig: "stop_id"
                 reqd: true
                 type: "`$STRING`"
               }
             ]
           }
           method: "GET"
-          orig: "/v1/transport/kmb/route/{route}"
+          orig: "/v1/transport/kmb/stop/{stop_id}"
           parts: [
             "v1"
             "transport"
             "kmb"
-            "route"
+            "stop"
             "{id}"
           ]
           rename: {
             param: {
-              route: "id"
+              stop_id: "id"
             }
           }
           select: {
@@ -130,7 +101,7 @@ main: kit: entity: route: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
