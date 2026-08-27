@@ -265,6 +265,7 @@ API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 | `dest_sc` | Destination stop name in Simplified Chinese |
 | `dest_tc` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` |  |
+| `id` |  |
 | `orig_en` | Origin stop name in English |
 | `orig_sc` | Origin stop name in Simplified Chinese |
 | `orig_tc` | Origin stop name in Traditional Chinese |
@@ -299,6 +300,7 @@ API path: `/v1/transport/kmb/route-stop`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `lat` | Latitude coordinate |
 | `long` | Longitude coordinate |
 | `name_en` | Stop name in English |
@@ -362,6 +364,7 @@ Create an instance: `route = client.Route()`
 | `dest_sc` | `str` | Destination stop name in Simplified Chinese |
 | `dest_tc` | `str` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `str` |  |
+| `id` | `str` |  |
 | `orig_en` | `str` | Origin stop name in English |
 | `orig_sc` | `str` | Origin stop name in Simplified Chinese |
 | `orig_tc` | `str` | Origin stop name in Traditional Chinese |
@@ -436,6 +439,7 @@ Create an instance: `stop = client.Stop()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `str` |  |
 | `lat` | `str` | Latitude coordinate |
 | `long` | `str` | Longitude coordinate |
 | `name_en` | `str` | Stop name in English |

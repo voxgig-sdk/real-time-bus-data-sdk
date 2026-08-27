@@ -6,6 +6,11 @@ main: kit: entity: stop: {
 
   fields: [
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "lat"
       req: false
       short: "Latitude coordinate"
@@ -42,6 +47,11 @@ main: kit: entity: stop: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "stop"
   op: {

@@ -2,43 +2,43 @@
   "existing": {
     "stop": {
       "STOP00": {
-        "lat": "s3c",
-        "long": "s3d",
-        "name_en": "s3e",
-        "name_sc": "s3f",
-        "name_tc": "s40",
-        "stop": "s41",
-        "id": "STOP00"
+        "id": "STOP00",
+        "lat": "s47",
+        "long": "s48",
+        "name_en": "s49",
+        "name_sc": "s4a",
+        "name_tc": "s4b",
+        "stop": "s4c"
       },
       "STOP01": {
-        "lat": "s78",
-        "long": "s79",
-        "name_en": "s7a",
-        "name_sc": "s7b",
-        "name_tc": "s7c",
-        "stop": "s7d",
-        "id": "STOP01"
+        "id": "STOP01",
+        "lat": "s8d",
+        "long": "s8e",
+        "name_en": "s8f",
+        "name_sc": "s90",
+        "name_tc": "s91",
+        "stop": "s92"
       },
       "STOP02": {
-        "lat": "sb4",
-        "long": "sb5",
-        "name_en": "sb6",
-        "name_sc": "sb7",
-        "name_tc": "sb8",
-        "stop": "sb9",
-        "id": "STOP02"
+        "id": "STOP02",
+        "lat": "sd3",
+        "long": "sd4",
+        "name_en": "sd5",
+        "name_sc": "sd6",
+        "name_tc": "sd7",
+        "stop": "sd8"
       }
     }
   },
   "new": {
     "stop": {
       "stop_ref01": {
-        "lat": "sf0",
-        "long": "sf1",
-        "name_en": "sf2",
-        "name_sc": "sf3",
-        "name_tc": "sf4",
-        "stop": "sf5"
+        "lat": "s119",
+        "long": "s11a",
+        "name_en": "s11b",
+        "name_sc": "s11c",
+        "name_tc": "s11d",
+        "stop": "s11e"
       }
     }
   }

@@ -121,13 +121,19 @@ func TestStopEntity(t *testing.T) {
 		}
 
 		// LOAD
-		stopRef01MatchDt0 := map[string]any{}
+		stopRef01MatchDt0 := map[string]any{
+			"id": stopRef01Data["id"],
+		}
 		stopRef01DataDt0Loaded, err := stopRef01Ent.Load(stopRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if stopRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		stopRef01DataDt0LoadResult := core.ToMapAny(entityData(stopRef01DataDt0Loaded))
+		if stopRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if stopRef01DataDt0LoadResult["id"] != stopRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

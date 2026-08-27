@@ -93,9 +93,13 @@ class StopEntityTest extends TestCase
         $this->assertIsArray($stop_ref01_list_result);
 
         // LOAD
-        $stop_ref01_match_dt0 = [];
+        $stop_ref01_match_dt0 = [
+            "id" => $stop_ref01_data["id"],
+        ];
         $stop_ref01_data_dt0_loaded = $stop_ref01_ent->load($stop_ref01_match_dt0, null);
-        $this->assertNotNull($stop_ref01_data_dt0_loaded);
+        $stop_ref01_data_dt0_load_result = Helpers::to_map(is_object($stop_ref01_data_dt0_loaded) && method_exists($stop_ref01_data_dt0_loaded, 'data_get') ? $stop_ref01_data_dt0_loaded->data_get() : $stop_ref01_data_dt0_loaded);
+        $this->assertNotNull($stop_ref01_data_dt0_load_result);
+        $this->assertEquals($stop_ref01_data_dt0_load_result["id"], $stop_ref01_data["id"]);
 
     }
 }

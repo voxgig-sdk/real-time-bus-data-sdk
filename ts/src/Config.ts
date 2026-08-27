@@ -40,7 +40,8 @@ class Config {
      test:     {
       "options": {
         "active": false
-      }
+      },
+      "transport": "base"
     },
 
   }
@@ -271,6 +272,10 @@ class Config {
         },
         {
           "name": "generated_timestamp",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "id",
           "type": "`$STRING`"
         },
         {
@@ -520,6 +525,10 @@ class Config {
     },
     "stop": {
       "fields": [
+        {
+          "name": "id",
+          "type": "`$STRING`"
+        },
         {
           "name": "lat",
           "short": "Latitude coordinate",

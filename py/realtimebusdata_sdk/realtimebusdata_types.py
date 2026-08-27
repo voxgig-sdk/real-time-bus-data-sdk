@@ -34,6 +34,7 @@ class Route(TypedDict, total=False):
     dest_sc: str
     dest_tc: str
     generated_timestamp: str
+    id: str
     orig_en: str
     orig_sc: str
     orig_tc: str
@@ -54,6 +55,7 @@ class RouteListMatch(TypedDict, total=False):
     dest_sc: str
     dest_tc: str
     generated_timestamp: str
+    id: str
     orig_en: str
     orig_sc: str
     orig_tc: str
@@ -94,6 +96,7 @@ class RouteStopListMatch(TypedDict, total=False):
 
 
 class Stop(TypedDict, total=False):
+    id: str
     lat: str
     long: str
     name_en: str
@@ -107,6 +110,7 @@ class StopLoadMatch(TypedDict):
 
 
 class StopListMatch(TypedDict, total=False):
+    id: str
     lat: str
     long: str
     name_en: str

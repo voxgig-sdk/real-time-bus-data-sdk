@@ -83,9 +83,13 @@ class StopEntityTest < Minitest::Test
     assert stop_ref01_list_result.is_a?(Array)
 
     # LOAD
-    stop_ref01_match_dt0 = {}
+    stop_ref01_match_dt0 = {
+      "id" => stop_ref01_data["id"],
+    }
     stop_ref01_data_dt0_loaded = stop_ref01_ent.load(stop_ref01_match_dt0, nil)
-    assert !stop_ref01_data_dt0_loaded.nil?
+    stop_ref01_data_dt0_load_result = Helpers.to_map(stop_ref01_data_dt0_loaded.respond_to?(:data_get) ? stop_ref01_data_dt0_loaded.data_get : stop_ref01_data_dt0_loaded)
+    assert !stop_ref01_data_dt0_load_result.nil?
+    assert_equal stop_ref01_data_dt0_load_result["id"], stop_ref01_data["id"]
 
   end
 end

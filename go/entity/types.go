@@ -33,6 +33,7 @@ type Route struct {
 	DestSc *string `json:"dest_sc,omitempty"`
 	DestTc *string `json:"dest_tc,omitempty"`
 	GeneratedTimestamp *string `json:"generated_timestamp,omitempty"`
+	Id *string `json:"id,omitempty"`
 	OrigEn *string `json:"orig_en,omitempty"`
 	OrigSc *string `json:"orig_sc,omitempty"`
 	OrigTc *string `json:"orig_tc,omitempty"`
@@ -55,6 +56,7 @@ type RouteListMatch struct {
 	DestSc *string `json:"dest_sc,omitempty"`
 	DestTc *string `json:"dest_tc,omitempty"`
 	GeneratedTimestamp *string `json:"generated_timestamp,omitempty"`
+	Id *string `json:"id,omitempty"`
 	OrigEn *string `json:"orig_en,omitempty"`
 	OrigSc *string `json:"orig_sc,omitempty"`
 	OrigTc *string `json:"orig_tc,omitempty"`
@@ -99,6 +101,7 @@ type RouteStopListMatch struct {
 
 // Stop is the typed data model for the stop entity.
 type Stop struct {
+	Id *string `json:"id,omitempty"`
 	Lat *string `json:"lat,omitempty"`
 	Long *string `json:"long,omitempty"`
 	NameEn *string `json:"name_en,omitempty"`
@@ -114,6 +117,7 @@ type StopLoadMatch struct {
 
 // StopListMatch is the typed request payload for Stop.ListTyped.
 type StopListMatch struct {
+	Id *string `json:"id,omitempty"`
 	Lat *string `json:"lat,omitempty"`
 	Long *string `json:"long,omitempty"`
 	NameEn *string `json:"name_en,omitempty"`

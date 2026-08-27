@@ -28,6 +28,7 @@ module RealTimeBusDataConfig
           "options" => {
             "active" => false,
           },
+          "transport" => "base",
         },
       },
       "options" => {
@@ -242,6 +243,10 @@ module RealTimeBusDataConfig
             },
             {
               "name" => "generated_timestamp",
+              "type" => "`$STRING`",
+            },
+            {
+              "name" => "id",
               "type" => "`$STRING`",
             },
             {
@@ -491,6 +496,10 @@ module RealTimeBusDataConfig
         },
         "stop" => {
           "fields" => [
+            {
+              "name" => "id",
+              "type" => "`$STRING`",
+            },
             {
               "name" => "lat",
               "short" => "Latitude coordinate",

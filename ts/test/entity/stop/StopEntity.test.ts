@@ -66,6 +66,12 @@ describe('StopEntity', async () => {
     const stop_ref01_list = (await stop_ref01_ent.list(stop_ref01_match)).map((e: any) => e.data())
 
 
+    // LOAD
+    const stop_ref01_match_dt0: any = {}
+    stop_ref01_match_dt0.id = stop_ref01_data.id
+    const stop_ref01_data_dt0 = (await stop_ref01_ent.load(stop_ref01_match_dt0)).data()
+    assert(stop_ref01_data_dt0.id === stop_ref01_data.id)
+
 
   })
 })

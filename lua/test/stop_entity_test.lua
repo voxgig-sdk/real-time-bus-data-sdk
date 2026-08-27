@@ -92,10 +92,14 @@ describe("StopEntity", function()
     assert.is_table(stop_ref01_list_result)
 
     -- LOAD
-    local stop_ref01_match_dt0 = {}
+    local stop_ref01_match_dt0 = {
+      id = stop_ref01_data["id"],
+    }
     local stop_ref01_data_dt0_loaded, err = stop_ref01_ent:load(stop_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(stop_ref01_data_dt0_loaded)
+    local stop_ref01_data_dt0_load_result = helpers.to_map(type(stop_ref01_data_dt0_loaded) == 'table' and stop_ref01_data_dt0_loaded.data_get and stop_ref01_data_dt0_loaded:data_get() or stop_ref01_data_dt0_loaded)
+    assert.is_not_nil(stop_ref01_data_dt0_load_result)
+    assert.are.equal(stop_ref01_data_dt0_load_result["id"], stop_ref01_data["id"])
 
   end)
 end)

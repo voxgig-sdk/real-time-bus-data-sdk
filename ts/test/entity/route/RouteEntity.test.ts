@@ -66,6 +66,12 @@ describe('RouteEntity', async () => {
     const route_ref01_list = (await route_ref01_ent.list(route_ref01_match)).map((e: any) => e.data())
 
 
+    // LOAD
+    const route_ref01_match_dt0: any = {}
+    route_ref01_match_dt0.id = route_ref01_data.id
+    const route_ref01_data_dt0 = (await route_ref01_ent.load(route_ref01_match_dt0)).data()
+    assert(route_ref01_data_dt0.id === route_ref01_data.id)
+
 
   })
 })

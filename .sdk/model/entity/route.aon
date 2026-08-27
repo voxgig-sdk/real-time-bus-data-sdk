@@ -40,6 +40,11 @@ main: kit: entity: route: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "orig_en"
       req: false
       short: "Origin stop name in English"
@@ -80,6 +85,11 @@ main: kit: entity: route: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "route"
   op: {

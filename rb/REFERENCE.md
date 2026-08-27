@@ -166,6 +166,7 @@ route = client.Route
 | `dest_sc` | `String` | No | Destination stop name in Simplified Chinese |
 | `dest_tc` | `String` | No | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `String` | No |  |
+| `id` | `String` | No |  |
 | `orig_en` | `String` | No | Origin stop name in English |
 | `orig_sc` | `String` | No | Origin stop name in Simplified Chinese |
 | `orig_tc` | `String` | No | Origin stop name in Traditional Chinese |
@@ -300,6 +301,7 @@ stop = client.Stop
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `String` | No |  |
 | `lat` | `String` | No | Latitude coordinate |
 | `long` | `String` | No | Longitude coordinate |
 | `name_en` | `String` | No | Stop name in English |

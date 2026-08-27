@@ -37,6 +37,7 @@ def make_config():
         "options": {
           "active": False,
         },
+        "transport": "base",
       },
         },
         "options": {
@@ -251,6 +252,10 @@ def make_config():
           },
           {
             "name": "generated_timestamp",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "id",
             "type": "`$STRING`",
           },
           {
@@ -500,6 +505,10 @@ def make_config():
       },
       "stop": {
         "fields": [
+          {
+            "name": "id",
+            "type": "`$STRING`",
+          },
           {
             "name": "lat",
             "short": "Latitude coordinate",

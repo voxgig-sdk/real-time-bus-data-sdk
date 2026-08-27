@@ -163,6 +163,7 @@ local route = client:Route(nil)
 | `dest_sc` | `string` | No | Destination stop name in Simplified Chinese |
 | `dest_tc` | `string` | No | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `string` | No |  |
+| `id` | `string` | No |  |
 | `orig_en` | `string` | No | Origin stop name in English |
 | `orig_sc` | `string` | No | Origin stop name in Simplified Chinese |
 | `orig_tc` | `string` | No | Origin stop name in Traditional Chinese |
@@ -297,6 +298,7 @@ local stop = client:Stop(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `lat` | `string` | No | Latitude coordinate |
 | `long` | `string` | No | Longitude coordinate |
 | `name_en` | `string` | No | Stop name in English |

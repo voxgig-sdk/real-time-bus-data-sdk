@@ -16,6 +16,7 @@ local function make_config()
         ["options"] = {
           ["active"] = false,
         },
+        ["transport"] = "base",
       },
     },
     options = {
@@ -230,6 +231,10 @@ local function make_config()
           },
           {
             ["name"] = "generated_timestamp",
+            ["type"] = "`$STRING`",
+          },
+          {
+            ["name"] = "id",
             ["type"] = "`$STRING`",
           },
           {
@@ -479,6 +484,10 @@ local function make_config()
       },
       ["stop"] = {
         ["fields"] = {
+          {
+            ["name"] = "id",
+            ["type"] = "`$STRING`",
+          },
           {
             ["name"] = "lat",
             ["short"] = "Latitude coordinate",

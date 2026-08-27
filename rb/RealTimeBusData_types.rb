@@ -58,6 +58,9 @@ EtaLoadMatch = Struct.new(
 # @!attribute [rw] generated_timestamp
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] orig_en
 #   @return [String, nil]
 #
@@ -85,6 +88,7 @@ Route = Struct.new(
   :dest_sc,
   :dest_tc,
   :generated_timestamp,
+  :id,
   :orig_en,
   :orig_sc,
   :orig_tc,
@@ -124,6 +128,9 @@ RouteLoadMatch = Struct.new(
 # @!attribute [rw] generated_timestamp
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] orig_en
 #   @return [String, nil]
 #
@@ -151,6 +158,7 @@ RouteListMatch = Struct.new(
   :dest_sc,
   :dest_tc,
   :generated_timestamp,
+  :id,
   :orig_en,
   :orig_sc,
   :orig_tc,
@@ -262,6 +270,9 @@ RouteStopListMatch = Struct.new(
 
 # Stop entity data model.
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] lat
 #   @return [String, nil]
 #
@@ -280,6 +291,7 @@ RouteStopListMatch = Struct.new(
 # @!attribute [rw] stop
 #   @return [String, nil]
 Stop = Struct.new(
+  :id,
   :lat,
   :long,
   :name_en,
@@ -300,6 +312,9 @@ StopLoadMatch = Struct.new(
 
 # Request payload for Stop#list.
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] lat
 #   @return [String, nil]
 #
@@ -318,6 +333,7 @@ StopLoadMatch = Struct.new(
 # @!attribute [rw] stop
 #   @return [String, nil]
 StopListMatch = Struct.new(
+  :id,
   :lat,
   :long,
   :name_en,

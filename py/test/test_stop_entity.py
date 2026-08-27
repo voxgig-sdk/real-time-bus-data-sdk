@@ -88,9 +88,13 @@ class TestStopEntity:
         assert isinstance(stop_ref01_list_result, list)
 
         # LOAD
-        stop_ref01_match_dt0 = {}
+        stop_ref01_match_dt0 = {
+            "id": stop_ref01_data["id"],
+        }
         stop_ref01_data_dt0_loaded = stop_ref01_ent.load(stop_ref01_match_dt0, None)
-        assert stop_ref01_data_dt0_loaded is not None
+        stop_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(stop_ref01_data_dt0_loaded))
+        assert stop_ref01_data_dt0_load_result is not None
+        assert stop_ref01_data_dt0_load_result["id"] == stop_ref01_data["id"]
 
 
 

@@ -273,6 +273,7 @@ API path: `/v1/transport/kmb/eta/{stop_id}/{route}/{service_type}`
 | `dest_sc` | Destination stop name in Simplified Chinese |
 | `dest_tc` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` |  |
+| `id` |  |
 | `orig_en` | Origin stop name in English |
 | `orig_sc` | Origin stop name in Simplified Chinese |
 | `orig_tc` | Origin stop name in Traditional Chinese |
@@ -307,6 +308,7 @@ API path: `/v1/transport/kmb/route-stop`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `lat` | Latitude coordinate |
 | `long` | Longitude coordinate |
 | `name_en` | Stop name in English |
@@ -371,6 +373,7 @@ Create an instance: `$route = $client->Route();`
 | `dest_sc` | `string` | Destination stop name in Simplified Chinese |
 | `dest_tc` | `string` | Destination stop name in Traditional Chinese |
 | `generated_timestamp` | `string` |  |
+| `id` | `string` |  |
 | `orig_en` | `string` | Origin stop name in English |
 | `orig_sc` | `string` | Origin stop name in Simplified Chinese |
 | `orig_tc` | `string` | Origin stop name in Traditional Chinese |
@@ -449,6 +452,7 @@ Create an instance: `$stop = $client->Stop();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `string` |  |
 | `lat` | `string` | Latitude coordinate |
 | `long` | `string` | Longitude coordinate |
 | `name_en` | `string` | Stop name in English |

@@ -23,6 +23,7 @@ export interface Route {
   dest_sc?: string
   dest_tc?: string
   generated_timestamp?: string
+  id?: string
   orig_en?: string
   orig_sc?: string
   orig_tc?: string
@@ -43,6 +44,7 @@ export interface RouteListMatch {
   dest_sc?: string
   dest_tc?: string
   generated_timestamp?: string
+  id?: string
   orig_en?: string
   orig_sc?: string
   orig_tc?: string
@@ -83,6 +85,7 @@ export interface RouteStopListMatch {
 }
 
 export interface Stop {
+  id?: string
   lat?: string
   long?: string
   name_en?: string
@@ -96,6 +99,7 @@ export interface StopLoadMatch {
 }
 
 export interface StopListMatch {
+  id?: string
   lat?: string
   long?: string
   name_en?: string

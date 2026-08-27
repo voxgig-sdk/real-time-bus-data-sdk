@@ -36,6 +36,7 @@ class Route
     public ?string $dest_sc = null;
     public ?string $dest_tc = null;
     public ?string $generated_timestamp = null;
+    public ?string $id = null;
     public ?string $orig_en = null;
     public ?string $orig_sc = null;
     public ?string $orig_tc = null;
@@ -60,6 +61,7 @@ class RouteListMatch
     public ?string $dest_sc = null;
     public ?string $dest_tc = null;
     public ?string $generated_timestamp = null;
+    public ?string $id = null;
     public ?string $orig_en = null;
     public ?string $orig_sc = null;
     public ?string $orig_tc = null;
@@ -108,6 +110,7 @@ class RouteStopListMatch
 /** Stop entity data model. */
 class Stop
 {
+    public ?string $id = null;
     public ?string $lat = null;
     public ?string $long = null;
     public ?string $name_en = null;
@@ -125,6 +128,7 @@ class StopLoadMatch
 /** Request payload for Stop#list. */
 class StopListMatch
 {
+    public ?string $id = null;
     public ?string $lat = null;
     public ?string $long = null;
     public ?string $name_en = null;

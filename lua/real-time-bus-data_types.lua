@@ -22,6 +22,7 @@
 ---@field dest_sc? string
 ---@field dest_tc? string
 ---@field generated_timestamp? string
+---@field id? string
 ---@field orig_en? string
 ---@field orig_sc? string
 ---@field orig_tc? string
@@ -40,6 +41,7 @@
 ---@field dest_sc? string
 ---@field dest_tc? string
 ---@field generated_timestamp? string
+---@field id? string
 ---@field orig_en? string
 ---@field orig_sc? string
 ---@field orig_tc? string
@@ -76,6 +78,7 @@
 ---@field version? string
 
 ---@class Stop
+---@field id? string
 ---@field lat? string
 ---@field long? string
 ---@field name_en? string
@@ -87,6 +90,7 @@
 ---@field id string
 
 ---@class StopListMatch
+---@field id? string
 ---@field lat? string
 ---@field long? string
 ---@field name_en? string

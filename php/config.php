@@ -42,6 +42,7 @@ class RealTimeBusDataConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
@@ -256,6 +257,10 @@ class RealTimeBusDataConfig
             ],
             [
               'name' => 'generated_timestamp',
+              'type' => '`$STRING`',
+            ],
+            [
+              'name' => 'id',
               'type' => '`$STRING`',
             ],
             [
@@ -505,6 +510,10 @@ class RealTimeBusDataConfig
         ],
         'stop' => [
           'fields' => [
+            [
+              'name' => 'id',
+              'type' => '`$STRING`',
+            ],
             [
               'name' => 'lat',
               'short' => 'Latitude coordinate',
